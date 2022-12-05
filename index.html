@@ -1,0 +1,49 @@
+<style>
+  :root{
+    --img-src: url(./wood.png);
+    --img-count: 13;
+    --flip-duration:.2s;
+  }
+  .panel{
+    background: var(--img-src) no-repeat;
+    width:64px;
+    height:64px;
+    background-size: 64px auto;
+    image-rendering: pixelated;
+  }
+  .panel.front{
+    animation: flip var(--flip-duration) steps(calc(var(--img-count) - 1)) 1 reverse forwards;
+  }
+  .panel.back{
+    animation: flip var(--flip-duration) steps(calc(var(--img-count) - 1)) 1 normal forwards;
+  }
+  @keyframes flip{
+    from{
+      background-position: 0px 0px;
+    }
+    to{
+      background-position: 0pc calc(-64px * calc(var(--img-count) - 1));
+    }
+  }
+</style>
+<script type="module">
+  document.getElementById("container").addEventListener("click", e=>{
+    const classNames = new Set(e.target.className.split(" ").filter(v=>v));
+    if(!classNames.has("panel")) return;
+    e.target.className = "panel";
+    if(classNames.has("back")){
+      classNames.delete("back");
+      classNames.add("front");
+    }
+    else{
+      classNames.delete("front");
+      classNames.add("back");
+    }
+    requestAnimationFrame(()=>{
+      e.target.className = [...classNames.values()].join(" ");
+    })
+  })
+</script>
+<div id="container">
+  <div class="panel front"></div>
+</div>
