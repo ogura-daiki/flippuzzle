@@ -9,6 +9,21 @@ const range = (...vals) => {
 }
 const clamp = (min, v, max) => Math.max(min, Math.min(v, max));
 
+const sound = {
+  flip:new Howl({
+    src: ['./sounds/flip.mp3']
+  }),
+  push:new Howl({
+    src: ['./sounds/push.mp3']
+  }),
+  reset:new Howl({
+    src: ['./sounds/reset.mp3']
+  }),
+  generate:new Howl({
+    src: ['./sounds/generate.mp3']
+  }),
+}
+
 class FlipBoard extends LitElement {
   static get properties(){
     return {
@@ -92,6 +107,7 @@ class FlipBoard extends LitElement {
           this.board[iy][ix] = !this.board[iy][ix];
         }
       }
+      sound.flip.play();
       this.requestUpdate();
     }}>
       ${range(4).map(y=>html`${
@@ -165,6 +181,7 @@ class App extends LitElement{
           @click=${e=>{
             const playBoard = this.renderRoot.querySelector("#play-board");
             playBoard.board = range(4).map(()=>range(4).fill(false));
+            sound.reset.play();
           }}
         >リセット</button>
       </div>
