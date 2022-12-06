@@ -21,6 +21,7 @@ class FlipBoard extends LitElement {
       --flip-duration-def:.2s;
       --panel-width-def:128px;
       width:100%;
+      height:100%;
       display:block;
     }
     .panel{
@@ -66,7 +67,7 @@ class FlipBoard extends LitElement {
   connectedCallback(){
     super.connectedCallback();
     new ResizeObserver(()=>{
-      this.style = `--panel-width:${this.offsetWidth/4}px`;
+      this.style = `--panel-width:${Math.min(this.offsetWidth, this.offsetHeight)/4}px`;
     }).observe(this);
   }
   #panel({x,y}){
@@ -100,7 +101,71 @@ class FlipBoard extends LitElement {
     `;
   }
 }
-
 customElements.define("flip-board", FlipBoard);
 
-document.body.append(new FlipBoard());
+class App extends LitElement{
+  constructor(){
+    super();
+  }
+  static get styles(){
+    return css`
+    :host{
+      display:block;
+      width:100%;
+      height:100%;
+      display:grid;
+      place-items:center;
+    }
+    #container{
+      width:100%;
+      height:100%;
+      display:flex;
+      flex-flow:column nowrap;
+      padding:8px;
+      gap:8px;
+    }
+    .holder{
+      width:100%;
+      height:100%;
+      flex-basis:0px;
+      flex-grow:1;
+      position:relative;
+      overflow:hidden;
+    }
+    #pattern{
+      pointer-events:none;
+      user-select:none;
+    }
+    #pattern, #play-board{
+      position:absolute;
+      top:0px;
+      left:0px;
+      width:100%;
+      height:100%;
+    }
+    #menu{
+      width:100%;
+      display:flex;
+      flex-flow:row nowrap;
+    }
+    `
+  }
+  render(){
+    return html`
+    <div id=container>
+      <div class=holder>
+        <flip-board id=pattern></flip-board>
+      </div>
+      <div id=menu>
+        <button>リセット</button>
+      </div>
+      <div class=holder>
+        <flip-board id=play-board></flip-board>
+      </div>
+    </div>
+    `
+  }
+}
+customElements.define("main-app", App);
+
+document.body.append(new App());
