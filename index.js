@@ -17,7 +17,7 @@ class FlipBoard extends LitElement {
     return css`
     :host{
       --img-src: url(./wood.png);
-      --img-count: 13;
+      --img-count: 7;
       --flip-duration-def:.2s;
       --panel-width-def:128px;
       width:100%;
