@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
+  "name": "FlipPuzzle",
+  "short_name": "FlipPuzzle",
+  "Scope": "/flippuzzle/",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#8b4513",
+  "description": "my flip puzzle app",
+  "icons": [{
+    "src": "images/icons/icon256.png",
+    "sizes": "256x256",
+    "type": "image/png"
+  }]
+}
