@@ -11,7 +11,9 @@ const clamp = (min, v, max) => Math.max(min, Math.min(v, max));
 
 class FlipBoard extends LitElement {
   static get properties(){
-    return {};
+    return {
+      board:{type:Array},
+    };
   }
   static get styles(){
     return css`
@@ -119,14 +121,13 @@ class App extends LitElement{
     #container{
       width:100%;
       height:100%;
+      box-sizing:border-box;
       display:flex;
       flex-flow:column nowrap;
       padding:8px;
       gap:8px;
     }
     .holder{
-      width:100%;
-      height:100%;
       flex-basis:0px;
       flex-grow:1;
       position:relative;
@@ -148,6 +149,9 @@ class App extends LitElement{
       display:flex;
       flex-flow:row nowrap;
     }
+    #menu>button{
+      padding:8px;
+    }
     `
   }
   render(){
@@ -157,7 +161,12 @@ class App extends LitElement{
         <flip-board id=pattern></flip-board>
       </div>
       <div id=menu>
-        <button>リセット</button>
+        <button
+          @click=${e=>{
+            const playBoard = this.renderRoot.querySelector("#play-board");
+            playBoard.board = range(4).map(()=>range(4).fill(false));
+          }}
+        >リセット</button>
       </div>
       <div class=holder>
         <flip-board id=play-board></flip-board>
