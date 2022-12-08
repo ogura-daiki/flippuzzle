@@ -88,23 +88,23 @@ class FlipBoard extends LitElement {
     <div class="panel ${flipped?"back":"front"}" data-x=${x} data-y=${y}></div>
     `;
   }
+  #onClick(e){
+    const classNames = new Set(e.target.className.split(" ").filter(v=>v));
+    if(!classNames.has("panel")) return;
+    let {x, y} = e.target.dataset;
+    x=+x;
+    y=+y;
+    for(let iy = clamp(0, y-1, 4); iy < Math.min(y+2, 4); iy+=1){
+      for(let ix = clamp(0, x-1, 4); ix < Math.min(x+2, 4); ix+=1){
+        this.board[iy][ix] = !this.board[iy][ix];
+      }
+    }
+    sound.flip.play();
+    this.requestUpdate();
+  }
   render(){
     return html`
-    <div class="container" @click=${e=>{
-      const classNames = new Set(e.target.className.split(" ").filter(v=>v));
-      if(!classNames.has("panel")) return;
-      let {x, y} = e.target.dataset;
-      x=+x;
-      y=+y;
-      console.log({x,y}, clamp(0, y-1, 4), clamp(0, y+2, 4));
-      for(let iy = clamp(0, y-1, 4); iy < Math.min(y+2, 4); iy+=1){
-        for(let ix = clamp(0, x-1, 4); ix < Math.min(x+2, 4); ix+=1){
-          this.board[iy][ix] = !this.board[iy][ix];
-        }
-      }
-      sound.flip.play();
-      this.requestUpdate();
-    }}>
+    <div class="container" @click=${e=>this.#onClick(e)}>
       ${range(4).map(y=>html`${
         range(4).map(x=>html`${
           this.#panel({x,y})
@@ -141,6 +141,7 @@ class App extends LitElement{
     .holder{
       flex-grow:1;
       position:relative;
+      margin:8px;
     }
     flip-board{
       position:absolute;
@@ -157,6 +158,7 @@ class App extends LitElement{
       padding:8px;
       display:flex;
       flex-flow:row nowrap;
+      place-content:center;
     }
     #menu>button{
       padding:8px;
