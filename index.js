@@ -33,13 +33,11 @@ class FlipBoard extends LitElement {
   static get styles(){
     return css`
     :host{
+      display:block;
       --img-src: url(./wood.png);
       --img-count: 7;
       --flip-duration-def:.2s;
-      --panel-width-def:128px;
-      width:100%;
-      height:100%;
-      display:block;
+      --panel-width-def:0px;
     }
     .panel{
       background: var(--img-src) no-repeat;
@@ -83,9 +81,6 @@ class FlipBoard extends LitElement {
   }  
   connectedCallback(){
     super.connectedCallback();
-    new ResizeObserver(()=>{
-      this.style = `--panel-width:${Math.min(this.offsetWidth, this.offsetHeight)/4}px`;
-    }).observe(this);
   }
   #panel({x,y}){
     const flipped = this.board[y][x];
@@ -144,24 +139,22 @@ class App extends LitElement{
       gap:8px;
     }
     .holder{
-      flex-basis:0px;
       flex-grow:1;
       position:relative;
-      overflow:hidden;
+    }
+    flip-board{
+      position:absolute;
+      top:50%;
+      left:50%;
+      transform:translate(-50%, -50%);
     }
     #pattern{
       pointer-events:none;
       user-select:none;
     }
-    #pattern, #play-board{
-      position:absolute;
-      top:0px;
-      left:0px;
-      width:100%;
-      height:100%;
-    }
     #menu{
-      width:100%;
+      height:fit-content;
+      padding:8px;
       display:flex;
       flex-flow:row nowrap;
     }
@@ -190,6 +183,19 @@ class App extends LitElement{
       </div>
     </div>
     `
+  }
+  updated(){
+    this.renderRoot.querySelectorAll(".holder").forEach(holder=>{
+      new ResizeObserver(()=>{
+        const board = holder.querySelector("flip-board");
+        if(!board) return;
+        //盤面とパネルのサイズ調整
+        const min = Math.min(holder.clientHeight, holder.clientWidth);
+        board.style = `--panel-width:${min/4}px`;
+        board.style.width = min+"px";
+        board.style.height = min+"px";
+      }).observe(holder);
+    })
   }
 }
 customElements.define("main-app", App);
