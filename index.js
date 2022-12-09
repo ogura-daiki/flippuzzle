@@ -1,5 +1,6 @@
 import "./js/element/FlipBoard.js";
 import QuestionPage from "./js/page/Question.js";
+import StartPage from "./js/page/StartPage.js";
 import Router from "./js/router.js";
 
 if(!isLocalhost){
@@ -17,7 +18,15 @@ if(!isLocalhost){
 const router = new Router();
 window.router = router;
 
-router.setRoute("/", QuestionPage);
+if(isLocalhost){
+  router.root = "";
+}
+else{
+  router.root = "/flippuzzle";
+}
+
+router.setRoute("/", StartPage);
+router.setRoute("/free-play", QuestionPage);
 router.open("/");
 
 

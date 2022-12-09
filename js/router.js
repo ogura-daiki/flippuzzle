@@ -13,12 +13,22 @@ class Router extends LitElement {
     }
     `;
   }
+  constructor(){
+    super();
+    window.addEventListener("hashchange", e=>{
+      const route = location.hash.replace(/^#/,"");
+      const path = route.split("?data=")[0];
+      const args = JSON.parse(decodeURI(route.split("?data=")[1]));
+      this.route = {path, args};
+    });
+  }
   #routes = [];
   setRoute(path, component){
     this.#routes.push({path, component});
   }
   open(path, args={}){
     this.route = {path, args};
+    location.hash = `${path}?data=${encodeURI(JSON.stringify(args))}`;
   }
   render(){
     if(!this.route) return;
@@ -29,6 +39,8 @@ class Router extends LitElement {
       page[key] = value;
     });
     return html`${page}`;
+  }
+  updated(){
   }
 }
 customElements.define("app-router", Router);
