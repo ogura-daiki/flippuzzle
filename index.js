@@ -258,6 +258,13 @@ class App extends LitElement{
     }
     `
   }
+  resetBoardIfNeeded(){
+    const playBoard = this.renderRoot.querySelector("#play-board");
+    if(boardToHash(this.board) !== boardToHash(this.start)){
+      playBoard.board = JSON.parse(JSON.stringify(this.start));
+      sound.reset.play();
+    }
+  }
   render(){
     return html`
     <div id=container class="${this.vertical?"vertical":""}">
@@ -266,13 +273,7 @@ class App extends LitElement{
       </div>
       <div id=menu>
         <button
-          @click=${e=>{
-            const playBoard = this.renderRoot.querySelector("#play-board");
-            if(boardToHash(this.board) !== boardToHash(this.start)){
-              playBoard.board = JSON.parse(JSON.stringify(this.start));
-              sound.reset.play();
-            }
-          }}
+          @click=${e=>{this.resetBoardIfNeeded()}}
         >リセット</button>
       </div>
       <div class="holder play-area">
