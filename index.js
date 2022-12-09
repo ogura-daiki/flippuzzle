@@ -268,8 +268,10 @@ class App extends LitElement{
         <button
           @click=${e=>{
             const playBoard = this.renderRoot.querySelector("#play-board");
-            playBoard.board = JSON.parse(JSON.stringify(this.start));
-            sound.reset.play();
+            if(boardToHash(this.board) !== boardToHash(this.start)){
+              playBoard.board = JSON.parse(JSON.stringify(this.start));
+              sound.reset.play();
+            }
           }}
         >リセット</button>
       </div>
