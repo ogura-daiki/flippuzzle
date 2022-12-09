@@ -92,6 +92,35 @@ class FlipBoard extends LitElement {
       ></div>
     `;
   }
+  #getPanelPosFromTarget(target){
+    if(!target) return;
+    const classNames = new Set(target.className.split(" ").filter(v=>v));
+    if(classNames.has("panel")){
+      let {x, y} = target.dataset;
+      x=+x;
+      y=+y;
+      return {x, y};
+    }
+  }
+  #getPanelPos(e){
+    if(e instanceof MouseEvent){
+      const pos = this.#getPanelPosFromTarget(e.target);
+      return pos;
+    }
+    const board = this.getBoundingClientRect();
+    const panelRect = this.renderRoot.querySelector(".panel").getBoundingClientRect();
+    for(const y of range(4)){
+      for(const x of range(4)){
+        const panelTop = board.top+(panelRect.height*y);
+        const panelLeft = board.left+(panelRect.width*x);
+        if(panelTop <= e.clientY && e.clientY < panelTop + panelRect.height){
+          if(panelLeft <= e.clientX && e.clientX < panelLeft + panelRect.width){
+            return {x,y};
+          }
+        }
+      }
+    }
+  }
   #onClick({x,y}){
     for(let iy = clamp(0, y-1, 4); iy < Math.min(y+2, 4); iy+=1){
       for(let ix = clamp(0, x-1, 4); ix < Math.min(x+2, 4); ix+=1){
@@ -102,33 +131,20 @@ class FlipBoard extends LitElement {
     this.requestUpdate();
   }
   #equalsPos(p1, p2){
+    if(!p1 || !p2) return false;
     return p1.x === p2.x && p1.y === p2.y;
   }
   #pos = null;
   #beforeTouch = null;
-  #onPointerUp({pageX:x, pageY:y}){
-    const panels = [...this.renderRoot.querySelectorAll(".panel")];
-    const target = panels.find(p=>{
-      const rect = p.getBoundingClientRect();
-      return clamp(rect.left, x, rect.right) === x &&
-        clamp(rect.top, y, rect.bottom) === y;
-    });
-    const newPos = {x:+target.dataset.x, y:+target.dataset.y};
-    if(this.#equalsPos(this.#pos, newPos)){
-      this.#onClick(this.#pos);
-      this.#pos=null;
-    }
+  #onPointerUp(e){
+    const pos = this.#getPanelPos(e);
+    if(this.#equalsPos(pos, this.#pos)) this.#onClick(pos);
   }
   render(){
     return html`
     <div class="container"
       @pointerdown=${e=>{
-        const classNames = new Set(e.target.className.split(" ").filter(v=>v));
-        if(!classNames.has("panel")) return;
-        let {x, y} = e.target.dataset;
-        x=+x;
-        y=+y;
-        this.#pos = {x, y};
+        this.#pos = this.#getPanelPos(e);
       }}
       @touchmove=${e=>{
         this.#beforeTouch = e.touches[0];
