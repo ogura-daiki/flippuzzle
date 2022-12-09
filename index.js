@@ -141,6 +141,9 @@ class FlipBoard extends LitElement {
   #onPointerUp(e){
     const pos = this.#getPanelPos(e);
     if(this.#equalsPos(pos, this.#pos)) this.#onClick(pos);
+
+    this.#pos = null;
+    this.#beforeTouch = null;
   }
   render(){
     return html`
