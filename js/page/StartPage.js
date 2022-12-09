@@ -39,7 +39,7 @@ class StartPage extends LitElement{
     return html`
     <div id=container>
       <div id=wrapper>
-        <img id=icon src="../../images/icons/icon256.png">
+        <img id=icon src="./images/icons/icon256.png">
       </div>
       <button @click=${e=>router.open("/free-play", {test:1})}>練習モード</button>
       <button @click=${e=>alert("工事中")}>問題を解く</button>
