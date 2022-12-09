@@ -262,9 +262,8 @@ class App extends LitElement{
     `
   }
   resetBoardIfNeeded(){
-    const playBoard = this.renderRoot.querySelector("#play-board");
     if(boardToHash(this.board) !== boardToHash(this.start)){
-      playBoard.board = JSON.parse(JSON.stringify(this.start));
+      this.board = JSON.parse(JSON.stringify(this.start));
       sound.reset.play();
     }
   }
