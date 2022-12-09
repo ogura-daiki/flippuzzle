@@ -1,5 +1,6 @@
 import "./js/element/FlipBoard.js";
 import QuestionPage from "./js/page/Question.js";
+import Router from "./js/router.js";
 
 if(!isLocalhost){
   //開発者メニューが開かれることを妨害する
@@ -13,4 +14,11 @@ if(!isLocalhost){
   });
 }
 
-document.body.append(new QuestionPage());
+const router = new Router();
+window.router = router;
+
+router.setRoute("/", QuestionPage);
+router.open("/");
+
+
+document.body.append(router);
