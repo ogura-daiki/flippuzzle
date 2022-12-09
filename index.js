@@ -124,7 +124,6 @@ class FlipBoard extends LitElement {
         this.#beforeTouch = e.touches[0];
       }}
       @touchend=${e=>{
-        console.log(e.type);
         if(!this.#pos) return;
         if(!this.#beforeTouch) return;
         const {pageX:x, pageY:y} = this.#beforeTouch;
@@ -134,7 +133,6 @@ class FlipBoard extends LitElement {
           return clamp(rect.left, x, rect.right) === x &&
             clamp(rect.top, y, rect.bottom) === y;
         });
-        console.log(target);
         const newPos = {x:+target.dataset.x, y:+target.dataset.y};
         if(this.#equalsPos(this.#pos, newPos)){
           this.#onClick(this.#pos);
@@ -142,7 +140,6 @@ class FlipBoard extends LitElement {
         }
       }}
       @mouseup=${e=>{
-        console.log(e.type);
         if(!this.#pos) return;
         const {pageX:x, pageY:y} = e;
         const panels = [...this.renderRoot.querySelectorAll(".panel")];
