@@ -171,8 +171,17 @@ class FlipBoard extends LitElement {
 customElements.define("flip-board", FlipBoard);
 
 class App extends LitElement{
+  static get properties(){
+    return {
+      vertical:{type:Boolean},
+    }
+  }
   constructor(){
     super();
+    new ResizeObserver(()=>{
+      const isVertical = this.clientWidth < this.clientHeight;
+      this.vertical = isVertical;
+    }).observe(this);
   }
   static get styles(){
     return css`
@@ -183,15 +192,38 @@ class App extends LitElement{
       display:grid;
       place-items:center;
     }
-    #container{
-      width:100%;
-      height:100%;
-      box-sizing:border-box;
-      display:flex;
-      flex-flow:column nowrap;
+    #container {
+      width: 100%;
+      height: 100%;
+      display: grid;
       padding:16px;
-      gap:8px;
+      gap:16px;
+      box-sizing:border-box;
     }
+
+    #container.vertical {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr min-content 1fr;
+      grid-template-areas: 'pattern' 'menu' 'play-area';
+    }
+    #container {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr min-content;
+      grid-template-areas: 'pattern play-area' 'menu menu';
+    }
+
+
+    .holder.pattern {
+      grid-area: pattern;
+    }
+    #menu {
+      grid-area: menu;
+    }
+    .holder.play-area {
+      grid-area: play-area;
+    }
+    
+
     .holder{
       flex-grow:1;
       position:relative;
@@ -220,8 +252,8 @@ class App extends LitElement{
   }
   render(){
     return html`
-    <div id=container>
-      <div class=holder>
+    <div id=container class="${this.vertical?"vertical":""}">
+      <div class="holder pattern">
         <flip-board id=pattern></flip-board>
       </div>
       <div id=menu>
@@ -233,7 +265,7 @@ class App extends LitElement{
           }}
         >リセット</button>
       </div>
-      <div class=holder>
+      <div class="holder play-area">
         <flip-board id=play-board></flip-board>
       </div>
     </div>
