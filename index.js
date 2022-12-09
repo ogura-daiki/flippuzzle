@@ -8,6 +8,7 @@ const range = (...vals) => {
   return [... Array(end-start)].map((_,i)=>i+start);
 }
 const clamp = (min, v, max) => Math.max(min, Math.min(v, max));
+const boardToHash = (board) => board.map(row=>row.map(v=>v?1:0).join(",")).join("|");
 
 const sound = {
   flip:new Howl({
@@ -129,6 +130,7 @@ class FlipBoard extends LitElement {
     }
     sound.flip.play();
     this.requestUpdate();
+    this.dispatchEvent(new CustomEvent("flip"));
   }
   #equalsPos(p1, p2){
     if(!p1 || !p2) return false;
@@ -174,6 +176,9 @@ class App extends LitElement{
   static get properties(){
     return {
       vertical:{type:Boolean},
+      pattern:{type:Array},
+      start:{type:Array},
+      board:{type:Array, state:true},
     }
   }
   constructor(){
@@ -182,6 +187,9 @@ class App extends LitElement{
       const isVertical = this.clientWidth < this.clientHeight;
       this.vertical = isVertical;
     }).observe(this);
+    this.pattern = range(4).map((v,i)=>Array(4).fill(true));
+    this.start = range(4).map((v,i)=>Array(4).fill(false));
+    this.board = JSON.parse(JSON.stringify(this.start));
   }
   static get styles(){
     return css`
@@ -254,19 +262,27 @@ class App extends LitElement{
     return html`
     <div id=container class="${this.vertical?"vertical":""}">
       <div class="holder pattern">
-        <flip-board id=pattern></flip-board>
+        <flip-board id=pattern .board=${this.pattern}></flip-board>
       </div>
       <div id=menu>
         <button
           @click=${e=>{
             const playBoard = this.renderRoot.querySelector("#play-board");
-            playBoard.board = range(4).map(()=>range(4).fill(false));
+            playBoard.board = JSON.parse(JSON.stringify(this.start));
             sound.reset.play();
           }}
         >リセット</button>
       </div>
       <div class="holder play-area">
-        <flip-board id=play-board></flip-board>
+        <flip-board
+          id=play-board
+          .board=${this.board}
+          @flip=${e=>{
+            if(boardToHash(this.pattern) === boardToHash(this.board)){
+              alert("クリア！！！");
+            }
+          }}
+        ></flip-board>
       </div>
     </div>
     `
