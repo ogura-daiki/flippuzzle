@@ -92,14 +92,6 @@ class FlipBoard extends LitElement {
       ></div>
     `;
   }
-  #getPanelPos(e){
-    const classNames = new Set(e.target.className.split(" ").filter(v=>v));
-    if(!classNames.has("panel")) return;
-    let {x, y} = e.target.dataset;
-    x=+x;
-    y=+y;
-    return {x,y};
-  }
   #onClick({x,y}){
     for(let iy = clamp(0, y-1, 4); iy < Math.min(y+2, 4); iy+=1){
       for(let ix = clamp(0, x-1, 4); ix < Math.min(x+2, 4); ix+=1){
@@ -114,11 +106,29 @@ class FlipBoard extends LitElement {
   }
   #pos = null;
   #beforeTouch = null;
+  #onPointerUp({pageX:x, pageY:y}){
+    const panels = [...this.renderRoot.querySelectorAll(".panel")];
+    const target = panels.find(p=>{
+      const rect = p.getBoundingClientRect();
+      return clamp(rect.left, x, rect.right) === x &&
+        clamp(rect.top, y, rect.bottom) === y;
+    });
+    const newPos = {x:+target.dataset.x, y:+target.dataset.y};
+    if(this.#equalsPos(this.#pos, newPos)){
+      this.#onClick(this.#pos);
+      this.#pos=null;
+    }
+  }
   render(){
     return html`
     <div class="container"
       @pointerdown=${e=>{
-        this.#pos = this.#getPanelPos(e);
+        const classNames = new Set(e.target.className.split(" ").filter(v=>v));
+        if(!classNames.has("panel")) return;
+        let {x, y} = e.target.dataset;
+        x=+x;
+        y=+y;
+        this.#pos = {x, y};
       }}
       @touchmove=${e=>{
         this.#beforeTouch = e.touches[0];
@@ -126,33 +136,11 @@ class FlipBoard extends LitElement {
       @touchend=${e=>{
         if(!this.#pos) return;
         if(!this.#beforeTouch) return;
-        const {pageX:x, pageY:y} = this.#beforeTouch;
-        const panels = [...this.renderRoot.querySelectorAll(".panel")];
-        const target = panels.find(p=>{
-          const rect = p.getBoundingClientRect();
-          return clamp(rect.left, x, rect.right) === x &&
-            clamp(rect.top, y, rect.bottom) === y;
-        });
-        const newPos = {x:+target.dataset.x, y:+target.dataset.y};
-        if(this.#equalsPos(this.#pos, newPos)){
-          this.#onClick(this.#pos);
-          this.#pos=null;
-        }
+        this.#onPointerUp(this.#beforeTouch);
       }}
       @mouseup=${e=>{
         if(!this.#pos) return;
-        const {pageX:x, pageY:y} = e;
-        const panels = [...this.renderRoot.querySelectorAll(".panel")];
-        const target = panels.find(p=>{
-          const rect = p.getBoundingClientRect();
-          return clamp(rect.left, x, rect.right) === x &&
-            clamp(rect.top, y, rect.bottom) === y;
-        });
-        const newPos = {x:+target.dataset.x, y:+target.dataset.y}
-        if(this.#equalsPos(this.#pos, newPos)){
-          this.#onClick(this.#pos);
-          this.#pos=null;
-        }
+        this.#onPointerUp(e);
       }}
     >
       ${range(4).map(y=>html`${
