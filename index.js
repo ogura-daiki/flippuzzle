@@ -1,7 +1,10 @@
+import "./js/layout/MainLayout.js";
 import "./js/element/FlipBoard.js";
-import QuestionPage from "./js/page/Question.js";
 import StartPage from "./js/page/StartPage.js";
+import FreePlayPage from "./js/page/FreePlay.js";
+import QuestionPage from "./js/page/Question.js";
 import Router from "./js/router.js";
+import IconFonts from "./js/style/IconFonts.js";
 
 if(!isLocalhost){
   //開発者メニューが開かれることを妨害する
@@ -15,18 +18,13 @@ if(!isLocalhost){
   });
 }
 
+document.head.append(Object.assign(document.createElement("style"), {textContent:IconFonts}));
+
 const router = new Router();
 window.router = router;
 
-if(isLocalhost){
-  router.root = "";
-}
-else{
-  router.root = "/flippuzzle";
-}
-
 router.setRoute("/", StartPage);
-router.setRoute("/free-play", QuestionPage);
+router.setRoute("/free-play", FreePlayPage);
 router.open("/");
 
 

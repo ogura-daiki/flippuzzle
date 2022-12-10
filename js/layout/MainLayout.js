@@ -1,0 +1,80 @@
+import {LitElement, html, css, when} from "https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js";
+import IconFonts from "../style/IconFonts.js";
+
+const style = css`
+  :host{
+    display:contents;
+  }
+  #container{
+    width:100%;
+    height:100%;
+    display:flex;
+    flex-flow:column nowrap;
+  }
+  #appbar{
+    background:rgba(100,50,0);
+    color:white;
+    font-size:1.5rem;
+    height:fit-content;
+    user-select:none;
+    display:flex;
+    flex-flow:row nowrap;
+  }
+  #contents{
+    display:block;
+    flex-grow:1;
+  }
+  #title{
+    display:block;
+    padding:8px 16px;
+  }
+  #title.back{
+    padding-left:0px;
+  }
+
+  #back{
+    height:100%;
+    aspect-ratio:1;
+    display:grid;
+    place-items:center;
+    font-size:1.75rem;
+  }
+`;
+
+class MainLayout extends LitElement {
+  static get properties(){
+    return {
+      barTitle:{type:String, attribute:"bar-title"},
+      back:{type:Boolean},
+    }
+  }
+  constructor(){
+    super();
+    this.back = false;
+    this.barTitle = "FlipPuzzle";
+  }
+  static get styles(){
+    return [style, IconFonts];
+  }
+  render(){
+    return html`
+    <div id=container>
+      <div id=appbar>
+        ${when(this.back, ()=>html`
+          <i
+            id=back
+            @click=${e=>{
+              router.back();
+            }}
+            >
+            arrow_back
+          </i>
+        `)}
+        <span id=title class="${when(this.back, ()=>"back")}">${this.barTitle}</span>
+      </div>
+      <slot id=contents></slot>
+    </div>
+    `;
+  }
+}
+customElements.define("layout-main", MainLayout);

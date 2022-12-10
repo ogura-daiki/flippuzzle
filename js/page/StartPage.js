@@ -21,29 +21,45 @@ class StartPage extends LitElement{
     #wrapper{
       width:100%;
       flex-basis:0px;
-      flex-grow:1;
+      flex-grow:2;
       position:relative;
+      display:grid;
+      place-items:center;
     }
     #icon{
       width:100%;
       height:100%;
-      position:absolute;
-      top:0px;
-      left:0px;
       display:block;
       object-fit:contain;
+    }
+    #buttons{
+      display:flex;
+      flex-flow:column nowrap;
+      flex-basis:0px;
+      flex-grow:1;
+      gap:1rem;
+      justify-content:center;
+    }
+    #buttons button{
+      height:4rem;
+      padding: 0.5rem 1rem;
+      font-size:1rem;
     }
     `;
   }
   render(){
     return html`
-    <div id=container>
-      <div id=wrapper>
-        <img id=icon src="./images/icons/icon256.png">
+    <layout-main bar-title="FlipPuzzle">
+      <div id=container>
+        <div id=wrapper>
+          <img id=icon src="./images/icons/icon256.png">
+        </div>
+        <div id=buttons>
+          <button @click=${e=>router.open("/free-play", {test:1})}>練習モード</button>
+          <button @click=${e=>alert("工事中")}>問題を解く</button>
+        </div>
       </div>
-      <button @click=${e=>router.open("/free-play", {test:1})}>練習モード</button>
-      <button @click=${e=>alert("工事中")}>問題を解く</button>
-    </div>
+    </layout-main>
     `;
   }
 }

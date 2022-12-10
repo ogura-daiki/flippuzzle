@@ -30,6 +30,9 @@ class Router extends LitElement {
     this.route = {path, args};
     location.hash = `${path}?data=${encodeURI(JSON.stringify(args))}`;
   }
+  back(){
+    history.back()
+  }
   render(){
     if(!this.route) return;
     const currentRoute = this.#routes.find(route=>route.path===this.route.path);
