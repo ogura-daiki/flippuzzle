@@ -44,11 +44,20 @@ class FreePlayPage extends LitElement{
   }
   static get styles(){
     return css`
-    #q button{
-      padding:0.5rem 1rem;
-      font-size:1rem;
+    #menu{
+      height:fit-content;
+      padding:8px;
+      display:flex;
+      flex-flow:row nowrap;
+      gap:.4rem;
+      place-content:center;
+      user-select:none;
     }
-    #q #status{
+    #menu button{
+      padding:.4rem .6rem;
+      font-size:.8rem;
+    }
+    #menu #status{
       display:flex;
       flex-flow:column nowrap;
       justify-content:center;
@@ -57,9 +66,8 @@ class FreePlayPage extends LitElement{
       gap:.3rem;
       font-size:.8rem;
       line-height:1;
-    }
-    #q{
-      user-select:none;
+
+      border-radius:.2rem;
     }
     `
   }
@@ -95,37 +103,37 @@ class FreePlayPage extends LitElement{
           sound.reset.play();
         }}
       >
-        <button
-          slot=menu
-          @click=${e=>{
-            this.renderRoot.querySelector("#q").resetBoardIfNeeded()
-            this.currentStep = 0;
-            this.clear = false;
-          }}
+        <div id=menu slot=menu>
+          <button
+            @click=${e=>{
+              this.renderRoot.querySelector("#q").resetBoardIfNeeded()
+              this.currentStep = 0;
+              this.clear = false;
+            }}
+            >
+            パネル<br>リセット
+          </button>
+          <button
+            @click=${e=>{this.regenerate()}}
           >
-          パネル<br>リセット
-        </button>
-        <button
-          slot=menu
-          @click=${e=>{this.regenerate()}}
-        >
-          再生成
-        </button>
-        <div slot=menu id=status>
-          <div>生成手数：${this.step}</div>
-          <div>${when(
-            this.clear,
-            ()=>html`クリア!!!`,
-            ()=>when(
-              this.currentStep <= this.step,
-              ()=>html`残り：${this.step - this.currentStep}手`,
-              ()=>html`${this.currentStep - this.step}手オーバー`,
-            )
-          )}</div>
+            再生成
+          </button>
+          <button @click=${e=>alert("工事中")}>
+            設定
+          </button>
+          <div id=status>
+            <div>生成手数：${this.step}手</div>
+            <div>${when(
+              this.clear,
+              ()=>html`クリア!!!`,
+              ()=>when(
+                this.currentStep <= this.step,
+                ()=>html`残り：${this.step - this.currentStep}手`,
+                ()=>html`${this.currentStep - this.step}手オーバー`,
+              )
+            )}</div>
+          </div>
         </div>
-        <button slot=menu @click=${e=>alert("工事中")}>
-          設定
-        </button>
       </elem-question>
     </layout-main>
     `;

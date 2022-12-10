@@ -53,6 +53,7 @@ class Question extends LitElement{
       grid-area: pattern;
     }
     #menu {
+      display:block;
       grid-area: menu;
     }
     .holder.play-area {
@@ -74,16 +75,6 @@ class Question extends LitElement{
       pointer-events:none;
       user-select:none;
     }
-    #menu{
-      height:fit-content;
-      padding:8px;
-      display:flex;
-      flex-flow:row nowrap;
-      place-content:center;
-    }
-    #menu>button{
-      padding:8px;
-    }
     `
   }
   resetBoardIfNeeded(){
@@ -99,7 +90,7 @@ class Question extends LitElement{
       <div class="holder pattern">
         <flip-board id=pattern .board=${this.pattern}></flip-board>
       </div>
-      <div id=menu><slot name=menu></slot></div>
+      <slot id=menu name=menu></slot>
       <div class="holder play-area">
         <flip-board
           id=play-board

@@ -14,7 +14,7 @@ const style = css`
   #appbar{
     background:rgba(100,50,0);
     color:white;
-    font-size:1.5rem;
+    font-size:1.75rem;
     height:fit-content;
     user-select:none;
     display:flex;
