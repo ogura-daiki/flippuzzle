@@ -8,7 +8,6 @@ class Question extends LitElement{
       vertical:{type:Boolean, state:true},
       pattern:{type:Array},
       start:{type:Array},
-      board:{type:Array, state:true},
     }
   }
   constructor(){
@@ -19,7 +18,6 @@ class Question extends LitElement{
     }).observe(this);
     this.pattern = range(4).map((v,i)=>Array(4).fill(true));
     this.start = range(4).map((v,i)=>Array(4).fill(false));
-    this.board = JSON.parse(JSON.stringify(this.start));
   }
   static get styles(){
     return css`
@@ -89,9 +87,10 @@ class Question extends LitElement{
     `
   }
   resetBoardIfNeeded(){
-    if(boardToHash(this.board) !== boardToHash(this.start)){
-      this.board = JSON.parse(JSON.stringify(this.start));
-      sound.reset.play();
+    const playBoard = this.renderRoot.querySelector("#play-board");
+    if(boardToHash(playBoard.board) !== boardToHash(this.start)){
+      playBoard.board = JSON.parse(JSON.stringify(this.start));
+      this.dispatchEvent(new CustomEvent("reset", {bubbles:true, composed:true}));
     }
   }
   render(){
@@ -104,10 +103,11 @@ class Question extends LitElement{
       <div class="holder play-area">
         <flip-board
           id=play-board
-          .board=${this.board}
+          .board=${JSON.parse(JSON.stringify(this.start))}
           @flip=${e=>{
-            if(boardToHash(this.pattern) === boardToHash(this.board)){
-              alert("クリア！！！");
+            const board = this.renderRoot.querySelector("#play-board").board;
+            if(boardToHash(this.pattern) === boardToHash(board)){
+              this.dispatchEvent(new CustomEvent("clear", {bubbles:true, composed:true}));
             }
           }}
         ></flip-board>

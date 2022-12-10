@@ -1,6 +1,6 @@
 import {LitElement, html, css} from "https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js";
 import sound from "../sound.js";
-import { clamp, range } from "../util.js";
+import { clamp, range, flipBoard } from "../util.js";
 
 class FlipBoard extends LitElement {
   static get properties(){
@@ -100,14 +100,10 @@ class FlipBoard extends LitElement {
     }
   }
   #onClick({x,y}){
-    for(let iy = clamp(0, y-1, 4); iy < Math.min(y+2, 4); iy+=1){
-      for(let ix = clamp(0, x-1, 4); ix < Math.min(x+2, 4); ix+=1){
-        this.board[iy][ix] = !this.board[iy][ix];
-      }
-    }
+    flipBoard(this.board, {x, y});
     sound.flip.play();
     this.requestUpdate();
-    this.dispatchEvent(new CustomEvent("flip"));
+    this.dispatchEvent(new CustomEvent("flip", {bubbles:true, composed:true}));
   }
   #equalsPos(p1, p2){
     if(!p1 || !p2) return false;
