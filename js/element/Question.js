@@ -2,7 +2,7 @@ import {LitElement, html, css} from "https://cdn.jsdelivr.net/gh/lit/dist@2/all/
 import sound from "../sound.js";
 import { boardToHash, range } from "../util.js";
 
-class QuestionPage extends LitElement{
+class Question extends LitElement{
   static get properties(){
     return {
       vertical:{type:Boolean, state:true},
@@ -100,11 +100,7 @@ class QuestionPage extends LitElement{
       <div class="holder pattern">
         <flip-board id=pattern .board=${this.pattern}></flip-board>
       </div>
-      <div id=menu>
-        <button
-          @click=${e=>{this.resetBoardIfNeeded()}}
-        >リセット</button>
-      </div>
+      <div id=menu><slot name=menu></slot></div>
       <div class="holder play-area">
         <flip-board
           id=play-board
@@ -133,5 +129,5 @@ class QuestionPage extends LitElement{
     })
   }
 }
-customElements.define("page-question", QuestionPage);
-export default QuestionPage;
+customElements.define("elem-question", Question);
+export default Question;

@@ -1,8 +1,8 @@
 import "./js/layout/MainLayout.js";
 import "./js/element/FlipBoard.js";
+import "./js/element/Question.js";
 import StartPage from "./js/page/StartPage.js";
 import FreePlayPage from "./js/page/FreePlay.js";
-import QuestionPage from "./js/page/Question.js";
 import Router from "./js/router.js";
 import IconFonts from "./js/style/IconFonts.js";
 
