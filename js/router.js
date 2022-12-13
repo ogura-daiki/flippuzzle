@@ -42,6 +42,9 @@ class Router extends LitElement {
     });
   }
   #changeState(){
+    if(!history.state){
+      this.open("/");
+    }
     const {path, args, dialog} = history.state;
     this.route = {path, args};
     this.dialog = dialogState.get(dialog);
