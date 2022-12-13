@@ -103,7 +103,7 @@ class FlipBoard extends LitElement {
     flipBoard(this.board, {x, y});
     sound.flip.play();
     this.requestUpdate();
-    this.dispatchEvent(new CustomEvent("flip", {bubbles:true, composed:true}));
+    this.dispatchEvent(new CustomEvent("flip", {bubbles:true, composed:true, detail:{x,y}}));
   }
   #equalsPos(p1, p2){
     if(!p1 || !p2) return false;

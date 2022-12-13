@@ -31,6 +31,7 @@ class FreePlayPage extends LitElement{
       start:{type:Array},
       step:{type:Number},
       currentStep:{type:Number},
+      beforeClick:{type:Object},
       clear:{type:Boolean, state:true},
     }
   }
@@ -41,6 +42,7 @@ class FreePlayPage extends LitElement{
     this.pattern = range(4).map(()=>Array(4).fill(true));
     this.start = range(4).map(()=>Array(4).fill(false));
     this.clear = false;
+    this.beforeClick = null;
   }
   static get styles(){
     return css`
@@ -77,6 +79,7 @@ class FreePlayPage extends LitElement{
     this.clear = false;
     this.step = step;
     this.currentStep = 0;
+    this.beforeClick = null;
     this.pattern = range(4).map(()=>Array(4).fill(true));
     this.start = range(4).map(()=>Array(4).fill(false));
     sound.generate.stop();
@@ -94,6 +97,7 @@ class FreePlayPage extends LitElement{
       <elem-question id=q .pattern=${this.pattern} .start=${this.start}
         @flip=${e=>{
           this.currentStep+=1;
+          this.beforeClick = {x:e.detail.x, y:e.detail.y};
         }}
         @clear=${e=>{
           this.clear = true;
@@ -108,6 +112,7 @@ class FreePlayPage extends LitElement{
               this.renderRoot.querySelector("#q").resetBoardIfNeeded()
               this.currentStep = 0;
               this.clear = false;
+              this.beforeClick = null;
             }}
             >
             パネル<br>リセット
@@ -131,6 +136,9 @@ class FreePlayPage extends LitElement{
                 ()=>html`${this.currentStep - this.step}手オーバー`,
               )
             )}</div>
+            <div>
+              前回：${when(this.beforeClick,()=>`${this.beforeClick.y+1},${this.beforeClick.x+1}`, ()=>`-,-`)}
+            </div>
           </div>
         </div>
       </elem-question>
