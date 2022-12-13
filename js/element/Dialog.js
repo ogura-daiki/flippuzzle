@@ -122,7 +122,6 @@ class Dialog extends LitElement {
   }
 
   render() {
-    console.log(this.title, this.content, this["dialog-title"], this["dialogTitle"]);
     return html`
       <div id=container class="col gap-0">
         <div id=title class="row centering gap-0">
@@ -162,7 +161,6 @@ class Dialog extends LitElement {
         track.style.height = contentHeight+"px";
         bar.style.height = (this.clientHeight/this.scrollHeight*100)+"%";
         if(max === 0){
-          console.log("no scroll");
           track.style.opacity=0;
           shadowTop.style.opacity=0;
           shadowBottom.style.opacity=0;
