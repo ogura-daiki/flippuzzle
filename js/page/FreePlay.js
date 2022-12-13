@@ -46,7 +46,6 @@ class FreePlayPage extends LitElement{
     return css`
     #menu{
       height:fit-content;
-      padding:8px;
       display:flex;
       flex-flow:row nowrap;
       gap:.4rem;
