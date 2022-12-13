@@ -122,7 +122,7 @@ class FreePlayPage extends LitElement{
           >
             再生成
           </button>
-          <button @click=${e=>alert("工事中")}>
+          <button @click=${e=>router.openDialog({title:"準備中", content:html`準備中なので待ってください`})}>
             設定
           </button>
           <div id=status>
