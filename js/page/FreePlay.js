@@ -109,7 +109,10 @@ class FreePlayPage extends LitElement{
         <div id=menu slot=menu>
           <button
             @click=${e=>{
-              this.renderRoot.querySelector("#q").resetBoardIfNeeded()
+              this.renderRoot.querySelector("#q").resetBoardIfNeeded();
+              if(this.currentStep > 0){
+                sound.reset.play();
+              }
               this.currentStep = 0;
               this.clear = false;
               this.beforeClick = null;
