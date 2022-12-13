@@ -148,6 +148,9 @@ class FreePlayPage extends LitElement{
     </layout-main>
     `;
   }
+  firstUpdated(){
+    sound.generate.play();
+  }
 }
 customElements.define("free-play", FreePlayPage);
 export default FreePlayPage;
