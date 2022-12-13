@@ -1,51 +1,53 @@
 import {LitElement, html, css} from "https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js";
+import IconFonts from "../style/IconFonts.js";
 
+const style = css`
+:host{
+  display:contents;
+}
+#container{
+  display:flex;
+  flex-flow:column nowrap;
+  width:100%;
+  height:100%;
+  padding:16px;
+  gap:16px;
+  box-sizing:border-box;
+}
+#wrapper{
+  width:100%;
+  flex-basis:0px;
+  flex-grow:2;
+  position:relative;
+  display:grid;
+  place-items:center;
+}
+#icon{
+  max-width:100%;
+  height:100%;
+  display:block;
+  object-fit:contain;
+}
+#buttons{
+  display:flex;
+  flex-flow:column nowrap;
+  flex-basis:0px;
+  flex-grow:1;
+  gap:1rem;
+  justify-content:center;
+}
+#buttons button{
+  height:4rem;
+  padding: 0.5rem 1rem;
+  font-size:1rem;
+}
+`;
 class StartPage extends LitElement{
   constructor(){
     super();
   }
   static get styles(){
-    return css`
-    :host{
-      display:contents;
-    }
-    #container{
-      display:flex;
-      flex-flow:column nowrap;
-      width:100%;
-      height:100%;
-      padding:16px;
-      gap:16px;
-      box-sizing:border-box;
-    }
-    #wrapper{
-      width:100%;
-      flex-basis:0px;
-      flex-grow:2;
-      position:relative;
-      display:grid;
-      place-items:center;
-    }
-    #icon{
-      max-width:100%;
-      height:100%;
-      display:block;
-      object-fit:contain;
-    }
-    #buttons{
-      display:flex;
-      flex-flow:column nowrap;
-      flex-basis:0px;
-      flex-grow:1;
-      gap:1rem;
-      justify-content:center;
-    }
-    #buttons button{
-      height:4rem;
-      padding: 0.5rem 1rem;
-      font-size:1rem;
-    }
-    `;
+    return [style, IconFonts];
   }
   render(){
     return html`

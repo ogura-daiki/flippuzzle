@@ -60,16 +60,19 @@ class MainLayout extends LitElement {
     return html`
     <div id=container>
       <div id=appbar>
-        ${when(this.back, ()=>html`
-          <i
-            id=back
-            @click=${e=>{
-              router.back();
-            }}
-            >
-            arrow_back
-          </i>
-        `)}
+        <i
+          id=back
+          @click=${e=>{
+            router.back();
+          }}
+          style="${when(!this.back,()=>`
+            display:block;
+            width:0px;
+            overflow:hidden;
+          `)}"
+          >
+          arrow_back
+        </i>
         <span id=title class="${when(this.back, ()=>"back")}">${this.barTitle}</span>
       </div>
       <slot id=contents></slot>
