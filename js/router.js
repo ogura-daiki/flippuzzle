@@ -1,11 +1,15 @@
 import {LitElement, html, css, when, guard } from "https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js";
 import "./element/Dialog.js";
 
+let dialogStateId = 0;
+const dialogState = new Map();
+
 class Router extends LitElement {
   static get properties(){
     return {
       route:{type:Object},
       dialog:{type:Object},
+      root:{state:true},
     }
   }
   static get styles(){
@@ -33,20 +37,22 @@ class Router extends LitElement {
   }
   constructor(){
     super();
-    window.addEventListener("hashchange", e=>{
-      const route = location.hash.replace(/^#/,"");
-      const path = route.split("?data=")[0];
-      const args = JSON.parse(decodeURI(route.split("?data=")[1]));
-      this.route = {path, args};
+    window.addEventListener("popstate", e=>{
+      this.#changeState();
     });
+  }
+  #changeState(){
+    const {path, args, dialog} = history.state;
+    this.route = {path, args};
+    this.dialog = dialogState.get(dialog);
   }
   #routes = [];
   setRoute(path, component){
     this.#routes.push({path, component});
   }
   open(path, args={}){
-    //this.route = {path, args};
-    location.hash = `${path}?data=${encodeURI(JSON.stringify(args))}`;
+    history.pushState({path, args}, null);
+    this.#changeState();
   }
   back(){
     history.back()
@@ -61,9 +67,13 @@ class Router extends LitElement {
     return page;
   }
   openDialog({title, content}){
+    dialogState.set(dialogStateId, {title, content});
+    history.replaceState({...history.state, dialog:dialogStateId}, null);
     this.dialog = {title, content};
+    dialogStateId += 1;
   }
   closeDialog(){
+    history.replaceState({...history.state, dialog:-1}, null);
     this.dialog = null;
   }
   render(){

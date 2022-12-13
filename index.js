@@ -21,6 +21,13 @@ if(!isLocalhost){
 document.head.append(Object.assign(document.createElement("style"), {textContent:IconFonts}));
 
 const router = new Router();
+if(isLocalhost){
+  router.root = location.origin;
+}
+else{
+  router.root = "https://ogura-daiki.github.io/flippuzzle"
+}
+
 window.router = router;
 
 router.setRoute("/", StartPage);
