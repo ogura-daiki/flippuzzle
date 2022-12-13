@@ -45,7 +45,7 @@ class Router extends LitElement {
     this.#routes.push({path, component});
   }
   open(path, args={}){
-    this.route = {path, args};
+    //this.route = {path, args};
     location.hash = `${path}?data=${encodeURI(JSON.stringify(args))}`;
   }
   back(){
