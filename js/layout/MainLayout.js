@@ -10,6 +10,7 @@ const style = css`
     height:100%;
     display:flex;
     flex-flow:column nowrap;
+    background:rgb(255,230,200);
   }
   #appbar{
     background:rgba(100,50,0);
