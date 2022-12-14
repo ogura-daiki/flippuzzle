@@ -1,4 +1,5 @@
 import {LitElement, html, css, when} from "https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js";
+import { colors } from "../baseTheme.js";
 import IconFonts from "../style/IconFonts.js";
 
 const style = css`
@@ -10,11 +11,11 @@ const style = css`
     height:100%;
     display:flex;
     flex-flow:column nowrap;
-    background:rgb(255,230,200);
+    background:${colors.background.base};
   }
   #appbar{
-    background:rgba(100,50,0);
-    color:white;
+    background:${colors.primary.base};
+    color:${colors.primary.text};
     font-size:1.75rem;
     height:fit-content;
     user-select:none;

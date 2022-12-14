@@ -1,4 +1,5 @@
 import {LitElement, html, css} from "https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js";
+import { colors } from "../baseTheme.js";
 import IconFonts from "../style/IconFonts.js";
 
 class Dialog extends LitElement {
@@ -16,7 +17,7 @@ class Dialog extends LitElement {
       css`
         :host{
           display:block;
-          background:white;
+          background:${colors.background.base};
           max-height:calc(100vh - 4rem);
           height:fit-content;
           overflow-y:scroll;
@@ -32,8 +33,8 @@ class Dialog extends LitElement {
           min-width:50vw;
         }
         #titlebar{
-          background:white;
-          color:black;
+          background:${colors.primary.base};
+          color:${colors.primary.text};
           font-size:1.5rem;
           position:sticky;
           z-index:1;
@@ -49,16 +50,18 @@ class Dialog extends LitElement {
           font-size:1.5rem;
         }
         #buttons{
-          background:white;
+          background:${colors.background.base};
           padding:.1rem;
           gap:.5rem;
           border-top:lightgray 1px solid;
           position:sticky;
           z-index:1;
           bottom:0px;
+          justify-content: end;
         }
         #buttons button{
-          background:transparent;
+          background:${colors.background.base};
+          color:${colors.background.text};
           border:1px solid lightgray;
           font-size:1rem;
           padding:.5rem .8rem;
