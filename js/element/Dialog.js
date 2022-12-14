@@ -31,7 +31,7 @@ class Dialog extends LitElement {
           min-height:30vh;
           min-width:50vw;
         }
-        #title{
+        #titlebar{
           background:white;
           color:black;
           font-size:1.5rem;
@@ -39,15 +39,19 @@ class Dialog extends LitElement {
           z-index:1;
           top:0px;
           user-select:none;
+          border-bottom:1px solid lightgray;
+        }
+        #title{
+          padding: .5rem 1rem;
         }
         #closeIcon{
-          padding:.5rem;
+          padding:1rem;
           font-size:1.5rem;
         }
         #buttons{
           background:white;
           padding:.1rem;
-          gap:8px;
+          gap:.5rem;
           border-top:lightgray 1px solid;
           position:sticky;
           z-index:1;
@@ -57,7 +61,7 @@ class Dialog extends LitElement {
           background:transparent;
           border:1px solid lightgray;
           font-size:1rem;
-          padding:.3rem .5rem;
+          padding:.5rem .8rem;
         }
         .shadow{
           height:.5rem;
@@ -93,7 +97,7 @@ class Dialog extends LitElement {
         
         .col, .row, .centering{
           display:flex;
-          gap:8px;
+          gap:.5rem;
         }
         .col{
           flex-direction: column;
@@ -117,7 +121,7 @@ class Dialog extends LitElement {
         }
 
         .gap-0 { gap:0px }
-        .gap-16{ gap:16px }
+        .gap-16{ gap:1rem }
       `,
     ];
   }
@@ -125,8 +129,8 @@ class Dialog extends LitElement {
   render() {
     return html`
       <div id=container class="col gap-0">
-        <div id=title class="row centering gap-0">
-          <span class=grow style="padding: 8px 16px;">${this.title}</span>
+        <div id=titlebar class="row centering gap-0">
+          <span id=title class=grow>${this.title}</span>
           <i id=closeIcon @click=${e=>{router.closeDialog()}} class="fill centering">close</i>
           <div class="shadow top" style="opacity:0"></div>
           <div id="track">
@@ -147,7 +151,7 @@ class Dialog extends LitElement {
   firstUpdated(){
     const find = q => this.renderRoot.querySelector(q);
     const content = find("#content");
-    const title = find("#title");
+    const title = find("#titlebar");
     const buttons = find("#buttons");
     const shadowTop = find(".shadow.top");
     const shadowBottom = find(".shadow.bottom");
