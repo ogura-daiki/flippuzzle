@@ -109,7 +109,6 @@ class FreePlayPage extends LitElement{
         {label:"変更", action:e=>{
           const {min, max, startRandom} = content;
           this.genOption = {min, max, startRandom};
-          console.log(this.genOption);
           router.closeDialog();
         }},
       ],
