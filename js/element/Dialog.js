@@ -1,5 +1,6 @@
 import {LitElement, html, css} from "https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js";
 import { colors } from "../baseTheme.js";
+import sound from "../sound.js";
 import IconFonts from "../style/IconFonts.js";
 
 class Dialog extends LitElement {
@@ -141,7 +142,14 @@ class Dialog extends LitElement {
       <div id=container class="col gap-0">
         <div id=titlebar class="row centering gap-0">
           <span id=title class=grow>${this.title}</span>
-          <i id=closeIcon @click=${e=>{router.closeDialog()}} class="fill centering">close</i>
+          <i
+            id=closeIcon
+            class="fill centering"
+            @click=${e=>{
+              sound.push.play();
+              router.closeDialog();
+            }}
+          >close</i>
           <div class="shadow top" style="opacity:0"></div>
           <div id="track">
             <div id="bar"></div>
@@ -152,7 +160,14 @@ class Dialog extends LitElement {
         </section>
         <div id=buttons class="row">
           <div class="shadow bottom" style="opacity:0"></div>
-          ${this.buttons.map(({label, action})=>html`<button @click=${e=>action(e)}>${label}</button>`)}
+          ${this.buttons.map(({label, action})=>html`
+            <button
+              @click=${e=>{
+                sound.push.play();
+                action(e);
+              }}
+            >${label}</button>
+          `)}
         </div>
       </div>
     `;
