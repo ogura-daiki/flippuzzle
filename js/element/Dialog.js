@@ -48,7 +48,6 @@ class Dialog extends LitElement {
           z-index:1;
           top:0px;
           user-select:none;
-          border-bottom:1px solid lightgray;
         }
         #title{
           padding: .5rem 1rem;
@@ -59,7 +58,7 @@ class Dialog extends LitElement {
         }
         #buttons{
           background:${colors.background.base};
-          padding:.1rem;
+          padding:.2rem .4rem;
           gap:.5rem;
           border-top:lightgray 1px solid;
           position:sticky;
@@ -70,9 +69,9 @@ class Dialog extends LitElement {
         #buttons button{
           background:${colors.background.base};
           color:${colors.background.text};
-          border:1px solid lightgray;
           font-size:1rem;
           padding:.5rem .8rem;
+          border:none;
         }
         .shadow{
           height:.5rem;
