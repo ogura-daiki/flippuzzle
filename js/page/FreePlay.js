@@ -1,13 +1,13 @@
 import {LitElement, html, css, when } from "https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js";
 import sound from "../sound.js";
 import { flipBoard, range } from "../util.js";
+import FreePlaySettingDialog from "./dialog/FreePlaySettingDialog.js";
 
-const generate = ()=>{
-  const pattern = range(4).map(()=>range(4).map(v=>Math.random() >= 0.5));
-  const start = JSON.parse(JSON.stringify(pattern));
-  const min = 2;
-  const max = 8;
-  const step = Math.ceil(Math.random()*(max-min))+min;
+const generate = ({min, max, startRandom})=>{
+  const valueGen = !startRandom?()=>false:()=>Math.random() >= 0.5;
+  const start = range(4).map(()=>range(4).map(v=>valueGen()));
+  const pattern = JSON.parse(JSON.stringify(start));
+  const step = Math.ceil(Math.random()*(max-min+1))+min-1;
 
   const list = new Set();
   const rand = ()=>Math.floor(Math.random()*4);
@@ -20,6 +20,10 @@ const generate = ()=>{
     x = +x;
     flipBoard(start, {x,y});
   });
+
+  if(!startRandom){
+    return {pattern:start, start:pattern, step};
+  }
   return {pattern, start, step};
 }
 
@@ -43,6 +47,7 @@ class FreePlayPage extends LitElement{
     this.start = range(4).map(()=>Array(4).fill(false));
     this.clear = false;
     this.beforeClick = null;
+    this.genOption = {min:3, max:8, startRandom:true};
   }
   static get styles(){
     return css`
@@ -75,7 +80,7 @@ class FreePlayPage extends LitElement{
   #genTimer;
   regenerate(){
     const question = this.renderRoot?.querySelector("#q");
-    const {pattern, start, step} = generate();
+    const {pattern, start, step} = generate(this.genOption);
     this.clear = false;
     this.step = step;
     this.currentStep = 0;
@@ -90,6 +95,25 @@ class FreePlayPage extends LitElement{
       this.start = start;
       question?.resetBoardIfNeeded();
     }, 300);
+  }
+  #settingDialog(){
+    const content = new FreePlaySettingDialog();
+    Object.assign(content, this.genOption);
+    router.openDialog({
+      title:"設定",
+      content,
+      buttons:[
+        {label:"キャンセル", action:e=>{
+          router.closeDialog();
+        }},
+        {label:"変更", action:e=>{
+          const {min, max, startRandom} = content;
+          this.genOption = {min, max, startRandom};
+          console.log(this.genOption);
+          router.closeDialog();
+        }},
+      ],
+    })
   }
   render(){
     return html`
@@ -125,7 +149,7 @@ class FreePlayPage extends LitElement{
           >
             再生成
           </button>
-          <button @click=${e=>router.openDialog({title:"準備中", content:html`準備中なので待ってください`})}>
+          <button @click=${e=>this.#settingDialog()}>
             設定
           </button>
           <div id=status>
