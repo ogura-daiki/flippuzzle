@@ -8,7 +8,15 @@ class Dialog extends LitElement {
     return {
       title: { type:String },
       content: { type:Object },
+      buttons: { type:Array },
     };
+  }
+
+  constructor(){
+    super();
+    this.title = "FlipPuzzle";
+    this.content = "";
+    this.buttons = [{label:"閉じる", action:e=>router.closeDialog()}];
   }
 
   static get styles(){
@@ -145,7 +153,7 @@ class Dialog extends LitElement {
         </section>
         <div id=buttons class="row">
           <div class="shadow bottom" style="opacity:0"></div>
-          <button style="margin-left:auto" @click=${e=>router.closeDialog()}>閉じる</button>
+          ${this.buttons.map(({label, action})=>html`<button @click=${e=>action(e)}>${label}</button>`)}
         </div>
       </div>
     `;
