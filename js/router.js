@@ -69,7 +69,7 @@ class Router extends LitElement {
     });
     return page;
   }
-  openDialog({title, content, buttons}){
+  openDialog({title, content, buttons=[{label:"閉じる",action:()=>router.closeDialog()}]}){
     dialogState.set(dialogStateId, {title, content, buttons});
     history.replaceState({...history.state, dialog:dialogStateId}, null);
     this.dialog = {title, content, buttons};
@@ -90,7 +90,7 @@ class Router extends LitElement {
         this.dialog,
         ()=>html`
         <div class="fill backdrop">
-          <elem-dialog .title=${this.dialog.title} .content=${this.dialog.content} .?buttons=${this.dialog.buttons}></elem-dialog>
+          <elem-dialog .title=${this.dialog.title} .content=${this.dialog.content} .buttons=${this.dialog.buttons}></elem-dialog>
         </div>
         `,
       )}
