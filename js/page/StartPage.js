@@ -58,7 +58,7 @@ class StartPage extends LitElement{
         </div>
         <div id=buttons>
           <button @click=${e=>router.open("/free-play", {test:1})}>練習モード</button>
-          <button @click=${e=>router.openDialog({title:"工事中", content:html`鋭意製作中です`})}>問題を解く</button>
+          <button @click=${e=>router.open("/select-chapter")}>問題を解く</button>
         </div>
       </div>
     </layout-main>

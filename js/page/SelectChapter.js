@@ -1,0 +1,56 @@
+import {LitElement, html, css} from "https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js";
+import IconFonts from "../style/IconFonts.js";
+
+const style = css`
+:host{
+  display:contents;
+}
+#container{
+  display:flex;
+  flex-flow:column nowrap;
+  width:100%;
+  padding:16px;
+  gap:16px;
+  box-sizing:border-box;
+}
+.chapter{
+  display:flex;
+  flex-flow:row;
+  gap:1rem;
+  padding:.5rem;
+  align-items:center;
+}
+.icon{
+  width:30%;
+  aspect-ratio:1;
+  background:lightgray;
+}
+.chapter .title{
+  font-size:1.2rem;
+  flex-grow:1;
+}
+`;
+class SelectChapterPage extends LitElement{
+  constructor(){
+    super();
+  }
+  static get styles(){
+    return [style, IconFonts];
+  }
+  render(){
+    return html`
+    <layout-main bar-title="問題を解く">
+      <div id=container>
+        ${[...Array(10)].map(v=>html`
+          <button class="chapter">
+            <div class="icon"></div>
+            <div class="title">${"タイトル"}</div>
+          </button>
+        `)}
+      </div>
+    </layout-main>
+    `;
+  }
+}
+customElements.define("select-chapter-page", SelectChapterPage);
+export default SelectChapterPage;
