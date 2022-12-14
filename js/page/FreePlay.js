@@ -123,7 +123,9 @@ class FreePlayPage extends LitElement{
           this.beforeClick = {x:e.detail.x, y:e.detail.y};
         }}
         @clear=${e=>{
-          this.clear = true;
+          if(!this.clear){
+            this.clear = this.currentStep;
+          }
         }}
         @reset=${e=>{
           sound.reset.play();
@@ -158,7 +160,7 @@ class FreePlayPage extends LitElement{
             <div>生成手数：${this.step}手</div>
             <div>${when(
               this.clear,
-              ()=>html`クリア!!!`,
+              ()=>html`クリア(${this.clear}手)`,
               ()=>when(
                 this.currentStep <= this.step,
                 ()=>html`残り：${this.step - this.currentStep}手`,
