@@ -33,6 +33,9 @@ class Router extends LitElement {
       display:grid;
       place-items:center;
     }
+    elem-dialog{
+      box-shadow: 0px 0px 4rem 1rem rgba(0,0,0,.3);
+    }
     `;
   }
   constructor(){
