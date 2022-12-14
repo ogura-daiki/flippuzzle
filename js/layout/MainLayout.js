@@ -21,6 +21,7 @@ const style = css`
     user-select:none;
     display:flex;
     flex-flow:row nowrap;
+    box-shadow:0px 0px .25rem .25rem rgba(0,0,0,.3);
   }
   #contents{
     display:block;
