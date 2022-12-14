@@ -69,10 +69,10 @@ class Router extends LitElement {
     });
     return page;
   }
-  openDialog({title, content}){
-    dialogState.set(dialogStateId, {title, content});
+  openDialog({title, content, buttons}){
+    dialogState.set(dialogStateId, {title, content, buttons});
     history.replaceState({...history.state, dialog:dialogStateId}, null);
-    this.dialog = {title, content};
+    this.dialog = {title, content, buttons};
     dialogStateId += 1;
   }
   closeDialog(){
@@ -90,7 +90,7 @@ class Router extends LitElement {
         this.dialog,
         ()=>html`
         <div class="fill backdrop">
-          <elem-dialog .title=${this.dialog.title} .content=${this.dialog.content}></elem-dialog>
+          <elem-dialog .title=${this.dialog.title} .content=${this.dialog.content} .?buttons=${this.dialog.buttons}></elem-dialog>
         </div>
         `,
       )}
