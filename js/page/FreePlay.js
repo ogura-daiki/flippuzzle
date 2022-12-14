@@ -148,7 +148,10 @@ class FreePlayPage extends LitElement{
           >
             再生成
           </button>
-          <button @click=${e=>this.#settingDialog()}>
+          <button @click=${e=>{
+            sound.push.play();
+            this.#settingDialog();
+          }}>
             設定
           </button>
           <div id=status>
