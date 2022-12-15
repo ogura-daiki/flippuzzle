@@ -1,6 +1,8 @@
 import {LitElement, html, css} from "https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js";
 import IconFonts from "../style/IconFonts.js";
 
+import chapters from "../../questions/index.js";
+
 const style = css`
 :host{
   display:contents;
@@ -41,10 +43,10 @@ class SelectChapterPage extends LitElement{
     return html`
     <layout-main bar-title="問題を解く" back>
       <div id=container>
-        ${[...Array(10)].map(v=>html`
+        ${chapters.map(chapter=>html`
           <button class="chapter">
             <div class="icon"></div>
-            <div class="title">${"タイトル"}</div>
+            <div class="title">${chapter.name}</div>
           </button>
         `)}
       </div>
