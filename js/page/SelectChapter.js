@@ -6,8 +6,8 @@ const style = css`
   display:contents;
 }
 #container{
-  display:flex;
-  flex-flow:column nowrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
   width:100%;
   padding:16px;
   gap:16px;
@@ -39,7 +39,7 @@ class SelectChapterPage extends LitElement{
   }
   render(){
     return html`
-    <layout-main bar-title="問題を解く">
+    <layout-main bar-title="問題を解く" back>
       <div id=container>
         ${[...Array(10)].map(v=>html`
           <button class="chapter">
