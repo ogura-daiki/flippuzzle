@@ -128,7 +128,7 @@ class FreePlayPage extends LitElement{
           }
         }}
         @reset=${e=>{
-          sound.reset.play();
+          //sound.reset.play();
         }}
       >
         <div id=menu slot=menu>

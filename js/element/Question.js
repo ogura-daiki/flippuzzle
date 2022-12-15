@@ -98,6 +98,8 @@ class Question extends LitElement{
           @flip=${e=>{
             const board = this.renderRoot.querySelector("#play-board").board;
             if(boardToHash(this.pattern) === boardToHash(board)){
+              e.stopPropagation();
+              this.dispatchEvent(new CustomEvent("flip", {bubbles:true, composed:true, detail:e.detail}));
               this.dispatchEvent(new CustomEvent("clear", {bubbles:true, composed:true}));
             }
           }}

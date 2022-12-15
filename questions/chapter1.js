@@ -5,6 +5,7 @@ const fromStr = (str) => str[0].split("\n").map(v=>v.trim()).filter(v=>v).map(v=
 
 export default [
   {
+    id:"t1-1",
     name:"tutorial1-1",
     step:1,
     size:[4,4],
@@ -17,6 +18,7 @@ export default [
     `,
   },
   {
+    id:"t1-2",
     name:"tutorial1-2",
     step:1,
     size:[4,4],
@@ -29,6 +31,7 @@ export default [
     `,
   },
   {
+    id:"t1-3",
     name:"tutorial1-3",
     step:1,
     size:[4,4],
@@ -41,6 +44,7 @@ export default [
     `,
   },
   {
+    id:"t1-4",
     name:"tutorial1-4",
     step:4,
     size:[4,4],
@@ -48,6 +52,7 @@ export default [
     pattern:backAll,
   },
   {
+    id:"t1-5",
     name:"tutorial1-5",
     step:2,
     size:[4,4],
@@ -60,6 +65,7 @@ export default [
     `,
   },
   {
+    id:"t1-6",
     name:"tutorial1-6",
     step:2,
     size:[4,4],
@@ -72,6 +78,7 @@ export default [
     `,
   },
   {
+    id:"t1-7",
     name:"tutorial1-7",
     step:2,
     size:[4,4],
@@ -84,6 +91,7 @@ export default [
     `,
   },
   {
+    id:"t1-8",
     name:"tutorial1-8",
     step:3,
     size:[4,4],

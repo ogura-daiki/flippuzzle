@@ -6,6 +6,8 @@ import FreePlayPage from "./js/page/FreePlay.js";
 import Router from "./js/router.js";
 import IconFonts from "./js/style/IconFonts.js";
 import SelectChapterPage from "./js/page/SelectChapter.js";
+import SelectQuestionPage from "./js/page/SelectQuestion.js";
+import QuestionPage from "./js/page/Question.js";
 
 if(!isLocalhost){
   //開発者メニューが開かれることを妨害する
@@ -34,6 +36,8 @@ window.router = router;
 router.setRoute("/", StartPage);
 router.setRoute("/free-play", FreePlayPage);
 router.setRoute("/select-chapter", SelectChapterPage);
+router.setRoute("/select-question", SelectQuestionPage);
+router.setRoute("/question", QuestionPage);
 router.open("/");
 
 

@@ -1,11 +1,13 @@
 import {LitElement, html, css} from "https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js";
 import IconFonts from "../style/IconFonts.js";
-
 import chapters from "../../questions/index.js";
 
 const style = css`
 :host{
   display:contents;
+}
+#description{
+  padding:1rem;
 }
 #container{
   display: grid;
@@ -15,37 +17,42 @@ const style = css`
   gap:16px;
   box-sizing:border-box;
 }
-.chapter{
+.question{
   display:flex;
   flex-flow:row;
   gap:1rem;
   padding:.5rem;
   align-items:center;
 }
-.icon{
-  width:30%;
-  aspect-ratio:1;
-  background:lightgray;
-}
-.chapter .title{
+.question .title{
   font-size:1.2rem;
   flex-grow:1;
 }
 `;
-class SelectChapterPage extends LitElement{
+class SelectQuestionPage extends LitElement{
+  static get properties(){
+    return {
+      chapter:{type:Object},
+    }
+  }
   constructor(){
     super();
   }
   static get styles(){
     return [style, IconFonts];
   }
+  set chapterId(id){
+    this.chapter = chapters.find(c=>c.id === id);
+  }
   render(){
+    if(!this.chapter) return;
     return html`
-    <layout-main bar-title="問題を解く" back>
+    <layout-main bar-title=${this.chapter.name} back>
+      <div id=description>${this.chapter.description}</div>
       <div id=container>
-        ${chapters.map(chapter=>html`
-          <button class="chapter" @click=${e=>router.open("/select-question", {chapterId:chapter.id})}>
-            <div class="title">${chapter.name}</div>
+        ${this.chapter.questions.map(q=>html`
+          <button class="question" @click=${e=>router.open("/question", {question:q})}>
+            <div class="title">${q.name}</div>
           </button>
         `)}
       </div>
@@ -53,5 +60,5 @@ class SelectChapterPage extends LitElement{
     `;
   }
 }
-customElements.define("select-chapter-page", SelectChapterPage);
-export default SelectChapterPage;
+customElements.define("select-question-page", SelectQuestionPage);
+export default SelectQuestionPage;
