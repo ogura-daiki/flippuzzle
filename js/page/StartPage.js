@@ -1,4 +1,5 @@
-import {LitElement, html, css} from "https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js";
+import {html, css} from "../Lit.js";
+import BaseElement from "../BaseElement.js";
 import sound from "../sound.js";
 import IconFonts from "../style/IconFonts.js";
 
@@ -43,7 +44,7 @@ const style = css`
   font-size:1rem;
 }
 `;
-class StartPage extends LitElement{
+class StartPage extends BaseElement {
   constructor(){
     super();
   }

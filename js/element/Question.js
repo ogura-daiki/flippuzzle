@@ -1,4 +1,5 @@
-import {LitElement, html, css} from "https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js";
+import BaseElement from "../BaseElement.js";
+import {html, css} from "../Lit.js";
 import sound from "../sound.js";
 import { boardToHash, range } from "../util.js";
 
@@ -59,7 +60,7 @@ flip-board{
 }
 `;
 
-class Question extends LitElement{
+class Question extends BaseElement {
   static get properties(){
     return {
       vertical:{type:Boolean, state:true},

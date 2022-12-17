@@ -1,7 +1,9 @@
-import {LitElement, html, css } from "https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js";
+import {html, css } from "../../Lit.js";
+import BaseElement from "../../BaseElement.js";
 import { colors } from "../../baseTheme.js";
 import sound from "../../sound.js";
 import IconFonts from "../../style/IconFonts.js";
+
 
 const style = css`
 :host{
@@ -62,7 +64,7 @@ label{
 }
 `;
 
-class FreePlaySettingDialog extends LitElement {
+class FreePlaySettingDialog extends BaseElement {
   static get properties(){
     return {
       min:{type:Number},

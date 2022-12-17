@@ -1,4 +1,5 @@
-import {LitElement, html, css} from "https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js";
+import {html, css} from "../Lit.js";
+import BaseElement from "../BaseElement.js";
 import IconFonts from "../style/IconFonts.js";
 import chapters from "../../questions/index.js";
 import sound from "../sound.js";
@@ -32,7 +33,7 @@ const style = css`
   flex-grow:1;
 }
 `;
-class SelectChapterPage extends LitElement{
+class SelectChapterPage extends BaseElement {
   constructor(){
     super();
   }

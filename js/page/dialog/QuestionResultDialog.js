@@ -1,6 +1,6 @@
-import {LitElement, html, css } from "https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js";
+import BaseElement from "../../BaseElement.js";
+import {html, css } from "../../Lit.js";
 import IconFonts from "../../style/IconFonts.js";
-
 
 const style = css`
 :host{
@@ -35,7 +35,7 @@ const style = css`
 }
 `;
 
-class QuestionResultDialog extends LitElement {
+class QuestionResultDialog extends BaseElement {
   static get properties(){
     return {
       step:{type:Number},

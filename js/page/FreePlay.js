@@ -1,4 +1,5 @@
-import {LitElement, html, css, when } from "https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js";
+import BaseElement from "../BaseElement.js";
+import {html, css, when } from "../Lit.js";
 import sound from "../sound.js";
 import { flipBoard, range } from "../util.js";
 import FreePlaySettingDialog from "./dialog/FreePlaySettingDialog.js";
@@ -54,7 +55,7 @@ const style = css`
 }
 `;
 
-class FreePlayPage extends LitElement{
+class FreePlayPage extends BaseElement {
   static get properties(){
     return {
       pattern:{type:Array},

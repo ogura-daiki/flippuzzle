@@ -1,6 +1,6 @@
-import {LitElement, html, css, when, guard } from "https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js";
+import { html, css, when, guard } from "./Lit.js";
+import BaseElement from "./BaseElement.js";
 import "./element/Dialog.js";
-
 
 let dialogStateId = 0;
 const dialogState = new Map();
@@ -31,7 +31,7 @@ elem-dialog{
 }
 `;
 
-class Router extends LitElement {
+class Router extends BaseElement {
   static get properties(){
     return {
       route:{type:Object},

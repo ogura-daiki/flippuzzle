@@ -1,4 +1,5 @@
-import {LitElement, html, css} from "https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js";
+import { html, css } from "../Lit.js";
+import BaseElement from "../BaseElement.js";
 import sound from "../sound.js";
 import { clamp, range, flipBoard } from "../util.js";
 
@@ -47,7 +48,7 @@ const style = css`
 }
 `;
 
-class FlipBoard extends LitElement {
+class FlipBoard extends BaseElement {
   static get properties(){
     return {
       board:{type:Array},

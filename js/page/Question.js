@@ -1,7 +1,8 @@
-import {LitElement, html, css, when } from "https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js";
+import {html, css, when } from "../Lit.js";
 import sound from "../sound.js";
 import chapters from "../../questions/index.js";
 import QuestionResultDialog from "./dialog/QuestionResultDialog.js";
+import BaseElement from "../BaseElement.js";
 
 const style = css`
 #menu{
@@ -30,7 +31,7 @@ const style = css`
 }
 `;
 
-class QuestionPage extends LitElement{
+class QuestionPage extends BaseElement {
   static get properties(){
     return {
       question:{type:Object},

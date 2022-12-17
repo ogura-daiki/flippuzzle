@@ -1,4 +1,5 @@
-import {LitElement, html, css, when} from "https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js";
+import {html, css, when} from "../Lit.js";
+import BaseElement from "../BaseElement.js";
 import { colors } from "../baseTheme.js";
 import IconFonts from "../style/IconFonts.js";
 
@@ -59,7 +60,7 @@ const style = css`
   }
 `;
 
-class MainLayout extends LitElement {
+class MainLayout extends BaseElement {
   static get properties(){
     return {
       barTitle:{type:String, attribute:"bar-title"},
