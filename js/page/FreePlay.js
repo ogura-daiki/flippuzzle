@@ -181,7 +181,22 @@ class FreePlayPage extends LitElement{
   }
 
   beforePopState(){
-    router.open("/");
+    return new Promise((resolve)=>{
+      router.openDialog({title:"確認", content:html`
+          <div style="display:grid;place-items:center;padding:1rem;box-sizing:border-box;">
+            タイトル画面に戻ってもよろしいですか？
+          </div>
+        `,
+        buttons:[
+          {label:"戻らない"},
+          {label:"戻る", action:e=>{
+            router.closeDialog();
+            router.open("/");
+            resolve(true);
+          }},
+        ]
+      })
+    })
   }
 }
 customElements.define("free-play", FreePlayPage);

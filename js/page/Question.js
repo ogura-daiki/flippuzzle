@@ -79,7 +79,22 @@ class QuestionPage extends LitElement{
   }
 
   beforePopState(){
-    router.open("/select-question", {chapterId:this.chapterId});
+    return new Promise((resolve)=>{
+      router.openDialog({title:"確認", content:html`
+        <div style="display:grid;place-items:center;padding:1rem;box-sizing:border-box;">
+          問題選択画面に戻ってもよろしいですか？
+        </div>
+        `,
+        buttons:[
+          {label:"戻らない"},
+          {label:"戻る", action:e=>{
+            router.closeDialog();
+            router.open("/select-question", {chapterId:this.chapterId});
+            resolve(true);
+          }},
+        ]
+      })
+    })
   }
 
   #showClearDialog(){
