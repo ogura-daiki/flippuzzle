@@ -19,28 +19,6 @@ label{
   flex-flow:row;
   align-items:center;
 }
-.check{
-  width:1.2rem;
-  height:1.2rem;
-  appearance:none;
-  display:block;
-  margin:.1rem .3rem .1rem .1rem;
-}
-.check:before{
-  content:"";
-  display:block;
-  background-color:${colors.primary.base};
-  opacity:.5;
-  color:${colors.primary.text};
-  border-radius:.1rem;
-  font-size:1.2rem;
-  width:100%;
-  height:100%;
-}
-.check:checked:before{
-  content:"done";
-  opacity:1;
-}
 
 .controls{
   display:flex;
@@ -107,7 +85,7 @@ class FreePlaySettingDialog extends BaseElement {
       </div>
       <label>
         <input
-          class="check icon-font"
+          class="checkbox icon-font"
           type=checkbox
           ?checked=${this.startRandom}
           @change=${e=>{

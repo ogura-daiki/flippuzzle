@@ -88,35 +88,6 @@ const style = css`
   width:100%;
   background:rgba(128,128,128,.2);
 }
-
-
-.col, .row, .centering{
-  display:flex;
-  gap:.5rem;
-}
-.col{
-  flex-direction: column;
-}
-.row{
-  flex-direction: row;
-}
-.centering{
-  place-content:center;
-  place-items:center;
-}
-:is(.col, .row, .centering).inline{
-  display:inline-flex;
-}
-:is(.col, .row, .centering).wrap{
-  flex-wrap:wrap;
-}
-.grow{
-  flex-grow:1;
-  flex-basis:0px;
-}
-
-.gap-0 { gap:0px }
-.gap-16{ gap:1rem }
 `;
 
 class Dialog extends BaseElement {
