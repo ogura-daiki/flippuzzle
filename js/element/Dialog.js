@@ -44,7 +44,7 @@ const style = css`
   background:${colors.background.base};
   padding:.2rem .4rem;
   gap:.5rem;
-  border-top:lightgray 1px solid;
+  border-top:${colors.background.onBase} 1px solid;
   position:sticky;
   z-index:1;
   bottom:0px;
