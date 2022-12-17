@@ -8,12 +8,12 @@ const colors = {
   },
   primary: {
     base: css`rgb(100,50,0)`,
-    onBase: css`rgb(200,100,0)`,
+    onBase: css`rgb(150,75,0)`,
     text: css`#FFF`,
   },
   secondary: {
-    base: css`rgb(150,110,50)`,
-    onBase: css`rgb(200,150,60)`,
+    base: css`rgb(130,90,40)`,
+    onBase: css`rgb(150,110,50)`,
     text: css`#FFF`,
   },
 };
