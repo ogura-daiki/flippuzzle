@@ -1,5 +1,6 @@
 import {LitElement, html, css, when } from "https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js";
 import sound from "../sound.js";
+import chapters from "../../questions/index.js";
 
 class QuestionPage extends LitElement{
   static get properties(){
@@ -44,6 +45,11 @@ class QuestionPage extends LitElement{
     }
     `
   }
+  set chapterQuestion({chapterId, questionId}){
+    const chapter = chapters.find(chapter=>chapter.id === chapterId);
+    this.question = chapter.questions.find(q=>q.id === questionId);
+  }
+
   render(){
     if(!this.question) return;
     return html`

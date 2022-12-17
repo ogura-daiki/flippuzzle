@@ -51,7 +51,7 @@ class SelectQuestionPage extends LitElement{
       <div id=description>${this.chapter.description}</div>
       <div id=container>
         ${this.chapter.questions.map(q=>html`
-          <button class="question" @click=${e=>router.open("/question", {question:q})}>
+          <button class="question" @click=${e=>router.open("/question", {chapterQuestion:{chapterId:this.chapter.id, questionId:q.id}})}>
             <div class="title">${q.name}</div>
           </button>
         `)}
