@@ -97,7 +97,7 @@ class QuestionPage extends LitElement{
                 router.closeDialog();
                 this.#reset();
               }},
-              {label:"問題選択に", action:e=>{
+              {label:"問題選択へ", action:e=>{
                 router.closeDialog();
                 router.open("/select-question", {chapterId:this.chapterId});
               }},
