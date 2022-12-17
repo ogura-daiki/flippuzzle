@@ -139,6 +139,7 @@ class Dialog extends BaseElement {
           <div class="shadow bottom" style="opacity:0"></div>
           ${this.buttons.map(({label, action})=>html`
             <button
+              class="button"
               @click=${e=>{
                 sound.push.play();
                 if(!action){

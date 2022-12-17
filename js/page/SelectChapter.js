@@ -48,7 +48,7 @@ class SelectChapterPage extends BaseElement {
     <layout-main bar-title="問題を解く" .back=${()=>this.beforePopState()}>
       <div id=container>
         ${chapters.map(chapter=>html`
-          <button class="chapter" @click=${e=>{
+          <button class="button chapter" @click=${e=>{
             sound.push.play();
             router.open("/select-question", {chapterId:chapter.id});
           }}>

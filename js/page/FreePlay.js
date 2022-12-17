@@ -135,6 +135,7 @@ class FreePlayPage extends BaseElement {
       >
         <div id=menu slot=menu>
           <button
+            class="button"
             @click=${e=>{
               this.renderRoot.querySelector("#q").resetBoardIfNeeded();
               if(this.currentStep > 0){
@@ -148,14 +149,18 @@ class FreePlayPage extends BaseElement {
             パネル<br>リセット
           </button>
           <button
+            class="button"
             @click=${e=>{this.regenerate()}}
           >
             再生成
           </button>
-          <button @click=${e=>{
-            sound.push.play();
-            this.#settingDialog();
-          }}>
+          <button
+            class="button"
+            @click=${e=>{
+              sound.push.play();
+              this.#settingDialog();
+            }}
+          >
             設定
           </button>
           <div id=status>

@@ -58,8 +58,8 @@ class StartPage extends BaseElement {
           <img id=icon src="./images/icons/icon256.png">
         </div>
         <div id=buttons>
-          <button @click=${e=>router.open("/free-play", {test:1})}>練習モード</button>
-          <button @click=${e=>{
+          <button class="button" @click=${e=>router.open("/free-play", {test:1})}>練習モード</button>
+          <button class="button" @click=${e=>{
             sound.push.play();
             router.open("/select-chapter");
           }}>問題を解く</button>

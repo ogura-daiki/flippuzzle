@@ -183,6 +183,7 @@ class QuestionPage extends BaseElement {
       >
         <div id=menu slot=menu>
           <button
+            class="button"
             @click=${e=>{
               this.#reset();
             }}

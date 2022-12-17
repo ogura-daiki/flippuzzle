@@ -27,10 +27,8 @@ label{
   gap:.5rem;
   margin-left:.5rem;
 }
-.controls .control{
+.controls .button{
   padding:.4rem;
-  background:${colors.primary.base};
-  color:${colors.primary.text};
   border-radius:.2rem;
 }
 .controls .display{
@@ -61,24 +59,24 @@ class FreePlaySettingDialog extends BaseElement {
     return html`
       <div class="title">最小手数</div>
       <div class="controls" style="display:flex;flex-flow:row;">
-        <i class="control" @click=${e=>{
+        <i class="button" @click=${e=>{
           this.min = Math.max(1, this.min-1);
           sound.push.play();
         }}>remove</i>
         <div class="display">${this.min}</div>
-        <i class="control" @click=${e=>{
+        <i class="button" @click=${e=>{
           this.min = Math.min(this.max, this.min+1);
           sound.push.play();
         }}>add</i>
       </div>
       <div class="title">最大手数</div>
       <div class="controls" style="display:flex;flex-flow:row;">
-        <i class="control" @click=${e=>{
+        <i class="button" @click=${e=>{
           this.max = Math.max(this.min, this.max-1);
           sound.push.play();
         }}>remove</i>
         <div class="display">${this.max}</div>
-        <i class="control" @click=${e=>{
+        <i class="button" @click=${e=>{
           this.max = Math.min(16, this.max+1);
           sound.push.play();
         }}>add</i>

@@ -56,7 +56,7 @@ class SelectQuestionPage extends BaseElement {
       <div id=description>${this.chapter.description}</div>
       <div id=container>
         ${this.chapter.questions.map(q=>html`
-          <button class="question" @click=${e=>{
+          <button class="button question" @click=${e=>{
             //sound.push.play();
             router.open("/question", {
               chapterQuestion:{
