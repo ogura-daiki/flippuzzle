@@ -2,6 +2,7 @@ import {html, css} from "../Lit.js";
 import BaseElement from "../BaseElement.js";
 import chapters from "../../questions/index.js";
 import sound from "../sound.js";
+import { colors } from "../baseTheme.js";
 
 const style = css`
 :host{
@@ -9,13 +10,20 @@ const style = css`
 }
 #description{
   padding:1rem;
+  background:${colors.secondary.onBase};
+  color:${colors.secondary.text};
+  margin:1rem;
+  margin-bottom:0px;
+  /* border:.2rem solid ${colors.secondary.base}; */
+  border-radius:.5rem;
+  box-shadow: 1px 2px 4px 1px rgba(0,0,0,.2);
 }
 #container{
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
   width:100%;
-  padding:16px;
-  gap:16px;
+  padding:1rem;
+  gap:1rem;
   box-sizing:border-box;
 }
 .question{
