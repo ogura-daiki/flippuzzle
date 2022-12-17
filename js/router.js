@@ -1,8 +1,35 @@
 import {LitElement, html, css, when, guard } from "https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js";
 import "./element/Dialog.js";
 
+
 let dialogStateId = 0;
 const dialogState = new Map();
+
+
+const style = css`
+:host{
+  display:contents:
+}
+.fill{
+  width:100%;
+  height:100%;
+  position:relative;
+}
+.backdrop{
+  position:absolute;
+  top:0px;
+  left:0px;
+  background:rgba(0,0,0,.2);
+  box-sizing:border-box;
+  padding:32px;
+  overflow:hidden;
+  display:grid;
+  place-items:center;
+}
+elem-dialog{
+  box-shadow: 0px 0px 4rem 1rem rgba(0,0,0,.3);
+}
+`;
 
 class Router extends LitElement {
   static get properties(){
@@ -13,30 +40,7 @@ class Router extends LitElement {
     }
   }
   static get styles(){
-    return css`
-    :host{
-      display:contents:
-    }
-    .fill{
-      width:100%;
-      height:100%;
-      position:relative;
-    }
-    .backdrop{
-      position:absolute;
-      top:0px;
-      left:0px;
-      background:rgba(0,0,0,.2);
-      box-sizing:border-box;
-      padding:32px;
-      overflow:hidden;
-      display:grid;
-      place-items:center;
-    }
-    elem-dialog{
-      box-shadow: 0px 0px 4rem 1rem rgba(0,0,0,.3);
-    }
-    `;
+    return style;
   }
   constructor(){
     super();

@@ -27,6 +27,32 @@ const generate = ({min, max, startRandom})=>{
   return {pattern, start, step};
 }
 
+const style = css`
+#menu{
+  height:fit-content;
+  display:flex;
+  flex-flow:row nowrap;
+  gap:.4rem;
+  place-content:center;
+  user-select:none;
+}
+#menu button{
+  padding:.4rem .6rem;
+  font-size:.8rem;
+}
+#menu #status{
+  display:flex;
+  flex-flow:column nowrap;
+  justify-content:center;
+  background:rgb(200,150,75);
+  padding:.4rem;
+  gap:.3rem;
+  font-size:.8rem;
+  line-height:1;
+
+  border-radius:.2rem;
+}
+`;
 
 class FreePlayPage extends LitElement{
   static get properties(){
@@ -50,32 +76,7 @@ class FreePlayPage extends LitElement{
     this.genOption = {min:3, max:8, startRandom:true};
   }
   static get styles(){
-    return css`
-    #menu{
-      height:fit-content;
-      display:flex;
-      flex-flow:row nowrap;
-      gap:.4rem;
-      place-content:center;
-      user-select:none;
-    }
-    #menu button{
-      padding:.4rem .6rem;
-      font-size:.8rem;
-    }
-    #menu #status{
-      display:flex;
-      flex-flow:column nowrap;
-      justify-content:center;
-      background:rgb(200,150,75);
-      padding:.4rem;
-      gap:.3rem;
-      font-size:.8rem;
-      line-height:1;
-
-      border-radius:.2rem;
-    }
-    `
+    return style;
   }
   #genTimer;
   regenerate(){

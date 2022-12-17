@@ -2,6 +2,63 @@ import {LitElement, html, css} from "https://cdn.jsdelivr.net/gh/lit/dist@2/all/
 import sound from "../sound.js";
 import { boardToHash, range } from "../util.js";
 
+const style = css`
+:host{
+  display:block;
+  width:100%;
+  height:100%;
+  display:grid;
+  place-items:center;
+}
+#container {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  padding:16px;
+  gap:16px;
+  box-sizing:border-box;
+}
+
+#container.vertical {
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr min-content 1fr;
+  grid-template-areas: 'pattern' 'menu' 'play-area';
+}
+#container {
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr min-content;
+  grid-template-areas: 'pattern play-area' 'menu menu';
+}
+
+
+.holder.pattern {
+  grid-area: pattern;
+}
+#menu {
+  display:block;
+  grid-area: menu;
+}
+.holder.play-area {
+  grid-area: play-area;
+}
+
+
+.holder{
+  flex-grow:1;
+  position:relative;
+}
+flip-board{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+}
+#pattern{
+  pointer-events:none;
+  user-select:none;
+}
+`;
+
 class Question extends LitElement{
   static get properties(){
     return {
@@ -20,62 +77,7 @@ class Question extends LitElement{
     this.start = range(4).map((v,i)=>Array(4).fill(false));
   }
   static get styles(){
-    return css`
-    :host{
-      display:block;
-      width:100%;
-      height:100%;
-      display:grid;
-      place-items:center;
-    }
-    #container {
-      width: 100%;
-      height: 100%;
-      display: grid;
-      padding:16px;
-      gap:16px;
-      box-sizing:border-box;
-    }
-
-    #container.vertical {
-      grid-template-columns: 1fr;
-      grid-template-rows: 1fr min-content 1fr;
-      grid-template-areas: 'pattern' 'menu' 'play-area';
-    }
-    #container {
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 1fr min-content;
-      grid-template-areas: 'pattern play-area' 'menu menu';
-    }
-
-
-    .holder.pattern {
-      grid-area: pattern;
-    }
-    #menu {
-      display:block;
-      grid-area: menu;
-    }
-    .holder.play-area {
-      grid-area: play-area;
-    }
-    
-
-    .holder{
-      flex-grow:1;
-      position:relative;
-    }
-    flip-board{
-      position:absolute;
-      top:50%;
-      left:50%;
-      transform:translate(-50%, -50%);
-    }
-    #pattern{
-      pointer-events:none;
-      user-select:none;
-    }
-    `
+    return style;
   }
   resetBoardIfNeeded(){
     const playBoard = this.renderRoot.querySelector("#play-board");

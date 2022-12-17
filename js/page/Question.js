@@ -3,6 +3,33 @@ import sound from "../sound.js";
 import chapters from "../../questions/index.js";
 import QuestionResultDialog from "./dialog/QuestionResultDialog.js";
 
+const style = css`
+#menu{
+  height:fit-content;
+  display:flex;
+  flex-flow:row nowrap;
+  gap:.4rem;
+  place-content:center;
+  user-select:none;
+}
+#menu button{
+  padding:.4rem .6rem;
+  font-size:.8rem;
+}
+#menu #status{
+  display:flex;
+  flex-flow:column nowrap;
+  justify-content:center;
+  background:rgb(200,150,75);
+  padding:.4rem;
+  gap:.3rem;
+  font-size:.8rem;
+  line-height:1;
+
+  border-radius:.2rem;
+}
+`;
+
 class QuestionPage extends LitElement{
   static get properties(){
     return {
@@ -19,32 +46,7 @@ class QuestionPage extends LitElement{
     this.clear = false;
   }
   static get styles(){
-    return css`
-    #menu{
-      height:fit-content;
-      display:flex;
-      flex-flow:row nowrap;
-      gap:.4rem;
-      place-content:center;
-      user-select:none;
-    }
-    #menu button{
-      padding:.4rem .6rem;
-      font-size:.8rem;
-    }
-    #menu #status{
-      display:flex;
-      flex-flow:column nowrap;
-      justify-content:center;
-      background:rgb(200,150,75);
-      padding:.4rem;
-      gap:.3rem;
-      font-size:.8rem;
-      line-height:1;
-
-      border-radius:.2rem;
-    }
-    `
+    return style;
   }
   set chapterQuestion({chapterId, questionId}){
     this.chapterId = chapterId;

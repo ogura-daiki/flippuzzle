@@ -3,6 +3,65 @@ import { colors } from "../../baseTheme.js";
 import sound from "../../sound.js";
 import IconFonts from "../../style/IconFonts.js";
 
+const style = css`
+:host{
+  user-select:none;
+  display:flex;
+  flex-flow:column;
+  gap:.5rem;
+  padding:.5rem;
+}
+.title{
+  font-size:1.1rem;
+}
+label{
+  display:flex;
+  flex-flow:row;
+  align-items:center;
+}
+.check{
+  width:1.2rem;
+  height:1.2rem;
+  appearance:none;
+  display:block;
+  margin:.1rem .3rem .1rem .1rem;
+}
+.check:before{
+  content:"";
+  display:block;
+  background-color:${colors.primary.base};
+  opacity:.5;
+  color:${colors.primary.text};
+  border-radius:.1rem;
+  font-size:1.2rem;
+  width:100%;
+  height:100%;
+}
+.check:checked:before{
+  content:"done";
+  opacity:1;
+}
+
+.controls{
+  display:flex;
+  flex-flow:row;
+  align-items:center;
+  gap:.5rem;
+  margin-left:.5rem;
+}
+.controls .control{
+  padding:.4rem;
+  background:${colors.primary.base};
+  color:${colors.primary.text};
+  border-radius:.2rem;
+}
+.controls .display{
+  width:2rem;
+  display:grid;
+  place-items:center;
+}
+`;
+
 class FreePlaySettingDialog extends LitElement {
   static get properties(){
     return {
@@ -14,64 +73,7 @@ class FreePlaySettingDialog extends LitElement {
   static get styles(){
     return [
       IconFonts,
-      css`
-      :host{
-        user-select:none;
-        display:flex;
-        flex-flow:column;
-        gap:.5rem;
-        padding:.5rem;
-      }
-      .title{
-        font-size:1.1rem;
-      }
-      label{
-        display:flex;
-        flex-flow:row;
-        align-items:center;
-      }
-      .check{
-        width:1.2rem;
-        height:1.2rem;
-        appearance:none;
-        display:block;
-        margin:.1rem .3rem .1rem .1rem;
-      }
-      .check:before{
-        content:"";
-        display:block;
-        background-color:${colors.primary.base};
-        opacity:.5;
-        color:${colors.primary.text};
-        border-radius:.1rem;
-        font-size:1.2rem;
-        width:100%;
-        height:100%;
-      }
-      .check:checked:before{
-        content:"done";
-        opacity:1;
-      }
-
-      .controls{
-        display:flex;
-        flex-flow:row;
-        align-items:center;
-        gap:.5rem;
-        margin-left:.5rem;
-      }
-      .controls .control{
-        padding:.4rem;
-        background:${colors.primary.base};
-        color:${colors.primary.text};
-        border-radius:.2rem;
-      }
-      .controls .display{
-        width:2rem;
-        display:grid;
-        place-items:center;
-      }
-      `,
+      style,
     ];
   }
   constructor(){

@@ -3,6 +3,122 @@ import { colors } from "../baseTheme.js";
 import sound from "../sound.js";
 import IconFonts from "../style/IconFonts.js";
 
+const style = css`
+:host{
+  display:block;
+  background:${colors.background.base};
+  max-height:calc(100vh - 4rem);
+  height:fit-content;
+  overflow-y:scroll;
+  contain:layout;
+}
+
+:host::-webkit-scrollbar {
+  width:0px;
+  height:0px;
+}
+#container{
+  min-height:30vh;
+  min-width:50vw;
+}
+#titlebar{
+  background:${colors.primary.base};
+  color:${colors.primary.text};
+  font-size:1.5rem;
+  position:sticky;
+  z-index:1;
+  top:0px;
+  user-select:none;
+}
+#title{
+  padding: .5rem 1rem;
+}
+#closeIcon{
+  padding:1rem;
+  font-size:1.5rem;
+}
+#content{
+  user-select:none;
+}
+#buttons{
+  background:${colors.background.base};
+  padding:.2rem .4rem;
+  gap:.5rem;
+  border-top:lightgray 1px solid;
+  position:sticky;
+  z-index:1;
+  bottom:0px;
+  justify-content: end;
+  user-select:none;
+}
+#buttons button{
+  background:${colors.background.base};
+  color:${colors.background.text};
+  font-size:1rem;
+  padding:.5rem .8rem;
+  border:none;
+}
+.shadow{
+  height:.5rem;
+  width:100%;
+  position:absolute;
+  left:0px;
+  transition:opacity .3s;
+}
+.shadow.top{
+  background:linear-gradient(180deg, rgba(0,0,0,.1), transparent);
+  bottom:0px;
+  transform:translateY(100%);
+}
+.shadow.bottom{
+  background:linear-gradient(0deg, rgba(0,0,0,.1), transparent);
+  bottom:100%;
+}
+
+#track{
+  position:absolute;
+  width:.25rem;
+  background:rgba(128,128,128,.2);
+  bottom:0px;
+  right:0px;
+  transform:translateY(100%);
+}
+#bar{
+  position:absolute;
+  width:100%;
+  background:rgba(128,128,128,.2);
+}
+
+
+.col, .row, .centering{
+  display:flex;
+  gap:.5rem;
+}
+.col{
+  flex-direction: column;
+}
+.row{
+  flex-direction: row;
+}
+.centering{
+  place-content:center;
+  place-items:center;
+}
+:is(.col, .row, .centering).inline{
+  display:inline-flex;
+}
+:is(.col, .row, .centering).wrap{
+  flex-wrap:wrap;
+}
+.grow{
+  flex-grow:1;
+  flex-basis:0px;
+}
+
+.gap-0 { gap:0px }
+.gap-16{ gap:1rem }
+`;
+
 class Dialog extends LitElement {
 
   static get properties() {
@@ -23,121 +139,7 @@ class Dialog extends LitElement {
   static get styles(){
     return [
       IconFonts,
-      css`
-        :host{
-          display:block;
-          background:${colors.background.base};
-          max-height:calc(100vh - 4rem);
-          height:fit-content;
-          overflow-y:scroll;
-          contain:layout;
-        }
-
-        :host::-webkit-scrollbar {
-          width:0px;
-          height:0px;
-        }
-        #container{
-          min-height:30vh;
-          min-width:50vw;
-        }
-        #titlebar{
-          background:${colors.primary.base};
-          color:${colors.primary.text};
-          font-size:1.5rem;
-          position:sticky;
-          z-index:1;
-          top:0px;
-          user-select:none;
-        }
-        #title{
-          padding: .5rem 1rem;
-        }
-        #closeIcon{
-          padding:1rem;
-          font-size:1.5rem;
-        }
-        #content{
-          user-select:none;
-        }
-        #buttons{
-          background:${colors.background.base};
-          padding:.2rem .4rem;
-          gap:.5rem;
-          border-top:lightgray 1px solid;
-          position:sticky;
-          z-index:1;
-          bottom:0px;
-          justify-content: end;
-          user-select:none;
-        }
-        #buttons button{
-          background:${colors.background.base};
-          color:${colors.background.text};
-          font-size:1rem;
-          padding:.5rem .8rem;
-          border:none;
-        }
-        .shadow{
-          height:.5rem;
-          width:100%;
-          position:absolute;
-          left:0px;
-          transition:opacity .3s;
-        }
-        .shadow.top{
-          background:linear-gradient(180deg, rgba(0,0,0,.1), transparent);
-          bottom:0px;
-          transform:translateY(100%);
-        }
-        .shadow.bottom{
-          background:linear-gradient(0deg, rgba(0,0,0,.1), transparent);
-          bottom:100%;
-        }
-
-        #track{
-          position:absolute;
-          width:.25rem;
-          background:rgba(128,128,128,.2);
-          bottom:0px;
-          right:0px;
-          transform:translateY(100%);
-        }
-        #bar{
-          position:absolute;
-          width:100%;
-          background:rgba(128,128,128,.2);
-        }
-
-        
-        .col, .row, .centering{
-          display:flex;
-          gap:.5rem;
-        }
-        .col{
-          flex-direction: column;
-        }
-        .row{
-          flex-direction: row;
-        }
-        .centering{
-          place-content:center;
-          place-items:center;
-        }
-        :is(.col, .row, .centering).inline{
-          display:inline-flex;
-        }
-        :is(.col, .row, .centering).wrap{
-          flex-wrap:wrap;
-        }
-        .grow{
-          flex-grow:1;
-          flex-basis:0px;
-        }
-
-        .gap-0 { gap:0px }
-        .gap-16{ gap:1rem }
-      `,
+      style,
     ];
   }
 

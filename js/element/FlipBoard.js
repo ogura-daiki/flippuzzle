@@ -2,6 +2,51 @@ import {LitElement, html, css} from "https://cdn.jsdelivr.net/gh/lit/dist@2/all/
 import sound from "../sound.js";
 import { clamp, range, flipBoard } from "../util.js";
 
+const style = css`
+:host{
+  display:block;
+  --img-src: url(./wood.png);
+  --img-count: 7;
+  --flip-duration-def:.2s;
+  --panel-width-def:0px;
+}
+.panel{
+  background: var(--img-src) no-repeat;
+  width:var(--panel-width, var(--panel-width-def));
+  height:var(--panel-width, var(--panel-width-def));
+  background-size: 100% auto;
+  image-rendering: pixelated;
+  user-select:none;
+}
+.panel.front{
+  animation: flip var(--flip-duration, var(--flip-duration-def)) steps(calc(var(--img-count) - 1)) 1 reverse forwards;
+}
+.panel.back{
+  animation: flip2 var(--flip-duration, var(--flip-duration-def)) steps(calc(var(--img-count) - 1)) 1 normal forwards;
+}
+@keyframes flip{
+  from{
+    background-position: 0px 0px;
+  }
+  to{
+    background-position: 0pc calc(var(--panel-width, var(--panel-width-def)) * calc(var(--img-count) - 1) * -1);
+  }
+}
+@keyframes flip2{
+  from{
+    background-position: 0px 0px;
+  }
+  to{
+    background-position: 0pc calc(var(--panel-width, --panel-width-def) * calc(var(--img-count) - 1) * -1);
+  }
+}
+
+.container{
+  display:grid;
+  grid-template-columns: repeat(4, var(--panel-width, --panel-width-def));
+}
+`;
+
 class FlipBoard extends LitElement {
   static get properties(){
     return {
@@ -9,50 +54,7 @@ class FlipBoard extends LitElement {
     };
   }
   static get styles(){
-    return css`
-    :host{
-      display:block;
-      --img-src: url(./wood.png);
-      --img-count: 7;
-      --flip-duration-def:.2s;
-      --panel-width-def:0px;
-    }
-    .panel{
-      background: var(--img-src) no-repeat;
-      width:var(--panel-width, var(--panel-width-def));
-      height:var(--panel-width, var(--panel-width-def));
-      background-size: 100% auto;
-      image-rendering: pixelated;
-      user-select:none;
-    }
-    .panel.front{
-      animation: flip var(--flip-duration, var(--flip-duration-def)) steps(calc(var(--img-count) - 1)) 1 reverse forwards;
-    }
-    .panel.back{
-      animation: flip2 var(--flip-duration, var(--flip-duration-def)) steps(calc(var(--img-count) - 1)) 1 normal forwards;
-    }
-    @keyframes flip{
-      from{
-        background-position: 0px 0px;
-      }
-      to{
-        background-position: 0pc calc(var(--panel-width, var(--panel-width-def)) * calc(var(--img-count) - 1) * -1);
-      }
-    }
-    @keyframes flip2{
-      from{
-        background-position: 0px 0px;
-      }
-      to{
-        background-position: 0pc calc(var(--panel-width, --panel-width-def) * calc(var(--img-count) - 1) * -1);
-      }
-    }
-
-    .container{
-      display:grid;
-      grid-template-columns: repeat(4, var(--panel-width, --panel-width-def));
-    }
-    `;
+    return style;
   }
   constructor(){
     super();
