@@ -1,6 +1,7 @@
 import {LitElement, html, css, when } from "https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js";
 import sound from "../sound.js";
 import chapters from "../../questions/index.js";
+import QuestionResultDialog from "./dialog/QuestionResultDialog.js";
 
 class QuestionPage extends LitElement{
   static get properties(){
@@ -46,8 +47,9 @@ class QuestionPage extends LitElement{
     `
   }
   set chapterQuestion({chapterId, questionId}){
+    this.chapterId = chapterId;
     const chapter = chapters.find(chapter=>chapter.id === chapterId);
-    this.question = chapter.questions.find(q=>q.id === questionId);
+    this.question = chapter?.questions.find(q=>q.id === questionId);
   }
 
   render(){
@@ -62,6 +64,40 @@ class QuestionPage extends LitElement{
         @clear=${e=>{
           if(!this.clear){
             this.clear = this.currentStep;
+            const chapterIdx = chapters.findIndex(chapter=>chapter.id === this.chapterId);
+            const questionIdx = chapters[chapterIdx].questions.findIndex(q=>q===this.question);
+            const nextQuestion = chapters[chapterIdx].questions[questionIdx+1];
+            const buttons = [
+              {label:"閉じる", action:e=>router.closeDialog()}
+            ];
+            if(!nextQuestion){
+              const nextChapter = chapters[chapterIdx+1];
+              if(!nextChapter){
+                router.openDialog({title:"クリア", content:html`
+                  全ての問題をクリアしました。<br>
+                  更新をお待ちください。
+                `, buttons:[
+                  {label:"閉じる", action:e=>router.closeDialog()},
+                  {label:"タイトルに戻る", action:e=>{
+                    router.open("/");
+                  }}
+                ]});
+                return;
+              }
+              buttons.push({label:"次のチャプターへ", action:e=>{
+                router.open("/select-question", {chapterId:nextChapter.id});
+              }});
+            }
+            else{
+              buttons.push({label:"次の問題へ", action:e=>{
+                router.open("/question", {chapterQuestion:{
+                  chapterId:chapters[chapterIdx].id,
+                  questionId:nextQuestion.id,
+                }})
+              }})
+            }
+
+            router.openDialog({title:"test", content:new QuestionResultDialog(), buttons});
           }
         }}
         @reset=${e=>{
