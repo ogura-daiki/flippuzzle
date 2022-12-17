@@ -164,6 +164,10 @@ class Dialog extends LitElement {
             <button
               @click=${e=>{
                 sound.push.play();
+                if(!action){
+                  router.closeDialog();
+                  return;
+                }
                 action(e);
               }}
             >${label}</button>
