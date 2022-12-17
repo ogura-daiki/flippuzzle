@@ -77,7 +77,7 @@ class FreePlayPage extends BaseElement {
     this.genOption = {min:3, max:8, startRandom:true};
   }
   static get styles(){
-    return style;
+    return [super.styles, style];
   }
   #genTimer;
   regenerate(){

@@ -47,7 +47,7 @@ class QuestionPage extends BaseElement {
     this.clear = false;
   }
   static get styles(){
-    return style;
+    return [super.styles, style];
   }
   set chapterQuestion({chapterId, questionId}){
     this.chapterId = chapterId;

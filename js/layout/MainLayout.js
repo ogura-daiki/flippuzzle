@@ -1,7 +1,6 @@
 import {html, css, when} from "../Lit.js";
 import BaseElement from "../BaseElement.js";
 import { colors } from "../baseTheme.js";
-import IconFonts from "../style/IconFonts.js";
 
 const style = css`
   :host{
@@ -73,7 +72,7 @@ class MainLayout extends BaseElement {
     this.barTitle = "FlipPuzzle";
   }
   static get styles(){
-    return [style, IconFonts];
+    return [super.styles, style];
   }
   render(){
     return html`

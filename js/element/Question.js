@@ -78,7 +78,7 @@ class Question extends BaseElement {
     this.start = range(4).map((v,i)=>Array(4).fill(false));
   }
   static get styles(){
-    return style;
+    return [super.styles, style];
   }
   resetBoardIfNeeded(){
     const playBoard = this.renderRoot.querySelector("#play-board");

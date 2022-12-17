@@ -1,7 +1,6 @@
 import {html, css} from "../Lit.js";
 import BaseElement from "../BaseElement.js";
 import sound from "../sound.js";
-import IconFonts from "../style/IconFonts.js";
 
 const style = css`
 :host{
@@ -49,7 +48,7 @@ class StartPage extends BaseElement {
     super();
   }
   static get styles(){
-    return [style, IconFonts];
+    return [super.styles, style];
   }
   render(){
     return html`

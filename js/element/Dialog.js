@@ -2,7 +2,6 @@ import { html, css } from "../Lit.js";
 import BaseElement from "../BaseElement.js";
 import { colors } from "../baseTheme.js";
 import sound from "../sound.js";
-import IconFonts from "../style/IconFonts.js";
 
 const style = css`
 :host{
@@ -139,7 +138,7 @@ class Dialog extends BaseElement {
 
   static get styles(){
     return [
-      IconFonts,
+      super.styles,
       style,
     ];
   }

@@ -1,6 +1,5 @@
 import {html, css} from "../Lit.js";
 import BaseElement from "../BaseElement.js";
-import IconFonts from "../style/IconFonts.js";
 import chapters from "../../questions/index.js";
 import sound from "../sound.js";
 
@@ -38,7 +37,7 @@ class SelectChapterPage extends BaseElement {
     super();
   }
   static get styles(){
-    return [style, IconFonts];
+    return [super.styles, style];
   }
   beforePopState(){
     sound.push.play();

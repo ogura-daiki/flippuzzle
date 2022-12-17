@@ -1,6 +1,5 @@
 import BaseElement from "../../BaseElement.js";
 import {html, css } from "../../Lit.js";
-import IconFonts from "../../style/IconFonts.js";
 
 const style = css`
 :host{
@@ -44,7 +43,7 @@ class QuestionResultDialog extends BaseElement {
     };
   }
   static get styles(){
-    return [style, IconFonts];
+    return [super.styles, style];
   }
   constructor(){
     super();

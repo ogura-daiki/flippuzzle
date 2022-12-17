@@ -1,6 +1,5 @@
 import {html, css} from "../Lit.js";
 import BaseElement from "../BaseElement.js";
-import IconFonts from "../style/IconFonts.js";
 import chapters from "../../questions/index.js";
 import sound from "../sound.js";
 
@@ -41,7 +40,7 @@ class SelectQuestionPage extends BaseElement {
     super();
   }
   static get styles(){
-    return [style, IconFonts];
+    return [super.styles, style];
   }
   set chapterId(id){
     this.chapter = chapters.find(c=>c.id === id);

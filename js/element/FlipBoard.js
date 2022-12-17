@@ -55,7 +55,7 @@ class FlipBoard extends BaseElement {
     };
   }
   static get styles(){
-    return style;
+    return [super.styles, style];
   }
   constructor(){
     super();
