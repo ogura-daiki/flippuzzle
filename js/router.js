@@ -43,7 +43,18 @@ class Router extends LitElement {
     window.addEventListener("popstate", e=>{
       const page = this.renderRoot.querySelector("#page");
       if(page.beforePopState){
-        page.beforePopState();
+        const result = page.beforePopState();
+        if(result instanceof Promise){
+          result.then(result=>{
+            if(!result){
+              this.#changeState();
+            }
+          });
+        }
+        else if(result){
+          this.#changeState();
+        }
+        return;
       }
       this.#changeState();
     });
