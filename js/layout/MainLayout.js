@@ -28,20 +28,6 @@ const style = css`
     flex-grow:1;
     overflow-y:auto;
   }
-  #contents::-webkit-scrollbar {
-    width:.5rem;
-    height:.5rem;
-  }
-  #contents::-webkit-scrollbar-track {
-    width:.5rem;
-    height:.5rem;
-    background:rgba(128,128,128,.3);
-  }
-  #contents::-webkit-scrollbar-thumb {
-    width:.5rem;
-    height:.5rem;
-    background:rgba(128,128,128,.4);
-  }
   #title{
     display:block;
     padding:8px 16px;

@@ -14,8 +14,8 @@ const style = css`
 }
 
 :host::-webkit-scrollbar {
-  width:0px;
-  height:0px;
+  width:0px !important;
+  height:0px !important;
 }
 #container{
   min-height:30vh;

@@ -80,4 +80,19 @@ export default css`
   content:"done";
   opacity:1;
 }
+
+*::-webkit-scrollbar {
+  width:.5rem;
+  height:.5rem;
+}
+*::-webkit-scrollbar-track {
+  width:.5rem;
+  height:.5rem;
+  background:rgba(128,128,128,.3);
+}
+*::-webkit-scrollbar-thumb {
+  width:.5rem;
+  height:.5rem;
+  background:rgba(128,128,128,.4);
+}
 `;
