@@ -39,9 +39,12 @@ class SelectChapterPage extends LitElement{
   static get styles(){
     return [style, IconFonts];
   }
+  beforePopState(){
+    router.open("/");
+  }
   render(){
     return html`
-    <layout-main bar-title="問題を解く" .back=${()=>router.open("/")}>
+    <layout-main bar-title="問題を解く" .back=${()=>this.beforePopState()}>
       <div id=container>
         ${chapters.map(chapter=>html`
           <button class="chapter" @click=${e=>router.open("/select-question", {chapterId:chapter.id})}>

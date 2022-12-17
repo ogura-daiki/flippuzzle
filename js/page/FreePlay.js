@@ -116,7 +116,7 @@ class FreePlayPage extends LitElement{
   }
   render(){
     return html`
-    <layout-main bar-title="練習モード" .back=${true}>
+    <layout-main bar-title="練習モード" .back=${()=>this.beforePopState()}>
       <elem-question id=q .pattern=${this.pattern} .start=${this.start}
         @flip=${e=>{
           this.currentStep+=1;
@@ -178,6 +178,10 @@ class FreePlayPage extends LitElement{
   }
   firstUpdated(){
     sound.generate.play();
+  }
+
+  beforePopState(){
+    router.open("/");
   }
 }
 customElements.define("free-play", FreePlayPage);

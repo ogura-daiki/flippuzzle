@@ -78,10 +78,14 @@ class QuestionPage extends LitElement{
     return {chapter:nextChapter, question:nextChapter.questions[0]};
   }
 
+  beforePopState(){
+    router.open("/select-question", {chapterId:this.chapterId});
+  }
+
   render(){
     if(!this.question) return;
     return html`
-    <layout-main bar-title=${this.question.name} .back=${()=>router.open("/select-question", {chapterId:this.chapterId})}>
+    <layout-main bar-title=${this.question.name} .back=${()=>this.beforePopState()}>
       <elem-question id=q .pattern=${this.question.pattern} .start=${this.question.start}
         @flip=${e=>{
           this.currentStep+=1;

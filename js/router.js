@@ -41,6 +41,10 @@ class Router extends LitElement {
   constructor(){
     super();
     window.addEventListener("popstate", e=>{
+      const page = this.renderRoot.querySelector("#page");
+      if(page.beforePopState){
+        page.beforePopState();
+      }
       this.#changeState();
     });
   }
@@ -67,6 +71,7 @@ class Router extends LitElement {
     const currentRoute = this.#routes.find(route=>route.path===this.route.path);
     if(!currentRoute) return;
     const page = new currentRoute.component();
+    page.setAttribute("id", "page");
     Object.entries(this.route.args).forEach(([key,value])=>{
       page[key] = value;
     });

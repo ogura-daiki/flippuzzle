@@ -44,10 +44,13 @@ class SelectQuestionPage extends LitElement{
   set chapterId(id){
     this.chapter = chapters.find(c=>c.id === id);
   }
+  beforePopState(){
+    router.open("/select-chapter");
+  }
   render(){
     if(!this.chapter) return;
     return html`
-    <layout-main bar-title=${this.chapter.name} .back=${()=>router.open("/select-chapter")}>
+    <layout-main bar-title=${this.chapter.name} .back=${()=>this.beforePopState()}>
       <div id=description>${this.chapter.description}</div>
       <div id=container>
         ${this.chapter.questions.map(q=>html`
