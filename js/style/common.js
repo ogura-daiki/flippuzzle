@@ -31,9 +31,12 @@ export default css`
 .gap-0 { gap:0px }
 .gap-1 { gap:1rem }
 
-.button .checkbox{
+.button{
   background-color:${colors.secondary.base};
   color:${colors.secondary.text};
+  border:none;
+  border-radius:.2rem;
+  box-shadow:1px 2px 4px 1px rgba(0,0,0,.2);
 }
 .checkbox{
   font-family: 'Material Symbols Outlined';
