@@ -1,6 +1,7 @@
 import {LitElement, html, css} from "https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js";
 import IconFonts from "../style/IconFonts.js";
 import chapters from "../../questions/index.js";
+import sound from "../sound.js";
 
 const style = css`
 :host{
@@ -45,6 +46,7 @@ class SelectQuestionPage extends LitElement{
     this.chapter = chapters.find(c=>c.id === id);
   }
   beforePopState(){
+    sound.push.play();
     router.open("/select-chapter");
   }
   render(){
@@ -54,7 +56,15 @@ class SelectQuestionPage extends LitElement{
       <div id=description>${this.chapter.description}</div>
       <div id=container>
         ${this.chapter.questions.map(q=>html`
-          <button class="question" @click=${e=>router.open("/question", {chapterQuestion:{chapterId:this.chapter.id, questionId:q.id}})}>
+          <button class="question" @click=${e=>{
+            //sound.push.play();
+            router.open("/question", {
+              chapterQuestion:{
+                chapterId:this.chapter.id,
+                questionId:q.id
+              }
+            });
+          }}>
             <div class="title">${q.name}</div>
           </button>
         `)}

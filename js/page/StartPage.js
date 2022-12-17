@@ -1,4 +1,5 @@
 import {LitElement, html, css} from "https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js";
+import sound from "../sound.js";
 import IconFonts from "../style/IconFonts.js";
 
 const style = css`
@@ -58,7 +59,10 @@ class StartPage extends LitElement{
         </div>
         <div id=buttons>
           <button @click=${e=>router.open("/free-play", {test:1})}>練習モード</button>
-          <button @click=${e=>router.open("/select-chapter")}>問題を解く</button>
+          <button @click=${e=>{
+            sound.push.play();
+            router.open("/select-chapter");
+          }}>問題を解く</button>
         </div>
       </div>
     </layout-main>

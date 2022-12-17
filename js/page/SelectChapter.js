@@ -1,7 +1,7 @@
 import {LitElement, html, css} from "https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js";
 import IconFonts from "../style/IconFonts.js";
-
 import chapters from "../../questions/index.js";
+import sound from "../sound.js";
 
 const style = css`
 :host{
@@ -40,6 +40,7 @@ class SelectChapterPage extends LitElement{
     return [style, IconFonts];
   }
   beforePopState(){
+    sound.push.play();
     router.open("/");
   }
   render(){
@@ -47,7 +48,10 @@ class SelectChapterPage extends LitElement{
     <layout-main bar-title="問題を解く" .back=${()=>this.beforePopState()}>
       <div id=container>
         ${chapters.map(chapter=>html`
-          <button class="chapter" @click=${e=>router.open("/select-question", {chapterId:chapter.id})}>
+          <button class="chapter" @click=${e=>{
+            sound.push.play();
+            router.open("/select-question", {chapterId:chapter.id});
+          }}>
             <div class="title">${chapter.name}</div>
           </button>
         `)}

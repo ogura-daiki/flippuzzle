@@ -181,6 +181,7 @@ class FreePlayPage extends LitElement{
   }
 
   beforePopState(){
+    sound.push.play();
     return new Promise((resolve)=>{
       router.openDialog({title:"確認", content:html`
           <div style="display:grid;place-items:center;padding:1rem;box-sizing:border-box;height:100%;">
