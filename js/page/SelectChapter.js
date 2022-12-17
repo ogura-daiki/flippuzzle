@@ -17,18 +17,13 @@ const style = css`
 }
 .chapter{
   display:flex;
-  flex-flow:row;
+  flex-flow:column;
   gap:1rem;
-  padding:.5rem;
+  padding:1rem;
   align-items:center;
 }
-.icon{
-  width:30%;
-  aspect-ratio:1;
-  background:lightgray;
-}
 .chapter .title{
-  font-size:1.2rem;
+  font-size:1.5rem;
   flex-grow:1;
 }
 `;
@@ -53,6 +48,7 @@ class SelectChapterPage extends BaseElement {
             router.open("/select-question", {chapterId:chapter.id});
           }}>
             <div class="title">${chapter.name}</div>
+            <div class="description">${chapter.description}</div>
           </button>
         `)}
       </div>
