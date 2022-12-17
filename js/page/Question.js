@@ -52,6 +52,16 @@ class QuestionPage extends LitElement{
     this.question = chapter?.questions.find(q=>q.id === questionId);
   }
 
+  #reset(){
+    this.renderRoot.querySelector("#q").resetBoardIfNeeded();
+    if(this.currentStep > 0){
+      sound.reset.play();
+    }
+    this.currentStep = 0;
+    this.clear = false;
+    this.beforeClick = null;
+  }
+
   render(){
     if(!this.question) return;
     return html`
@@ -68,7 +78,14 @@ class QuestionPage extends LitElement{
             const questionIdx = chapters[chapterIdx].questions.findIndex(q=>q===this.question);
             const nextQuestion = chapters[chapterIdx].questions[questionIdx+1];
             const buttons = [
-              {label:"閉じる", action:e=>router.closeDialog()}
+              {label:"もう一度", action:e=>{
+                router.closeDialog();
+                this.#reset();
+              }},
+              {label:"問題選択に", action:e=>{
+                router.closeDialog();
+                router.open("/select-question", {chapterId:this.chapterId});
+              }},
             ];
             if(!nextQuestion){
               const nextChapter = chapters[chapterIdx+1];
@@ -85,11 +102,13 @@ class QuestionPage extends LitElement{
                 return;
               }
               buttons.push({label:"次のチャプターへ", action:e=>{
+                router.closeDialog();
                 router.open("/select-question", {chapterId:nextChapter.id});
               }});
             }
             else{
               buttons.push({label:"次の問題へ", action:e=>{
+                router.closeDialog();
                 router.open("/question", {chapterQuestion:{
                   chapterId:chapters[chapterIdx].id,
                   questionId:nextQuestion.id,
@@ -97,7 +116,14 @@ class QuestionPage extends LitElement{
               }})
             }
 
-            router.openDialog({title:"test", content:new QuestionResultDialog(), buttons});
+            const content = new QuestionResultDialog();
+            Object.assign(content, {
+              step:this.step,
+              takenSteps:this.clear,
+              questionName:this.question.name,
+            });
+
+            router.openDialog({title:"クリア", content, buttons});
           }
         }}
         @reset=${e=>{
@@ -107,13 +133,7 @@ class QuestionPage extends LitElement{
         <div id=menu slot=menu>
           <button
             @click=${e=>{
-              this.renderRoot.querySelector("#q").resetBoardIfNeeded();
-              if(this.currentStep > 0){
-                sound.reset.play();
-              }
-              this.currentStep = 0;
-              this.clear = false;
-              this.beforeClick = null;
+              this.#reset();
             }}
             >
             パネル<br>リセット
