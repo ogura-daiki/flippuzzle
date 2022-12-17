@@ -6,7 +6,7 @@ export default css`
 */
 @import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200");
 /* クラス指定が長いので iタグで代替 */
-i {
+i, .icon-font, .icon-font:before, .icon-font:after {
   font-family: 'Material Symbols Outlined';
   font-weight: normal;
   font-style: normal;
@@ -21,7 +21,7 @@ i {
   -webkit-font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased;
 }
-i {
+i, .icon-font {
   font-variation-settings:
   'FILL' 0,
   'wght' 400,

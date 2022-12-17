@@ -31,9 +31,28 @@ class FreePlaySettingDialog extends LitElement {
         align-items:center;
       }
       .check{
-        width:1rem;
-        height:1rem;
+        width:1.2rem;
+        height:1.2rem;
+        appearance:none;
+        display:block;
+        margin:.1rem .3rem .1rem .1rem;
       }
+      .check:before{
+        content:"";
+        display:block;
+        background-color:${colors.primary.base};
+        opacity:.5;
+        color:${colors.primary.text};
+        border-radius:.1rem;
+        font-size:1.2rem;
+        width:100%;
+        height:100%;
+      }
+      .check:checked:before{
+        content:"done";
+        opacity:1;
+      }
+
       .controls{
         display:flex;
         flex-flow:row;
@@ -42,7 +61,7 @@ class FreePlaySettingDialog extends LitElement {
         margin-left:.5rem;
       }
       .controls .control{
-        padding:.2rem;
+        padding:.4rem;
         background:${colors.primary.base};
         color:${colors.primary.text};
         border-radius:.2rem;
@@ -86,7 +105,7 @@ class FreePlaySettingDialog extends LitElement {
       </div>
       <label>
         <input
-          class=check
+          class="check icon-font"
           type=checkbox
           ?checked=${this.startRandom}
           @change=${e=>{
