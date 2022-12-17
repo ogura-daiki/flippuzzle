@@ -12,8 +12,8 @@ const colors = {
     text: css`#FFF`,
   },
   secondary: {
-    base: css`#70ad47`,
-    onBase: css`#548235`,
+    base: css`rgb(150,110,50)`,
+    onBase: css`rgb(200,150,60)`,
     text: css`#FFF`,
   },
 };
