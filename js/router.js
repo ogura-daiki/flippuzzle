@@ -8,7 +8,8 @@ const dialogState = new Map();
 
 const style = css`
 :host{
-  display:contents:
+  display:contents;
+  user-select:none;
 }
 .fill{
   width:100%;
