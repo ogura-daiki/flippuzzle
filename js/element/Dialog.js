@@ -158,7 +158,7 @@ class Dialog extends LitElement {
         <section class="grow" id=content>
         ${this.content}
         </section>
-        <div id=buttons class="row">
+        <div id=buttons class="row wrap">
           <div class="shadow bottom" style="opacity:0"></div>
           ${this.buttons.map(({label, action})=>html`
             <button
