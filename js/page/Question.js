@@ -62,6 +62,22 @@ class QuestionPage extends LitElement{
     this.beforeClick = null;
   }
 
+  #findNextQuestion(){
+    const chapterIdx = chapters.findIndex(chapter=>chapter.id === this.chapterId);
+    const questionIdx = chapters[chapterIdx].questions.findIndex(q=>q===this.question);
+    const nextQuestion = chapters[chapterIdx].questions[questionIdx+1];
+    
+    if(nextQuestion){
+      return {chapter:chapters[chapterIdx], question:nextQuestion};
+    }
+
+    const nextChapter = chapters[chapterIdx+1];
+    if(!nextChapter){
+      return;
+    }
+    return {chapter:nextChapter, question:nextChapter.questions[0]};
+  }
+
   render(){
     if(!this.question) return;
     return html`
@@ -74,9 +90,8 @@ class QuestionPage extends LitElement{
         @clear=${e=>{
           if(!this.clear){
             this.clear = this.currentStep;
-            const chapterIdx = chapters.findIndex(chapter=>chapter.id === this.chapterId);
-            const questionIdx = chapters[chapterIdx].questions.findIndex(q=>q===this.question);
-            const nextQuestion = chapters[chapterIdx].questions[questionIdx+1];
+
+            const next = this.#findNextQuestion();
             const buttons = [
               {label:"もう一度", action:e=>{
                 router.closeDialog();
@@ -87,43 +102,51 @@ class QuestionPage extends LitElement{
                 router.open("/select-question", {chapterId:this.chapterId});
               }},
             ];
-            if(!nextQuestion){
-              const nextChapter = chapters[chapterIdx+1];
-              if(!nextChapter){
-                router.openDialog({title:"クリア", content:html`
-                  全ての問題をクリアしました。<br>
-                  更新をお待ちください。
-                `, buttons:[
-                  {label:"閉じる", action:e=>router.closeDialog()},
-                  {label:"タイトルに戻る", action:e=>{
-                    router.open("/");
-                  }}
-                ]});
-                return;
+
+            const showResult = new QuestionResultDialog();
+            Object.assign(showResult, {
+              questionName:this.question.name,
+              step:this.question.step,
+              takenSteps:this.clear,
+            });
+            const contents = [showResult];
+
+            if(next){
+              if(next.chapter.id !== this.chapterId){
+                buttons.push({label:"次のチャプターへ", action:e=>{
+                  router.closeDialog();
+                  router.open("/select-question", {chapterId:next.chapter.id});
+                }});
               }
-              buttons.push({label:"次のチャプターへ", action:e=>{
-                router.closeDialog();
-                router.open("/select-question", {chapterId:nextChapter.id});
-              }});
+              else{
+                buttons.push({label:"次の問題へ", action:e=>{
+                  router.closeDialog();
+                  router.open("/question", {chapterQuestion:{
+                    chapterId:next.chapter.id,
+                    questionId:next.question.id,
+                  }})
+                }})
+              }
             }
             else{
               buttons.push({label:"次の問題へ", action:e=>{
-                router.closeDialog();
-                router.open("/question", {chapterQuestion:{
-                  chapterId:chapters[chapterIdx].id,
-                  questionId:nextQuestion.id,
-                }})
+                router.openDialog({title:"お知らせ", content:html`
+                  <div style="display:grid;place-items:center;height:100%;box-sizing:border-box;padding:1rem 1rem">
+                    <div>
+                      次の問題はありません。<br>
+                      次回更新をお待ちください。
+                    </div>
+                  </div>
+                `, buttons:[
+                  {label:"タイトルへ戻る", action:e=>{
+                    router.closeDialog();
+                    router.open("/");
+                  }},
+                ]});
               }})
             }
 
-            const content = new QuestionResultDialog();
-            Object.assign(content, {
-              step:this.step,
-              takenSteps:this.clear,
-              questionName:this.question.name,
-            });
-
-            router.openDialog({title:"クリア", content, buttons});
+            router.openDialog({title:"クリア", content: contents, buttons});
           }
         }}
         @reset=${e=>{

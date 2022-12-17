@@ -30,4 +30,11 @@ i {
   font-size:1.5em;
   user-select:none;
 }
+i.fill {
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 48;
+}
 `;
