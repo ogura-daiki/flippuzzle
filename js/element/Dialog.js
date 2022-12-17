@@ -51,12 +51,13 @@ const style = css`
   justify-content: end;
   user-select:none;
 }
-#buttons button{
+#buttons .button{
   background:${colors.background.base};
   color:${colors.background.text};
   font-size:1rem;
   padding:.5rem .8rem;
   border:none;
+  box-shadow:unset;
 }
 .shadow{
   height:.5rem;
