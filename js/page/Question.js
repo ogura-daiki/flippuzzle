@@ -82,6 +82,65 @@ class QuestionPage extends LitElement{
     router.open("/select-question", {chapterId:this.chapterId});
   }
 
+  #showClearDialog(){
+    const next = this.#findNextQuestion();
+    const buttons = [
+      {label:"もう一度", action:e=>{
+        router.closeDialog();
+        this.#reset();
+      }},
+      {label:"問題選択へ", action:e=>{
+        router.closeDialog();
+        router.open("/select-question", {chapterId:this.chapterId});
+      }},
+    ];
+
+    const showResult = new QuestionResultDialog();
+    Object.assign(showResult, {
+      questionName:this.question.name,
+      step:this.question.step,
+      takenSteps:this.clear,
+    });
+    const contents = [showResult];
+
+    if(next){
+      if(next.chapter.id !== this.chapterId){
+        buttons.push({label:"次のチャプターへ", action:e=>{
+          router.closeDialog();
+          router.open("/select-question", {chapterId:next.chapter.id});
+        }});
+      }
+      else{
+        buttons.push({label:"次の問題へ", action:e=>{
+          router.closeDialog();
+          router.open("/question", {chapterQuestion:{
+            chapterId:next.chapter.id,
+            questionId:next.question.id,
+          }})
+        }})
+      }
+    }
+    else{
+      buttons.push({label:"次の問題へ", action:e=>{
+        router.openDialog({title:"お知らせ", content:html`
+          <div style="display:grid;place-items:center;height:100%;box-sizing:border-box;padding:1rem 1rem">
+            <div>
+              次の問題はありません。<br>
+              次回更新をお待ちください。
+            </div>
+          </div>
+        `, buttons:[
+          {label:"タイトルへ戻る", action:e=>{
+            router.closeDialog();
+            router.open("/");
+          }},
+        ]});
+      }})
+    }
+
+    router.openDialog({title:"クリア", content: contents, buttons});
+  }
+
   render(){
     if(!this.question) return;
     return html`
@@ -94,63 +153,9 @@ class QuestionPage extends LitElement{
         @clear=${e=>{
           if(!this.clear){
             this.clear = this.currentStep;
-
-            const next = this.#findNextQuestion();
-            const buttons = [
-              {label:"もう一度", action:e=>{
-                router.closeDialog();
-                this.#reset();
-              }},
-              {label:"問題選択へ", action:e=>{
-                router.closeDialog();
-                router.open("/select-question", {chapterId:this.chapterId});
-              }},
-            ];
-
-            const showResult = new QuestionResultDialog();
-            Object.assign(showResult, {
-              questionName:this.question.name,
-              step:this.question.step,
-              takenSteps:this.clear,
-            });
-            const contents = [showResult];
-
-            if(next){
-              if(next.chapter.id !== this.chapterId){
-                buttons.push({label:"次のチャプターへ", action:e=>{
-                  router.closeDialog();
-                  router.open("/select-question", {chapterId:next.chapter.id});
-                }});
-              }
-              else{
-                buttons.push({label:"次の問題へ", action:e=>{
-                  router.closeDialog();
-                  router.open("/question", {chapterQuestion:{
-                    chapterId:next.chapter.id,
-                    questionId:next.question.id,
-                  }})
-                }})
-              }
-            }
-            else{
-              buttons.push({label:"次の問題へ", action:e=>{
-                router.openDialog({title:"お知らせ", content:html`
-                  <div style="display:grid;place-items:center;height:100%;box-sizing:border-box;padding:1rem 1rem">
-                    <div>
-                      次の問題はありません。<br>
-                      次回更新をお待ちください。
-                    </div>
-                  </div>
-                `, buttons:[
-                  {label:"タイトルへ戻る", action:e=>{
-                    router.closeDialog();
-                    router.open("/");
-                  }},
-                ]});
-              }})
-            }
-
-            router.openDialog({title:"クリア", content: contents, buttons});
+            window.setTimeout(()=>{
+              this.#showClearDialog();
+            }, 300);
           }
         }}
         @reset=${e=>{
