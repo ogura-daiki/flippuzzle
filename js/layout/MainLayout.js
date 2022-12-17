@@ -63,7 +63,7 @@ class MainLayout extends LitElement {
   static get properties(){
     return {
       barTitle:{type:String, attribute:"bar-title"},
-      back:{type:Boolean},
+      back:{type:Object},
     }
   }
   constructor(){
@@ -81,7 +81,11 @@ class MainLayout extends LitElement {
         <i
           id=back
           @click=${e=>{
-            router.back();
+            if(this.back === true){
+              router.back();
+              return;
+            }
+            this.back();
           }}
           style="${when(!this.back,()=>`
             display:block;

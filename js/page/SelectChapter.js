@@ -41,7 +41,7 @@ class SelectChapterPage extends LitElement{
   }
   render(){
     return html`
-    <layout-main bar-title="問題を解く" back>
+    <layout-main bar-title="問題を解く" .back=${()=>router.open("/")}>
       <div id=container>
         ${chapters.map(chapter=>html`
           <button class="chapter" @click=${e=>router.open("/select-question", {chapterId:chapter.id})}>

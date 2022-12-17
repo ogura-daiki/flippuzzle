@@ -47,7 +47,7 @@ class SelectQuestionPage extends LitElement{
   render(){
     if(!this.chapter) return;
     return html`
-    <layout-main bar-title=${this.chapter.name} back>
+    <layout-main bar-title=${this.chapter.name} .back=${()=>router.open("/select-chapter")}>
       <div id=description>${this.chapter.description}</div>
       <div id=container>
         ${this.chapter.questions.map(q=>html`

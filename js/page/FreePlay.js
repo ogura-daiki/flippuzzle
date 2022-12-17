@@ -116,7 +116,7 @@ class FreePlayPage extends LitElement{
   }
   render(){
     return html`
-    <layout-main back bar-title="練習モード">
+    <layout-main bar-title="練習モード" .back=${true}>
       <elem-question id=q .pattern=${this.pattern} .start=${this.start}
         @flip=${e=>{
           this.currentStep+=1;

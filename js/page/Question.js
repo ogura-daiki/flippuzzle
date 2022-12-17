@@ -81,7 +81,7 @@ class QuestionPage extends LitElement{
   render(){
     if(!this.question) return;
     return html`
-    <layout-main back bar-title=${this.question.name}>
+    <layout-main bar-title=${this.question.name} .back=${()=>router.open("/select-question", {chapterId:this.chapterId})}>
       <elem-question id=q .pattern=${this.question.pattern} .start=${this.question.start}
         @flip=${e=>{
           this.currentStep+=1;
