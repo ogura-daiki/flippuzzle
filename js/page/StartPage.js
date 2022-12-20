@@ -1,41 +1,51 @@
-import {html, css} from "../Lit.js";
+import {html, css, when} from "../Lit.js";
 import BaseElement from "../BaseElement.js";
 import sound from "../sound.js";
 
 const style = css`
 :host{
-  display:contents;
+  display:block;
+  width:100%;
+  height:100%;
 }
 #container{
   display:flex;
-  flex-flow:column nowrap;
+  flex-flow:row nowrap;
   width:100%;
   height:100%;
   padding:16px;
   gap:16px;
   box-sizing:border-box;
 }
+#container.vertical{
+  flex-flow:column nowrap;
+}
 #wrapper{
   width:100%;
   flex-basis:0px;
-  flex-grow:2;
+  flex-grow:1;
   position:relative;
   display:grid;
   place-items:center;
 }
 #icon{
-  max-width:100%;
+  width:100%;
   height:100%;
   display:block;
   object-fit:contain;
+  position:absolute;
+  top:0px;
+  left:0px;
 }
 #buttons{
   display:flex;
   flex-flow:column nowrap;
-  flex-basis:0px;
-  flex-grow:1;
   gap:1rem;
   justify-content:center;
+  width:50%;
+}
+.vertical #buttons{
+  width:100%;
 }
 #buttons button{
   height:4rem;
@@ -44,16 +54,28 @@ const style = css`
 }
 `;
 class StartPage extends BaseElement {
+  static get properties(){
+    return {
+      vertical:{type:Boolean, state:true},
+    }
+  }
   constructor(){
     super();
   }
   static get styles(){
     return [super.styles, style];
   }
+  connectedCallback(){
+    super.connectedCallback();
+    new ResizeObserver(()=>{
+      const isVertical = this.clientWidth < this.clientHeight*1;
+      this.vertical = isVertical;
+    }).observe(this);
+  }
   render(){
     return html`
     <layout-main bar-title="FlipPuzzle">
-      <div id=container>
+      <div id=container class="${when(this.vertical, ()=>"vertical")}">
         <div id=wrapper>
           <img id=icon src="./images/icons/icon256.png">
         </div>
