@@ -4,16 +4,16 @@ import sound from "../sound.js";
 import { flipBoard, range } from "../util.js";
 import FreePlaySettingDialog from "./dialog/FreePlaySettingDialog.js";
 
-const generate = ({min, max, startRandom})=>{
+const generate = ({size, min, max, startRandom})=>{
   const valueGen = !startRandom?()=>false:()=>Math.random() >= 0.5;
-  const start = range(4).map(()=>range(4).map(v=>valueGen()));
+  const start = range(size.y).map(()=>range(size.x).map(v=>valueGen()));
   const pattern = JSON.parse(JSON.stringify(start));
   const step = Math.ceil(Math.random()*(max-min+1))+min-1;
 
   const list = new Set();
-  const rand = ()=>Math.floor(Math.random()*4);
+  const rand = (range)=>Math.floor(Math.random()*range);
   while([...list.values()].length < step){
-    list.add(`${rand()}:${rand()}`);
+    list.add(`${rand(size.y)}:${rand(size.x)}`);
   };
   [...list.values()].forEach((pos)=>{
     let [y, x] = pos.split(":");
@@ -62,7 +62,7 @@ class FreePlayPage extends BaseElement {
     this.start = range(4).map(()=>Array(4).fill(false));
     this.clear = false;
     this.beforeClick = null;
-    this.genOption = {min:3, max:8, startRandom:true};
+    this.genOption = {min:3, max:8, startRandom:true, size:{x:4, y:4}};
   }
   static get styles(){
     return [super.styles, style];
@@ -75,8 +75,8 @@ class FreePlayPage extends BaseElement {
     this.step = step;
     this.currentStep = 0;
     this.beforeClick = null;
-    this.pattern = range(4).map(()=>Array(4).fill(true));
-    this.start = range(4).map(()=>Array(4).fill(false));
+    this.pattern = range(this.genOption.size.y).map(()=>Array(this.genOption.size.x).fill(true));
+    this.start = range(this.genOption.size.y).map(()=>Array(this.genOption.size.x).fill(false));
     sound.generate.stop();
     sound.generate.play();
     clearTimeout(this.#genTimer);
@@ -97,8 +97,8 @@ class FreePlayPage extends BaseElement {
           router.closeDialog();
         }},
         {label:"変更", action:e=>{
-          const {min, max, startRandom} = content;
-          this.genOption = {min, max, startRandom};
+          const {min, max, startRandom, size} = content;
+          this.genOption = {min, max, startRandom, size};
           router.closeDialog();
         }},
       ],

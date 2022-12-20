@@ -119,11 +119,18 @@ class Question extends BaseElement {
       new ResizeObserver(()=>{
         const board = holder.querySelector("flip-board");
         if(!board) return;
+        const ratio = this.start[0].length/this.start.length;
         //盤面とパネルのサイズ調整
-        const min = Math.min(holder.clientHeight, holder.clientWidth);
-        board.style = `--panel-width:${min/4}px`;
+        let min;
+        if(holder.clientHeight*ratio < holder.clientWidth){
+          min = holder.clientHeight*ratio;
+        }
+        else{
+          min = holder.clientWidth;
+        }
+        board.style = `--panel-width:${min/this.start[0].length}px`;
         board.style.width = min+"px";
-        board.style.height = min+"px";
+        board.style.height = (min/ratio)+"px";
       }).observe(holder);
     })
   }

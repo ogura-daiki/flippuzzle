@@ -44,7 +44,7 @@ const style = css`
 
 .container{
   display:grid;
-  grid-template-columns: repeat(4, var(--panel-width, --panel-width-def));
+  grid-template-columns: repeat(var(--panel-count), var(--panel-width, --panel-width-def));
 }
 `;
 
@@ -90,8 +90,8 @@ class FlipBoard extends BaseElement {
     }
     const board = this.getBoundingClientRect();
     const panelRect = this.renderRoot.querySelector(".panel").getBoundingClientRect();
-    for(const y of range(4)){
-      for(const x of range(4)){
+    for(const y of range(this.board.length)){
+      for(const x of range(this.board[0].length)){
         const panelTop = board.top+(panelRect.height*y);
         const panelLeft = board.left+(panelRect.width*x);
         if(panelTop <= e.clientY && e.clientY < panelTop + panelRect.height){
@@ -123,6 +123,11 @@ class FlipBoard extends BaseElement {
   }
   render(){
     return html`
+    <style>
+    :host{
+      --panel-count:${this.board[0].length};
+    }
+    </style>
     <div class="container"
       @pointerdown=${e=>{
         this.#pos = this.#getPanelPos(e);
@@ -140,8 +145,8 @@ class FlipBoard extends BaseElement {
         this.#onPointerUp(e);
       }}
     >
-      ${range(4).map(y=>html`${
-        range(4).map(x=>html`${
+      ${range(this.board.length).map(y=>html`${
+        range(this.board[0].length).map(x=>html`${
           this.#panel({x,y})
         }`)
       }`)}
