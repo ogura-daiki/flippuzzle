@@ -41,18 +41,6 @@ const style = css`
   padding:.4rem .6rem;
   font-size:.8rem;
 }
-#menu #status{
-  display:flex;
-  flex-flow:column nowrap;
-  justify-content:center;
-  background:rgb(200,150,75);
-  padding:.4rem;
-  gap:.3rem;
-  font-size:.8rem;
-  line-height:1;
-
-  border-radius:.2rem;
-}
 `;
 
 class FreePlayPage extends BaseElement {
@@ -163,21 +151,12 @@ class FreePlayPage extends BaseElement {
           >
             設定
           </button>
-          <div id=status>
-            <div>生成手数：${this.step}手</div>
-            <div>${when(
-              this.clear,
-              ()=>html`クリア(${this.clear}手)`,
-              ()=>when(
-                this.currentStep <= this.step,
-                ()=>html`残り：${this.step - this.currentStep}手`,
-                ()=>html`${this.currentStep - this.step}手オーバー`,
-              )
-            )}</div>
-            <div>
-              前回：${when(this.beforeClick,()=>`${this.beforeClick.y+1},${this.beforeClick.x+1}`, ()=>`-,-`)}
-            </div>
-          </div>
+          <elem-status
+            .step=${this.step}
+            .currentStep=${this.currentStep}
+            .clear=${this.clear}
+            .beforeClick=${this.beforeClick}
+          ></elem-status>
         </div>
       </elem-question>
     </layout-main>
