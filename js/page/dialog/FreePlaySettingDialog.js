@@ -63,12 +63,16 @@ class FreePlaySettingDialog extends BaseElement {
       <div class="controls" style="display:flex;flex-flow:row;">
         <i class="button" @click=${e=>{
           this.size.y = Math.max(3, this.size.y-1);
+          this.max = Math.min(this.size.x*this.size.y, this.max);
+          this.min = Math.min(this.max, this.min);
           this.requestUpdate();
           sound.push.play();
         }}>remove</i>
         <div class="display">${this.size.y}</div>
         <i class="button" @click=${e=>{
           this.size.y = Math.min(8, this.size.y+1);
+          this.max = Math.min(this.size.x*this.size.y, this.max);
+          this.min = Math.min(this.max, this.min);
           this.requestUpdate();
           sound.push.play();
         }}>add</i>
@@ -77,12 +81,16 @@ class FreePlaySettingDialog extends BaseElement {
       <div class="controls" style="display:flex;flex-flow:row;">
         <i class="button" @click=${e=>{
           this.size.x = Math.max(3, this.size.x-1);
+          this.max = Math.min(this.size.x*this.size.y, this.max);
+          this.min = Math.min(this.max, this.min);
           this.requestUpdate();
           sound.push.play();
         }}>remove</i>
         <div class="display">${this.size.x}</div>
         <i class="button" @click=${e=>{
           this.size.x = Math.min(8, this.size.x+1);
+          this.max = Math.min(this.size.x*this.size.y, this.max);
+          this.min = Math.min(this.max, this.min);
           this.requestUpdate();
           sound.push.play();
         }}>add</i>
@@ -108,7 +116,7 @@ class FreePlaySettingDialog extends BaseElement {
         }}>remove</i>
         <div class="display">${this.max}</div>
         <i class="button" @click=${e=>{
-          this.max = Math.min(16, this.max+1);
+          this.max = Math.min(this.size.x*this.size.y, this.max+1);
           sound.push.play();
         }}>add</i>
       </div>
