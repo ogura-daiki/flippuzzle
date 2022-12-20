@@ -15,20 +15,23 @@ const style = css`
   width: 100%;
   height: 100%;
   display: grid;
-  padding:16px;
   gap:16px;
   box-sizing:border-box;
 }
 
 #container.vertical {
+  padding:16px;
+  gap:16px;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr min-content 1fr;
   grid-template-areas: 'pattern' 'menu' 'play-area';
 }
 #container {
+  padding:8px;
+  gap:8px;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr min-content;
-  grid-template-areas: 'pattern play-area' 'menu menu';
+  grid-template-areas: 'pattern play-area' 'menu play-area';
 }
 
 
