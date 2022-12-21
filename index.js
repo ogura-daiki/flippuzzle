@@ -2,6 +2,7 @@ import "./js/layout/MainLayout.js";
 import "./js/element/FlipBoard.js";
 import "./js/element/Question.js";
 import "./js/element/Status.js";
+import "./js/element/NumberSelector.js";
 import StartPage from "./js/page/StartPage.js";
 import FreePlayPage from "./js/page/FreePlay.js";
 import Router from "./js/router.js";

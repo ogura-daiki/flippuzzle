@@ -20,21 +20,8 @@ label{
   align-items:center;
 }
 
-.controls{
-  display:flex;
-  flex-flow:row;
-  align-items:center;
-  gap:.5rem;
+number-selector{
   margin-left:.5rem;
-}
-.controls .button{
-  padding:.4rem;
-  border-radius:.2rem;
-}
-.controls .display{
-  width:2rem;
-  display:grid;
-  place-items:center;
 }
 `;
 
@@ -56,70 +43,53 @@ class FreePlaySettingDialog extends BaseElement {
   constructor(){
     super();
   }
+
+  #sizeChanged(){
+    this.max = Math.min(this.size.x*this.size.y, this.max);
+    this.min = Math.min(this.max, this.min);
+    this.requestUpdate();
+  }
   render(){
     return html`
     
       <div class="title">縦タイル数</div>
-      <div class="controls" style="display:flex;flex-flow:row;">
-        <i class="button" @click=${e=>{
-          this.size.y = Math.max(3, this.size.y-1);
-          this.max = Math.min(this.size.x*this.size.y, this.max);
-          this.min = Math.min(this.max, this.min);
-          this.requestUpdate();
-          sound.push.play();
-        }}>remove</i>
-        <div class="display">${this.size.y}</div>
-        <i class="button" @click=${e=>{
-          this.size.y = Math.min(8, this.size.y+1);
-          this.max = Math.min(this.size.x*this.size.y, this.max);
-          this.min = Math.min(this.max, this.min);
-          this.requestUpdate();
-          sound.push.play();
-        }}>add</i>
-      </div>
+      <number-selector
+        .min=${3} .max=${8} .value=${this.size.y}
+        @push=${()=>sound.push.play()}
+        @change=${({detail:{value}})=>{
+          this.size.y = value;
+          this.#sizeChanged();
+        }}
+      ></number-selector>
+
       <div class="title">横タイル数</div>
-      <div class="controls" style="display:flex;flex-flow:row;">
-        <i class="button" @click=${e=>{
-          this.size.x = Math.max(3, this.size.x-1);
-          this.max = Math.min(this.size.x*this.size.y, this.max);
-          this.min = Math.min(this.max, this.min);
-          this.requestUpdate();
-          sound.push.play();
-        }}>remove</i>
-        <div class="display">${this.size.x}</div>
-        <i class="button" @click=${e=>{
-          this.size.x = Math.min(8, this.size.x+1);
-          this.max = Math.min(this.size.x*this.size.y, this.max);
-          this.min = Math.min(this.max, this.min);
-          this.requestUpdate();
-          sound.push.play();
-        }}>add</i>
-      </div>
+      <number-selector
+        .min=${3} .max=${8} .value=${this.size.x}
+        @push=${()=>sound.push.play()}
+        @change=${({detail:{value}})=>{
+          this.size.x = value;
+          this.#sizeChanged();
+        }}
+      ></number-selector>
 
       <div class="title">最小手数</div>
-      <div class="controls" style="display:flex;flex-flow:row;">
-        <i class="button" @click=${e=>{
-          this.min = Math.max(1, this.min-1);
-          sound.push.play();
-        }}>remove</i>
-        <div class="display">${this.min}</div>
-        <i class="button" @click=${e=>{
-          this.min = Math.min(this.max, this.min+1);
-          sound.push.play();
-        }}>add</i>
-      </div>
+      <number-selector
+        .min=${1} .max=${this.max} .value=${this.min}
+        @push=${()=>sound.push.play()}
+        @change=${({detail:{value}})=>{
+          this.min = value;
+        }}
+      ></number-selector>
+
       <div class="title">最大手数</div>
-      <div class="controls" style="display:flex;flex-flow:row;">
-        <i class="button" @click=${e=>{
-          this.max = Math.max(this.min, this.max-1);
-          sound.push.play();
-        }}>remove</i>
-        <div class="display">${this.max}</div>
-        <i class="button" @click=${e=>{
-          this.max = Math.min(this.size.x*this.size.y, this.max+1);
-          sound.push.play();
-        }}>add</i>
-      </div>
+      <number-selector
+        .min=${this.min} .max=${this.size.x*this.size.y} .value=${this.max}
+        @push=${()=>sound.push.play()}
+        @change=${({detail:{value}})=>{
+          this.max = value;
+        }}
+      ></number-selector>
+      
       <label>
         <input
           class="checkbox icon-font"
