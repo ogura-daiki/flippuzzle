@@ -18,8 +18,8 @@ const style = css`
   gap:.3rem;
   font-size:.8rem;
   line-height:1;
-
   border-radius:.2rem;
+  box-sizing:border-box;
 }
 `;
 
