@@ -74,19 +74,25 @@ class FreePlaySettingDialog extends BaseElement {
 
       <div class="title">最小手数</div>
       <number-selector
-        .min=${1} .max=${this.max} .value=${this.min}
+        .min=${1} .max=${this.size.x*this.size.y} .value=${this.min}
         @push=${()=>sound.push.play()}
         @change=${({detail:{value}})=>{
           this.min = value;
+          if(this.min > this.max){
+            this.max = this.min;
+          }
         }}
       ></number-selector>
 
       <div class="title">最大手数</div>
       <number-selector
-        .min=${this.min} .max=${this.size.x*this.size.y} .value=${this.max}
+        .min=${1} .max=${this.size.x*this.size.y} .value=${this.max}
         @push=${()=>sound.push.play()}
         @change=${({detail:{value}})=>{
           this.max = value;
+          if(this.min > this.max){
+            this.min = this.max;
+          }
         }}
       ></number-selector>
       
