@@ -16,7 +16,7 @@ const style = css`
   margin-bottom:0px;
   /* border:.2rem solid ${colors.secondary.base}; */
   border-radius:.5rem;
-  box-shadow: 1px 2px 4px 1px rgba(0,0,0,.2);
+  box-shadow: 1px 2px 4px 1px ${colors.background.onBase.a(0.2)};
 }
 #container{
   display: grid;

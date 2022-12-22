@@ -1,6 +1,7 @@
 import { html, css, when, guard } from "./Lit.js";
 import BaseElement from "./BaseElement.js";
 import "./element/Dialog.js";
+import { colors } from "./baseTheme.js";
 
 let dialogStateId = 0;
 const dialogState = new Map();
@@ -20,7 +21,7 @@ const style = css`
   position:absolute;
   top:0px;
   left:0px;
-  background:rgba(0,0,0,.2);
+  background:${colors.background.onBase.a(0.2)};
   box-sizing:border-box;
   padding:32px;
   overflow:hidden;
@@ -28,7 +29,7 @@ const style = css`
   place-items:center;
 }
 elem-dialog{
-  box-shadow: 0px 0px 4rem 1rem rgba(0,0,0,.3);
+  box-shadow: 0px 0px 4rem 1rem ${colors.background.onBase.a(0.3)};
 }
 `;
 

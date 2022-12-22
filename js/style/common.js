@@ -36,7 +36,7 @@ export default css`
   color:${colors.secondary.text};
   border:none;
   border-radius:.2rem;
-  box-shadow:1px 2px 4px 1px rgba(0,0,0,.2);
+  box-shadow:1px 2px 4px 1px ${colors.background.onBase.a(0.2)};
 }
 .checkbox{
   font-family: 'Material Symbols Outlined';
@@ -88,11 +88,11 @@ export default css`
 *::-webkit-scrollbar-track {
   width:.5rem;
   height:.5rem;
-  background:rgba(128,128,128,.3);
+  background:${colors.background.onBase.a(0.2)};
 }
 *::-webkit-scrollbar-thumb {
   width:.5rem;
   height:.5rem;
-  background:rgba(128,128,128,.4);
+  background:${colors.background.onBase.a(0.2)};
 }
 `;

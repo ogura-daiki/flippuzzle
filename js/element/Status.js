@@ -1,4 +1,5 @@
 import BaseElement from "../BaseElement.js";
+import { colors } from "../baseTheme.js";
 import { css, html, when } from "../Lit.js";
 
 const style = css`
@@ -13,7 +14,7 @@ const style = css`
   display:flex;
   flex-flow:column nowrap;
   justify-content:center;
-  background:rgb(200,150,75);
+  background:${colors.secondary.base.a(0.3)};
   padding:.4rem;
   gap:.3rem;
   font-size:.8rem;

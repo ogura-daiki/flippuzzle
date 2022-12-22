@@ -44,7 +44,7 @@ const style = css`
   background:${colors.background.base};
   padding:.2rem .4rem;
   gap:.5rem;
-  border-top:${colors.background.onBase} 1px solid;
+  border-top:${colors.background.onBase.a(.1)} 1px solid;
   position:sticky;
   z-index:1;
   bottom:0px;
@@ -67,19 +67,19 @@ const style = css`
   transition:opacity .3s;
 }
 .shadow.top{
-  background:linear-gradient(180deg, rgba(0,0,0,.1), transparent);
+  background:linear-gradient(180deg, ${colors.background.onBase.a(0.1)}, transparent);
   bottom:0px;
   transform:translateY(100%);
 }
 .shadow.bottom{
-  background:linear-gradient(0deg, rgba(0,0,0,.1), transparent);
+  background:linear-gradient(0deg, ${colors.background.onBase.a(0.1)}, transparent);
   bottom:100%;
 }
 
 #track{
   position:absolute;
   width:.25rem;
-  background:rgba(128,128,128,.2);
+  background:${colors.background.onBase.a(0.2)};
   bottom:0px;
   right:0px;
   transform:translateY(100%);
@@ -87,7 +87,7 @@ const style = css`
 #bar{
   position:absolute;
   width:100%;
-  background:rgba(128,128,128,.2);
+  background:${colors.background.onBase.a(0.2)};
 }
 `;
 
