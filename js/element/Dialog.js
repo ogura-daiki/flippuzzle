@@ -98,6 +98,7 @@ class Dialog extends BaseElement {
       title: { type:String },
       content: { type:Object },
       buttons: { type:Array },
+      onClose: { type:Object },
     };
   }
 
@@ -106,6 +107,7 @@ class Dialog extends BaseElement {
     this.title = "FlipPuzzle";
     this.content = "";
     this.buttons = [{label:"閉じる", action:e=>router.closeDialog()}];
+    this.onClose = ()=>{};
   }
 
   static get styles(){
@@ -125,6 +127,7 @@ class Dialog extends BaseElement {
             class="fill centering"
             @click=${e=>{
               sound.push.play();
+              this.onClose();
               router.closeDialog();
             }}
           >close</i>

@@ -175,13 +175,19 @@ class FreePlayPage extends BaseElement {
           </div>
         `,
         buttons:[
-          {label:"戻らない"},
+          {label:"戻らない", action:e=>{
+            resolve(true);
+            router.closeDialog();
+          }},
           {label:"戻る", action:e=>{
+            resolve(true);
             router.closeDialog();
             router.open("/");
-            resolve(true);
           }},
-        ]
+        ],
+        onClose:()=>{
+          resolve(true);
+        },
       })
     })
   }

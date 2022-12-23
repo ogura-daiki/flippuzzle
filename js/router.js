@@ -44,29 +44,31 @@ class Router extends BaseElement {
   static get styles(){
     return [super.styles, style];
   }
+  #history = [];
   constructor(){
     super();
-    window.addEventListener("popstate", e=>{
+    const onPopState = e=>{
       const page = this.renderRoot.querySelector("#page");
       if(page.beforePopState){
-        const result = page.beforePopState();
-        if(result instanceof Promise){
-          result.then(result=>{
-            if(!result){
-              this.#changeState();
-            }
-          });
-        }
-        else if(result){
-          this.#changeState();
-        }
+        const result = Promise.resolve(page.beforePopState());
+        result.then(result=>{
+          if(!result){
+            this.#history.pop();
+            this.#changeState();
+          }
+          else{
+            history.pushState(this.#history[this.#history.length], null);
+          }
+        });
         return;
       }
+      this.#history.pop();
       this.#changeState();
-    });
+    }
+    window.addEventListener("popstate", onPopState);
   }
   #changeState(){
-    if(!history.state){
+    if(!this.#history.length){
       this.open("/");
     }
     const {path, args, dialog} = history.state;
@@ -78,6 +80,7 @@ class Router extends BaseElement {
     this.#routes.push({path, component});
   }
   open(path, args={}){
+    this.#history.push({path, args});
     history.pushState({path, args}, null);
     this.#changeState();
   }
@@ -94,14 +97,18 @@ class Router extends BaseElement {
     });
     return page;
   }
-  openDialog({title, content, buttons=[{label:"閉じる",action:()=>router.closeDialog()}]}){
-    dialogState.set(dialogStateId, {title, content, buttons});
+  openDialog({title, content, buttons=[{label:"閉じる",action:()=>router.closeDialog()}], onClose=()=>{}}){
+    this.renderRoot.querySelector("#dialog")?.onClose();
+    dialogState.set(dialogStateId, {title, content, buttons, onClose});
+    this.#history[this.#history.length-1] = {...history.state, dialog:dialogStateId};
     history.replaceState({...history.state, dialog:dialogStateId}, null);
-    this.dialog = {title, content, buttons};
+    this.dialog = {title, content, buttons, onClose};
     dialogStateId += 1;
   }
   closeDialog(){
+    this.renderRoot.querySelector("#dialog")?.onClose();
     history.replaceState({...history.state, dialog:-1}, null);
+    this.#history[this.#history.length-1] = {...history.state, dialog:-1};
     this.dialog = null;
   }
   render(){
@@ -115,7 +122,7 @@ class Router extends BaseElement {
         this.dialog,
         ()=>html`
         <div class="fill backdrop">
-          <elem-dialog .title=${this.dialog.title} .content=${this.dialog.content} .buttons=${this.dialog.buttons}></elem-dialog>
+          <elem-dialog id=dialog .title=${this.dialog.title} .content=${this.dialog.content} .buttons=${this.dialog.buttons} .onClose=${this.dialog.onClose}></elem-dialog>
         </div>
         `,
       )}
