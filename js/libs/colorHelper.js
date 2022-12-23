@@ -102,12 +102,18 @@ const color = (...args) => {
   arr.raw = arr;
   const obj = css(arr);
 
-  appendMethods(obj, {
-    r: v => color({ ...params, r: v }),
-    g: v => color({ ...params, g: v }),
-    b: v => color({ ...params, b: v }),
-    a: v => color({ ...params, a: v }),
-  });
+  const methods = {
+    red: v => color({ ...params, r: v }),
+    green: v => color({ ...params, g: v }),
+    blue: v => color({ ...params, b: v }),
+    alpha: v => color({ ...params, a: v }),
+  };
+  methods.r = methods.red;
+  methods.g = methods.green;
+  methods.b = methods.blue;
+  methods.a = methods.alpha;
+
+  appendMethods(obj, methods);
 
   return obj;
 }
