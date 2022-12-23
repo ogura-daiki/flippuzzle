@@ -51,13 +51,13 @@ class Router extends BaseElement {
       const page = this.renderRoot.querySelector("#page");
       if(page.beforePopState){
         const result = Promise.resolve(page.beforePopState());
-        result.then(result=>{
-          if(!result){
+        result.then(pop=>{
+          if(pop){
             this.#history.pop();
             this.#changeState();
           }
           else{
-            history.pushState(this.#history[this.#history.length], null);
+            history.pushState(this.#history[this.#history.length-1], null);
           }
         });
         return;
@@ -100,15 +100,16 @@ class Router extends BaseElement {
   openDialog({title, content, buttons=[{label:"閉じる",action:()=>router.closeDialog()}], onClose=()=>{}}){
     this.renderRoot.querySelector("#dialog")?.onClose();
     dialogState.set(dialogStateId, {title, content, buttons, onClose});
-    this.#history[this.#history.length-1] = {...history.state, dialog:dialogStateId};
-    history.replaceState({...history.state, dialog:dialogStateId}, null);
+
+    this.#history[this.#history.length-1].dialog = dialogStateId;
+    history.replaceState(this.#history[this.#history.length-1], null);
     this.dialog = {title, content, buttons, onClose};
     dialogStateId += 1;
   }
   closeDialog(){
     this.renderRoot.querySelector("#dialog")?.onClose();
-    history.replaceState({...history.state, dialog:-1}, null);
-    this.#history[this.#history.length-1] = {...history.state, dialog:-1};
+    this.#history[this.#history.length-1].dialog = -1;
+    history.replaceState(this.#history[this.#history.length-1], null);
     this.dialog = null;
   }
   render(){
