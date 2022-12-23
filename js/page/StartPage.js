@@ -72,6 +72,9 @@ class StartPage extends BaseElement {
       this.vertical = isVertical;
     }).observe(this);
   }
+  beforePopState(){
+    router.open("/");
+  }
   render(){
     return html`
     <layout-main bar-title="FlipPuzzle">
