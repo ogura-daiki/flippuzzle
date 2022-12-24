@@ -40,7 +40,7 @@ class SelectChapterPage extends BaseElement {
   }
   render(){
     return html`
-    <layout-main bar-title="問題を解く" .back=${()=>this.beforePopState()}>
+    <layout-main bar-title="問題を解く" .back=${true}>
       <div id=container>
         ${chapters.map(chapter=>html`
           <button class="button chapter" @click=${e=>{

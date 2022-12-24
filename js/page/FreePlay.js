@@ -106,7 +106,7 @@ class FreePlayPage extends BaseElement {
   }
   render(){
     return html`
-    <layout-main bar-title="練習モード" .back=${()=>this.beforePopState()}>
+    <layout-main bar-title="練習モード" .back=${true}>
       <elem-question id=q .pattern=${this.pattern} .start=${this.start}
         @flip=${e=>{
           this.currentStep+=1;

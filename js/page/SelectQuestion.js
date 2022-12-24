@@ -61,7 +61,7 @@ class SelectQuestionPage extends BaseElement {
   render(){
     if(!this.chapter) return;
     return html`
-    <layout-main bar-title=${this.chapter.name} .back=${()=>this.beforePopState()}>
+    <layout-main bar-title=${this.chapter.name} .back=${true}>
       <div id=description>${this.chapter.description}</div>
       <div id=container>
         ${this.chapter.questions.map(q=>html`
