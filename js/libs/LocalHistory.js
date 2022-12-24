@@ -34,7 +34,12 @@ class LocalHistory {
     if(force){
       this.#forceBack();
       this.#currentIndex -= 1;
-      this.#onChange(this.#getCurrentHistory().data);
+      const currentHistory = this.#getCurrentHistory();
+      if(!currentHistory){
+        history.back();
+        return;
+      }
+      this.#onChange(currentHistory.data);
       return;
     }
     history.back();
