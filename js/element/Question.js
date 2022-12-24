@@ -1,5 +1,5 @@
 import BaseElement from "../BaseElement.js";
-import {html, css} from "../Lit.js";
+import {html, css, guard} from "../Lit.js";
 import sound from "../sound.js";
 import { boardToHash, range } from "../util.js";
 
@@ -98,6 +98,7 @@ class Question extends BaseElement {
       </div>
       <slot id=menu name=menu></slot>
       <div class="holder play-area">
+        ${guard([this.start], ()=>html`
         <flip-board
           id=play-board
           .board=${JSON.parse(JSON.stringify(this.start))}
@@ -110,6 +111,7 @@ class Question extends BaseElement {
             }
           }}
         ></flip-board>
+        `)}
       </div>
     </div>
     `
