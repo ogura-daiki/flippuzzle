@@ -2,6 +2,7 @@ import { html, css, when, guard } from "./Lit.js";
 import BaseElement from "./BaseElement.js";
 import "./element/Dialog.js";
 import { colors } from "./baseTheme.js";
+import LocalHistory from "./libs/LocalHistory.js";
 
 let dialogStateId = 0;
 const dialogState = new Map();
@@ -44,34 +45,28 @@ class Router extends BaseElement {
   static get styles(){
     return [super.styles, style];
   }
-  #history = [];
+
+  #localHistory = new LocalHistory();
   constructor(){
     super();
-    const onPopState = e=>{
+
+    this.#localHistory.addBeforePopStateListener(()=>{
       const page = this.renderRoot.querySelector("#page");
       if(page.beforePopState){
-        const result = Promise.resolve(page.beforePopState());
-        result.then(pop=>{
-          if(pop){
-            this.#history.pop();
-            this.#changeState();
-          }
-          else{
-            history.pushState(this.#history[this.#history.length-1], null);
-          }
-        });
-        return;
+        return page.beforePopState();
       }
-      this.#history.pop();
-      this.#changeState();
-    }
-    window.addEventListener("popstate", onPopState);
+      return true;
+    });
+    this.#localHistory.addOnChangeListener(data=>{
+      this.#changeState(data);
+    });
   }
-  #changeState(){
-    if(!this.#history.length){
+  #changeState(data){
+    if(!data){
       this.open("/");
+      return;
     }
-    const {path, args, dialog} = history.state;
+    const {path, args, dialog} = data;
     this.route = {path, args};
     this.dialog = dialogState.get(dialog);
   }
@@ -80,12 +75,10 @@ class Router extends BaseElement {
     this.#routes.push({path, component});
   }
   open(path, args={}){
-    this.#history.push({path, args});
-    history.pushState({path, args}, null);
-    this.#changeState();
+    this.#localHistory.push({path, args});
   }
   back(){
-    history.back()
+    this.#localHistory.back();
   }
   #renderPage(){
     const currentRoute = this.#routes.find(route=>route.path===this.route.path);
@@ -101,23 +94,25 @@ class Router extends BaseElement {
     this.renderRoot.querySelector("#dialog")?.onClose();
     dialogState.set(dialogStateId, {title, content, buttons, onClose});
 
-    this.#history[this.#history.length-1].dialog = dialogStateId;
-    history.replaceState(this.#history[this.#history.length-1], null);
-    this.dialog = {title, content, buttons, onClose};
+    this.#localHistory.replace(data=>{
+      data.dialog = dialogStateId;
+      return data;
+    });
     dialogStateId += 1;
   }
   closeDialog(){
     this.renderRoot.querySelector("#dialog")?.onClose();
-    this.#history[this.#history.length-1].dialog = -1;
-    history.replaceState(this.#history[this.#history.length-1], null);
-    this.dialog = null;
+    this.#localHistory.replace(data=>{
+      data.dialog = -1;
+      return data;
+    });
   }
   render(){
     if(!this.route) return;
     return html`
     <div class="fill">
       <div class="fill">
-        ${guard([this.route], ()=>this.#renderPage())}
+        ${guard([this.route.path, this.route.args], ()=>this.#renderPage())}
       </div>
       ${when(
         this.dialog,
