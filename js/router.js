@@ -95,9 +95,6 @@ class Router extends BaseElement {
     });
     return page;
   }
-  logHistory(){
-    this.#localHistory.logHistory();
-  }
   openDialog({title, content, buttons=[{label:"閉じる",action:()=>router.closeDialog()}], onClose=()=>{}}){
     this.renderRoot.querySelector("#dialog")?.onClose();
     dialogState.set(dialogStateId, {title, content, buttons, onClose});

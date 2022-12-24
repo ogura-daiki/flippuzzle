@@ -73,9 +73,9 @@ class StartPage extends BaseElement {
       this.vertical = isVertical;
     }).observe(this);
   }
-  beforePopState(){
-    //router.open("/");
+  beforePopState(isForward){
     sound.push.play();
+    if(isForward) return true;
     return new Promise(resolve=>{
       router.openDialog({title:"test", content:html`
         <div class=fill style="padding:1rem;box-sizing:border-box;">
