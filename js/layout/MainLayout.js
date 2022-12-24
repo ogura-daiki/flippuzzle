@@ -67,11 +67,7 @@ class MainLayout extends BaseElement {
         <i
           id=back
           @click=${e=>{
-            if(this.back === true){
-              router.back();
-              return;
-            }
-            this.back();
+            router.back();
           }}
           style="${when(!this.back,()=>`
             display:block;
