@@ -80,11 +80,9 @@ class QuestionPage extends BaseElement {
         buttons:[
           {label:"戻らない", action:e=>{
             resolve(false);
-            router.closeDialog();
           }},
           {label:"戻る", action:e=>{
             resolve(true);
-            router.closeDialog();
           }},
         ],
         onClose:()=>resolve(false),
@@ -96,13 +94,10 @@ class QuestionPage extends BaseElement {
     const next = this.#findNextQuestion();
     const buttons = [
       {label:"もう一度", action:e=>{
-        router.closeDialog();
         this.#reset();
       }},
       {label:"問題選択へ", action:e=>{
-        router.closeDialog();
         router.back(true);
-        //router.replace("/select-question", {chapterId:this.chapterId});
       }},
     ];
 
@@ -117,14 +112,12 @@ class QuestionPage extends BaseElement {
     if(next){
       if(next.chapter.id !== this.chapterId){
         buttons.push({label:"次のチャプターへ", action:e=>{
-          router.closeDialog();
           router.back(true);
           router.replace("/select-question", {chapterId:next.chapter.id});
         }});
       }
       else{
         buttons.push({label:"次の問題へ", action:e=>{
-          router.closeDialog();
           router.replace("/question", {chapterQuestion:{
             chapterId:next.chapter.id,
             questionId:next.question.id,
@@ -146,7 +139,6 @@ class QuestionPage extends BaseElement {
           `,
           buttons:[
             {label:"タイトルへ戻る", action:e=>{
-              router.closeDialog();
               router.open("/");
             }},
           ],

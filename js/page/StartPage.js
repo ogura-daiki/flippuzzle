@@ -84,11 +84,9 @@ class StartPage extends BaseElement {
       `, buttons:[
         {label:"キャンセル", action:()=>{
           resolve(false);
-          router.closeDialog();
         }},
         {label:"終了する", action:()=>{
           resolve(true);
-          router.closeDialog();
         }},
       ], onClose:()=>{
         resolve(false);

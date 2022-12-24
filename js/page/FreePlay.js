@@ -93,13 +93,10 @@ class FreePlayPage extends BaseElement {
       title:"設定",
       content,
       buttons:[
-        {label:"キャンセル", action:e=>{
-          router.closeDialog();
-        }},
+        {label:"キャンセル"},
         {label:"変更", action:e=>{
           const {min, max, startRandom, size} = content;
           this.genOption = {min, max, startRandom, size};
-          router.closeDialog();
         }},
       ],
     })
@@ -177,11 +174,9 @@ class FreePlayPage extends BaseElement {
         buttons:[
           {label:"戻らない", action:e=>{
             resolve(false);
-            router.closeDialog();
           }},
           {label:"戻る", action:e=>{
             resolve(true);
-            router.closeDialog();
           }},
         ],
         onClose:()=>resolve(false),
