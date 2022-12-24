@@ -13,7 +13,18 @@ class LocalHistory {
     this.#historyId += 1;
     this.#onChange(data);
   }
-  pop(){
+  pop(force){
+    if(force){
+      this.#forceBack();
+      this.#onChange(this.#getCurrentHistory().data);
+      return;
+    }
+    history.back();
+  }
+  #force = false;
+  #forceBack(){
+    this.#historyList.pop();
+    this.#force = true;
     history.back();
   }
   replace(replacer){
@@ -28,11 +39,11 @@ class LocalHistory {
     }
     for(let idx = this.#historyList.length-1; idx>=0; idx+=1){
       const targetHistory = this.#historyList[idx];
-      if(targetHistory.id === historyId){
+      if(targetHistory.id === id){
         return targetHistory;
       }
       //対象の履歴が存在しない
-      else if(targetHistory.id < historyId){
+      else if(targetHistory.id > id){
         return null;
       }
     }
@@ -62,15 +73,9 @@ class LocalHistory {
   constructor(){
     const genSessionId = ()=>Math.random();
     let sessionID;
-    let force = false;
-    const forceBack = ()=>{
-      this.#historyList.pop();
-      force = true;
-      history.back();
-    }
     const onPopState = async e=>{
-      if(force){
-        force = false;
+      if(this.#force){
+        this.#force = false;
         return;
       }
       //一旦保管
@@ -90,8 +95,8 @@ class LocalHistory {
       //戻る操作をする場合
       if(pop){
         //戻る操作を実行
-        forceBack();
-        const historyId = e.state?.id;
+        this.#forceBack();
+        const historyId = e.state;
         const historyData = this.#findHistoryById(historyId);
         if(historyData){
           this.#onChange(historyData.data);
