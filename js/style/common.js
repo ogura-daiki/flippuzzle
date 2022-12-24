@@ -34,6 +34,7 @@ export default css`
 .button{
   background-color:${colors.secondary.base};
   color:${colors.secondary.text};
+  font-size:1rem;
   border:none;
   border-radius:.2rem;
   box-shadow:1px 2px 4px 1px ${colors.background.onBase.a(0.2)};
