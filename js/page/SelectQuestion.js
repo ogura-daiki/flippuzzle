@@ -55,7 +55,8 @@ class SelectQuestionPage extends BaseElement {
   }
   beforePopState(){
     sound.push.play();
-    router.open("/select-chapter");
+    return true;
+    //router.open("/select-chapter");
   }
   render(){
     if(!this.chapter) return;

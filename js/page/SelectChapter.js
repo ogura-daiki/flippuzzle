@@ -36,7 +36,7 @@ class SelectChapterPage extends BaseElement {
   }
   beforePopState(){
     sound.push.play();
-    router.open("/");
+    return true;
   }
   render(){
     return html`

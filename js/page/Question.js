@@ -71,18 +71,24 @@ class QuestionPage extends BaseElement {
 
   beforePopState(){
     sound.push.play();
-    router.openDialog({title:"確認", content:html`
-      <div class=fill style="padding:1rem;box-sizing:border-box;">
-        問題選択画面に戻ってもよろしいですか？
-      </div>
-      `,
-      buttons:[
-        {label:"戻らない"},
-        {label:"戻る", action:e=>{
-          router.closeDialog();
-          router.open("/select-question", {chapterId:this.chapterId});
-        }},
-      ]
+    return new Promise(resolve=>{
+      router.openDialog({title:"確認", content:html`
+        <div class=fill style="padding:1rem;box-sizing:border-box;">
+          問題選択画面に戻ってもよろしいですか？
+        </div>
+        `,
+        buttons:[
+          {label:"戻らない", action:e=>{
+            resolve(false);
+            router.closeDialog();
+          }},
+          {label:"戻る", action:e=>{
+            resolve(true);
+            router.closeDialog();
+          }},
+        ],
+        onClose:()=>resolve(false),
+      })
     })
   }
 
@@ -95,7 +101,8 @@ class QuestionPage extends BaseElement {
       }},
       {label:"問題選択へ", action:e=>{
         router.closeDialog();
-        router.open("/select-question", {chapterId:this.chapterId});
+        router.back(true);
+        //router.replace("/select-question", {chapterId:this.chapterId});
       }},
     ];
 
@@ -111,13 +118,14 @@ class QuestionPage extends BaseElement {
       if(next.chapter.id !== this.chapterId){
         buttons.push({label:"次のチャプターへ", action:e=>{
           router.closeDialog();
-          router.open("/select-question", {chapterId:next.chapter.id});
+          router.back(true);
+          router.replace("/select-question", {chapterId:next.chapter.id});
         }});
       }
       else{
         buttons.push({label:"次の問題へ", action:e=>{
           router.closeDialog();
-          router.open("/question", {chapterQuestion:{
+          router.replace("/question", {chapterQuestion:{
             chapterId:next.chapter.id,
             questionId:next.question.id,
           }})
@@ -126,19 +134,23 @@ class QuestionPage extends BaseElement {
     }
     else{
       buttons.push({label:"次の問題へ", action:e=>{
-        router.openDialog({title:"お知らせ", content:html`
-          <div style="display:grid;place-items:center;height:100%;box-sizing:border-box;padding:1rem 1rem">
-            <div>
-              次の問題はありません。<br>
-              次回更新をお待ちください。
+        router.openDialog({
+          title:"お知らせ",
+          content:html`
+            <div style="display:grid;place-items:center;height:100%;box-sizing:border-box;padding:1rem 1rem">
+              <div>
+                次の問題はありません。<br>
+                次回更新をお待ちください。
+              </div>
             </div>
-          </div>
-        `, buttons:[
-          {label:"タイトルへ戻る", action:e=>{
-            router.closeDialog();
-            router.open("/");
-          }},
-        ]});
+          `,
+          buttons:[
+            {label:"タイトルへ戻る", action:e=>{
+              router.closeDialog();
+              router.open("/");
+            }},
+          ],
+        });
       }})
     }
 

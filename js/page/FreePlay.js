@@ -168,21 +168,25 @@ class FreePlayPage extends BaseElement {
 
   beforePopState(){
     sound.push.play();
-    router.openDialog({title:"確認", content:html`
-        <div class=fill style="padding:1rem;box-sizing:border-box;">
-          タイトル画面に戻ってもよろしいですか？
-        </div>
-      `,
-      buttons:[
-        {label:"戻らない", action:e=>{
-          router.closeDialog();
-        }},
-        {label:"戻る", action:e=>{
-          router.closeDialog();
-          router.open("/");
-        }},
-      ],
-    });
+    return new Promise(resolve=>{
+      router.openDialog({title:"確認", content:html`
+          <div class=fill style="padding:1rem;box-sizing:border-box;">
+            タイトル画面に戻ってもよろしいですか？
+          </div>
+        `,
+        buttons:[
+          {label:"戻らない", action:e=>{
+            resolve(false);
+            router.closeDialog();
+          }},
+          {label:"戻る", action:e=>{
+            resolve(true);
+            router.closeDialog();
+          }},
+        ],
+        onClose:()=>resolve(false),
+      });
+    })
   }
 }
 customElements.define("free-play", FreePlayPage);
