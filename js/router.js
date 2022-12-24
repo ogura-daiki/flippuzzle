@@ -77,8 +77,13 @@ class Router extends BaseElement {
   open(path, args={}){
     this.#localHistory.push({path, args});
   }
-  back(){
-    this.#localHistory.back();
+  replace(path, args={}){
+    this.#localHistory.replace(data=>{
+      return {path, args};
+    });
+  }
+  back(force=false){
+    this.#localHistory.pop(force);
   }
   #renderPage(){
     const currentRoute = this.#routes.find(route=>route.path===this.route.path);
