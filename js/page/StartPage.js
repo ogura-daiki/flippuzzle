@@ -1,4 +1,4 @@
-import {html, css, when} from "../Lit.js";
+import {html, css, when, until} from "../Lit.js";
 import BaseElement from "../BaseElement.js";
 import sound from "../sound.js";
 import RuleExplanations from "./dialog/RuleExplanations.js";
@@ -53,7 +53,15 @@ const style = css`
   padding: 0.5rem 1rem;
   font-size:1rem;
 }
+#update{
+  font-size:.8rem;
+  display:grid;
+  place-items:center;
+}
 `;
+
+const commits = fetch("https://api.github.com/repos/ogura-daiki/flippuzzle/commits/main").then(res=>res.json());
+
 class StartPage extends BaseElement {
   static get properties(){
     return {
@@ -110,6 +118,13 @@ class StartPage extends BaseElement {
             router.open("/select-chapter");
           }}>問題を解く</button>
           <button class="button" @click=${e=>router.open("/free-play", {test:1})}>練習モード</button>
+          ${until(commits.then(json=>{
+            const formatter = new Intl.DateTimeFormat(undefined, {
+              year: 'numeric', month: 'numeric', day: 'numeric',
+              hour: 'numeric', minute: 'numeric', second: 'numeric'
+            });
+            return html`<div id="update">最終更新：${formatter.format(new Date(json.commit.committer.date))}</div>`
+          }))}
         </div>
       </div>
     </layout-main>
