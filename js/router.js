@@ -50,10 +50,10 @@ class Router extends BaseElement {
   constructor(){
     super();
 
-    this.#localHistory.addBeforePopStateListener(()=>{
+    this.#localHistory.addBeforePopStateListener((isForward)=>{
       const page = this.renderRoot.querySelector("#page");
       if(page.beforePopState){
-        return page.beforePopState();
+        return page.beforePopState(isForward);
       }
       return true;
     });
@@ -94,6 +94,9 @@ class Router extends BaseElement {
       page[key] = value;
     });
     return page;
+  }
+  logHistory(){
+    this.#localHistory.logHistory();
   }
   openDialog({title, content, buttons=[{label:"閉じる",action:()=>router.closeDialog()}], onClose=()=>{}}){
     this.renderRoot.querySelector("#dialog")?.onClose();

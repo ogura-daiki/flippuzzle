@@ -3,19 +3,37 @@ class LocalHistory {
 
   #historyList = [];
   #historyId = 0;
+  #currentIndex = -1;
   #getCurrentHistory(){
-    return this.#historyList[this.#historyList.length-1];
+    return this.#historyList[this.#currentIndex];
+  }
+  #cut(){
+    if(this.#historyList.length > this.#currentIndex){
+      this.#historyList.splice(this.#currentIndex+1, this.#historyList.length-1-this.#currentIndex);
+    }
   }
   push(data){
     const historyData = {id:this.#historyId, data};
+    this.#cut();
     this.#historyList.push(historyData);
+    this.#currentIndex += 1;
     history.pushState(this.#historyId, null);
     this.#historyId += 1;
     this.#onChange(data);
   }
+  forward(force){
+    if(force){
+      this.#forceForward();
+      this.#currentIndex+=1;
+      this.#onChange(this.#getCurrentHistory().data);
+      return;
+    }
+    history.forward();
+  }
   pop(force){
     if(force){
       this.#forceBack();
+      this.#currentIndex -= 1;
       this.#onChange(this.#getCurrentHistory().data);
       return;
     }
@@ -23,11 +41,17 @@ class LocalHistory {
   }
   #force = false;
   #forceBack(){
-    this.#historyList.pop();
+    //this.#historyList.pop();
     this.#force = true;
     history.back();
   }
+  #forceForward(){
+    //this.#historyList.pop();
+    this.#force = true;
+    history.forward();
+  }
   replace(replacer){
+    this.#cut();
     const currentHistory = this.#getCurrentHistory();
     const replaced = replacer(currentHistory.data);
     currentHistory.data = replaced;
@@ -55,7 +79,8 @@ class LocalHistory {
     this.#onChangeListener.push(listener);
   }
   #onChange(data){
-    console.table(JSON.parse(JSON.stringify(this.#historyList)));
+    //console.log(this.#currentIndex);
+    //console.table(JSON.parse(JSON.stringify(this.#historyList)));
     this.#onChangeListener.forEach(listener=>listener(data));
   }
 
@@ -63,11 +88,17 @@ class LocalHistory {
   addBeforePopStateListener(listener){
     this.#beforePopStateListener.push(listener);
   }
-  async #onBeforePopState(){
-    const promises = this.#beforePopStateListener.map(listener => Promise.resolve(listener()));
+  async #onBeforePopState(isForward){
+    const promises = this.#beforePopStateListener.map(listener => Promise.resolve(listener(isForward)));
     const results = await Promise.allSettled(promises);
     const pop = results.some(({value})=>value);
     return pop;
+  }
+
+  #isForwardHistory(id){
+    const targetIndex = this.#historyList.findIndex(history=>history.id === id);
+    if(this.#currentIndex === targetIndex) return null;
+    return targetIndex > this.#currentIndex;
   }
   
   constructor(){
@@ -78,28 +109,51 @@ class LocalHistory {
         this.#force = false;
         return;
       }
+      const historyId = e.state;
+
       //一旦保管
       const thisSessionId = genSessionId();
       sessionID = thisSessionId;
 
-      //戻る操作を打ち消し
-      const currentHistory = this.#historyList[this.#historyList.length-1];
-      history.pushState(currentHistory.id, null);
-  
+      //戻る・進む操作を打ち消し
+      const isForward = this.#isForwardHistory(historyId);
+      if(isForward === null){
+        //進む操作を打ち消し
+        this.#forceBack();
+        return;
+      }
+      const waitPopState = new Promise(resolve=>{
+        const temp = ()=>resolve();
+        window.addEventListener("popstate", ()=>{
+          resolve();
+          window.removeEventListener("popstate", temp);
+        });
+      });
+      if(isForward){
+        //進む操作を打ち消し
+        this.#forceBack();
+      }
+      else{
+        //戻る操作を打消し
+        this.#forceForward();
+      }
+
+      await waitPopState;
       //戻る操作を実行するか確認する
-      const pop = await this.#onBeforePopState();
+      const pop = await this.#onBeforePopState(isForward);
       //間に他セッションが実行されている場合は何もしない
       if(sessionID !== thisSessionId){
         return;
       }
       //戻る操作をする場合
       if(pop){
-        //戻る操作を実行
-        this.#forceBack();
-        const historyId = e.state;
-        const historyData = this.#findHistoryById(historyId);
-        if(historyData){
-          this.#onChange(historyData.data);
+        if(isForward){
+          //進む操作を実行
+          this.forward(true);
+        }
+        else{
+          //戻る操作を実行
+          this.pop(true);
         }
       }
     }
