@@ -1,6 +1,7 @@
 import {html, css, when} from "../Lit.js";
 import BaseElement from "../BaseElement.js";
 import sound from "../sound.js";
+import RuleExplanations from "./dialog/RuleExplanations.js";
 
 const style = css`
 :host{
@@ -68,7 +69,7 @@ class StartPage extends BaseElement {
   connectedCallback(){
     super.connectedCallback();
     new ResizeObserver(()=>{
-      const isVertical = this.clientWidth < this.clientHeight*1;
+      const isVertical = this.clientWidth < this.clientHeight*0.9;
       this.vertical = isVertical;
     }).observe(this);
   }
@@ -102,11 +103,15 @@ class StartPage extends BaseElement {
           <img id=icon src="./images/icons/icon256.png">
         </div>
         <div id=buttons>
-          <button class="button" @click=${e=>router.open("/free-play", {test:1})}>練習モード</button>
+          <button class="button" @click=${e=>router.openDialog({
+            title:"操作説明",
+            content: RuleExplanations,
+          })}>操作説明</button>
           <button class="button" @click=${e=>{
             sound.push.play();
             router.open("/select-chapter");
           }}>問題を解く</button>
+          <button class="button" @click=${e=>router.open("/free-play", {test:1})}>練習モード</button>
         </div>
       </div>
     </layout-main>
