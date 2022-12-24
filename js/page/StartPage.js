@@ -73,7 +73,26 @@ class StartPage extends BaseElement {
     }).observe(this);
   }
   beforePopState(){
-    router.open("/");
+    //router.open("/");
+    sound.push.play();
+    return new Promise(resolve=>{
+      router.openDialog({title:"test", content:html`
+        <div class=fill style="padding:1rem;box-sizing:border-box;">
+          終了しますか？
+        </div>
+      `, buttons:[
+        {label:"キャンセル", action:()=>{
+          resolve(false);
+          router.closeDialog();
+        }},
+        {label:"終了する", action:()=>{
+          resolve(true);
+          router.closeDialog();
+        }},
+      ], onClose:()=>{
+        resolve(false);
+      }});
+    });
   }
   render(){
     return html`
