@@ -127,7 +127,6 @@ class Dialog extends BaseElement {
             class="fill centering"
             @click=${e=>{
               sound.push.play();
-              this.onClose();
               router.closeDialog();
             }}
           >close</i>
@@ -148,9 +147,10 @@ class Dialog extends BaseElement {
                 sound.push.play();
                 if(!action){
                   router.closeDialog();
-                  return;
                 }
-                action(e);
+                else if(!action(e)){
+                  router.closeDialog();
+                }
               }}
             >${label}</button>
           `)}
