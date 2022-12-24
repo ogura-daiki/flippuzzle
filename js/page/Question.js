@@ -72,7 +72,7 @@ class QuestionPage extends BaseElement {
   beforePopState(){
     sound.push.play();
     router.openDialog({title:"確認", content:html`
-      <div style="display:grid;place-items:center;padding:1rem;box-sizing:border-box;height:100%;">
+      <div class=fill style="padding:1rem;box-sizing:border-box;">
         問題選択画面に戻ってもよろしいですか？
       </div>
       `,
