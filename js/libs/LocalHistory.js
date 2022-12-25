@@ -5,7 +5,8 @@ class LocalHistory {
   #historyId = 0;
   #currentIndex = -1;
   #getCurrentHistory(){
-    return this.#historyList[this.#currentIndex];
+    if(this.#currentIndex < 0) this.#currentIndex = 0;
+    return this.#historyList[this.#currentIndex]||this.#historyList[0];
   }
   #cut(){
     if(this.#historyList.length > this.#currentIndex){
@@ -13,6 +14,9 @@ class LocalHistory {
     }
   }
   push(data){
+    if(history.state == null && this.#historyList.length){
+      history.pushState(this.#historyList[0]?.id, null);
+    }
     const historyData = {id:this.#historyId, data};
     this.#cut();
     this.#historyList.push(historyData);
@@ -36,7 +40,6 @@ class LocalHistory {
       this.#currentIndex -= 1;
       const currentHistory = this.#getCurrentHistory();
       if(!currentHistory){
-        history.back();
         return;
       }
       this.#onChange(currentHistory.data);
