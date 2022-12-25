@@ -126,6 +126,7 @@ class QuestionPage extends BaseElement {
       }
     }
     else{
+      const copyButtons = [...buttons];
       buttons.push({label:"次の問題へ", action:e=>{
         router.openDialog({
           title:"お知らせ",
@@ -138,6 +139,7 @@ class QuestionPage extends BaseElement {
             </div>
           `,
           buttons:[
+            ...copyButtons,
             {label:"タイトルへ戻る", action:e=>{
               router.open("/");
             }},
