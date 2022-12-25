@@ -143,6 +143,7 @@ class QuestionPage extends BaseElement {
             }},
           ],
         });
+        return true;
       }})
     }
 
