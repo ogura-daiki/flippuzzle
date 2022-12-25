@@ -60,7 +60,29 @@ const style = css`
 }
 `;
 
-const commits = fetch("https://api.github.com/repos/ogura-daiki/flippuzzle/commits/main").then(res=>res.json());
+const dtFormatter = new Intl.DateTimeFormat(undefined, {
+  year: 'numeric', month: 'numeric', day: 'numeric',
+  hour: 'numeric', minute: 'numeric', second: 'numeric'
+});
+
+const PromiseCache = (func) => {
+  let promise;
+  return ()=>{
+    if(!promise){
+      promise = func();
+    }
+    return promise;
+  }
+}
+const waitPromise = (wait, promise) => new Promise(r=>setTimeout(()=>r(), wait)).then(()=>promise);
+
+const getCommitDate = PromiseCache(()=>{
+  return waitPromise(500, fetch("https://api.github.com/repos/ogura-daiki/flippuzzle/commits/main"))
+    .then(res=>res.json())
+    .then(json=>{
+      return dtFormatter.format(new Date(json.commit.committer.date));
+    })
+});
 
 class StartPage extends BaseElement {
   static get properties(){
@@ -118,13 +140,7 @@ class StartPage extends BaseElement {
             router.open("/select-chapter");
           }}>問題を解く</button>
           <button class="button" @click=${e=>router.open("/free-play", {test:1})}>練習モード</button>
-          ${until(commits.then(json=>{
-            const formatter = new Intl.DateTimeFormat(undefined, {
-              year: 'numeric', month: 'numeric', day: 'numeric',
-              hour: 'numeric', minute: 'numeric', second: 'numeric'
-            });
-            return html`<div id="update">最終更新：${formatter.format(new Date(json.commit.committer.date))}</div>`
-          }))}
+          <div id="update">最終更新：${until(getCommitDate(), "取得中…")}</div>
         </div>
       </div>
     </layout-main>
