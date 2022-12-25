@@ -2,6 +2,7 @@ import {html, css, when, until} from "../Lit.js";
 import BaseElement from "../BaseElement.js";
 import sound from "../sound.js";
 import RuleExplanations from "./dialog/RuleExplanations.js";
+import { PromiseCache, waitPromise } from "../libs/promiseHelper.js";
 
 const style = css`
 :host{
@@ -64,17 +65,6 @@ const dtFormatter = new Intl.DateTimeFormat(undefined, {
   year: 'numeric', month: 'numeric', day: 'numeric',
   hour: 'numeric', minute: 'numeric', second: 'numeric'
 });
-
-const PromiseCache = (func) => {
-  let promise;
-  return ()=>{
-    if(!promise){
-      promise = func();
-    }
-    return promise;
-  }
-}
-const waitPromise = (wait, promise) => new Promise(r=>setTimeout(()=>r(), wait)).then(()=>promise);
 
 const getCommitDate = PromiseCache(()=>{
   return waitPromise(500, fetch("https://api.github.com/repos/ogura-daiki/flippuzzle/commits/main"))
