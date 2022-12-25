@@ -56,6 +56,9 @@ class LocalHistory {
     this.#force = true;
     history.forward();
   }
+  canBack(){
+    return this.#currentIndex > 0;
+  }
   replace(replacer){
     this.#cut();
     const currentHistory = this.#getCurrentHistory();

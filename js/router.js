@@ -85,6 +85,9 @@ class Router extends BaseElement {
   back(force=false){
     this.#localHistory.back(force);
   }
+  canBack(){
+    return this.#localHistory.canBack();
+  }
   #renderPage(){
     const currentRoute = this.#routes.find(route=>route.path===this.route.path);
     if(!currentRoute) return;

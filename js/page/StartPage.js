@@ -97,7 +97,9 @@ class StartPage extends BaseElement {
   beforePopState(isForward){
     sound.push.play();
     if(isForward) return true;
-    new SnackBar("終了するにはもう一度戻るボタンを押して下さい").show(3000);
+    if(!router.canBack()){
+      new SnackBar("終了するにはもう一度戻るボタンを押して下さい").show(3000);
+    }
     return true;
   }
   render(){
