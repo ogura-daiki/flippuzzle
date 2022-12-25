@@ -121,10 +121,13 @@ class StartPage extends BaseElement {
           <img id=icon src="./images/icons/icon256.png">
         </div>
         <div id=buttons>
-          <button class="button" @click=${e=>router.openDialog({
-            title:"操作説明",
-            content: RuleExplanations,
-          })}>操作説明</button>
+          <button class="button" @click=${e=>{
+            sound.push.play();
+            router.openDialog({
+              title:"操作説明",
+              content: RuleExplanations,
+            });
+          }}>操作説明</button>
           <button class="button" @click=${e=>{
             sound.push.play();
             router.open("/select-chapter");
