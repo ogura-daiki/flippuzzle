@@ -83,7 +83,7 @@ class Router extends BaseElement {
     });
   }
   back(force=false){
-    this.#localHistory.pop(force);
+    this.#localHistory.back(force);
   }
   #renderPage(){
     const currentRoute = this.#routes.find(route=>route.path===this.route.path);

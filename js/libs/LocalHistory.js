@@ -30,7 +30,7 @@ class LocalHistory {
     }
     history.forward();
   }
-  pop(force){
+  back(force){
     if(force){
       this.#forceBack();
       this.#currentIndex -= 1;
@@ -46,12 +46,10 @@ class LocalHistory {
   }
   #force = false;
   #forceBack(){
-    //this.#historyList.pop();
     this.#force = true;
     history.back();
   }
   #forceForward(){
-    //this.#historyList.pop();
     this.#force = true;
     history.forward();
   }
@@ -158,7 +156,7 @@ class LocalHistory {
         }
         else{
           //戻る操作を実行
-          this.pop(true);
+          this.back(true);
         }
       }
     }
