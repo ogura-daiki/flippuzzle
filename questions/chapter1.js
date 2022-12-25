@@ -8,7 +8,6 @@ export default [
     id:"t1-1",
     name:"tutorial1-1",
     step:1,
-    size:[4,4],
     start:frontAll,
     pattern:fromStr`
       0000
@@ -21,7 +20,6 @@ export default [
     id:"t1-2",
     name:"tutorial1-2",
     step:1,
-    size:[4,4],
     start:frontAll,
     pattern:fromStr`
       0000
@@ -34,7 +32,6 @@ export default [
     id:"t1-3",
     name:"tutorial1-3",
     step:1,
-    size:[4,4],
     start:frontAll,
     pattern:fromStr`
       1100
@@ -47,7 +44,6 @@ export default [
     id:"t1-4",
     name:"tutorial1-4",
     step:4,
-    size:[4,4],
     start:frontAll,
     pattern:backAll,
   },
@@ -55,7 +51,6 @@ export default [
     id:"t1-5",
     name:"tutorial1-5",
     step:2,
-    size:[4,4],
     start:frontAll,
     pattern:fromStr`
       0000
@@ -68,7 +63,6 @@ export default [
     id:"t1-6",
     name:"tutorial1-6",
     step:2,
-    size:[4,4],
     start:frontAll,
     pattern:fromStr`
       1110
@@ -81,7 +75,6 @@ export default [
     id:"t1-7",
     name:"tutorial1-7",
     step:2,
-    size:[4,4],
     start:frontAll,
     pattern:fromStr`
       0000
@@ -94,7 +87,6 @@ export default [
     id:"t1-8",
     name:"tutorial1-8",
     step:3,
-    size:[4,4],
     start:frontAll,
     pattern:fromStr`
       0100
