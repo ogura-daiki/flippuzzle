@@ -3,6 +3,7 @@ import BaseElement from "../BaseElement.js";
 import sound from "../sound.js";
 import RuleExplanations from "./dialog/RuleExplanations.js";
 import { PromiseCache, waitPromise } from "../libs/promiseHelper.js";
+import SnackBar from "../libs/SnackBar.js";
 
 const style = css`
 :host{
@@ -96,22 +97,8 @@ class StartPage extends BaseElement {
   beforePopState(isForward){
     sound.push.play();
     if(isForward) return true;
-    return new Promise(resolve=>{
-      router.openDialog({title:"test", content:html`
-        <div class=fill style="padding:1rem;box-sizing:border-box;">
-          終了しますか？
-        </div>
-      `, buttons:[
-        {label:"キャンセル", action:()=>{
-          resolve(false);
-        }},
-        {label:"終了する", action:()=>{
-          resolve(true);
-        }},
-      ], onClose:()=>{
-        resolve(false);
-      }});
-    });
+    new SnackBar("終了するにはもう一度戻るボタンを押して下さい").show(3000);
+    return true;
   }
   render(){
     return html`
