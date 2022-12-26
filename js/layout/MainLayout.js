@@ -109,9 +109,7 @@ class MainLayout extends BaseElement {
   render(){
     return html`
     <div id=container @click=${e=>{
-      console.log(e.target);
       if(e.target.id !== "menu-icon"){
-        console.log("click");
         this.menuOpen = false;
       }
     }}>

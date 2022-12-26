@@ -18,7 +18,4 @@ const colors = {
   },
 };
 
-console.log(colors.background.base, colors.background.base+"");
-console.log(colors.background.base.a(0.5), colors.background.base.a(0.5)+"");
-
 export {colors};
