@@ -76,12 +76,24 @@ const style = css`
     font-size:1rem;
     border-radius:.4rem;
     box-shadow:0px 0px .5rem .1rem ${colors.background.onBase.a(0.2)};
+    pointer-events:none;
+    opacity:0;
+    transition:opacity .1s, transform .1s;
   }
   #menulist .menuitem{
     padding:.4rem .8rem;
     text-overflow:ellipsis;
     overflow:hidden;
     white-space:nowrap;
+  }
+
+  #menulist.in{
+    transform:scale(1);
+    pointer-events:all;
+    opacity:1;
+  }
+  #menulist.out{
+    transform:scale(0.95);
   }
 `;
 
@@ -133,13 +145,11 @@ class MainLayout extends BaseElement {
             <i id=menu-icon @click=${e=>{
               this.openMenu();
             }}>more_vert</i>
-            ${when(this.menuOpen, ()=>html`
-              <div id=menulist>
-                ${this.menu.map(({label, action})=>html`
-                  <div class=menuitem @click=${e=>action()}>${label}</div>
-                `)}
-              </div>
-            `)}
+            <div id=menulist class="${this.menuOpen?"in":"out"}">
+              ${this.menu.map(({label, action})=>html`
+                <div class=menuitem @click=${e=>action()}>${label}</div>
+              `)}
+            </div>
           </div>
         `)}
       </div>
