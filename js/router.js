@@ -40,7 +40,7 @@ elem-dialog{
   z-index:1;
   pointer-events:none;
   opacity:0;
-  transition:opacity .3s;
+  transition:opacity .1s;
 }
 #dialogContainer.show{
   pointer-events:auto;
