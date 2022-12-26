@@ -14,5 +14,5 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
-          git commit -m "generated"
+          git commit -m "更新日時ファイルを上書き $(date +'%Y-%m-%d %H:%M:%S')"
           git push
