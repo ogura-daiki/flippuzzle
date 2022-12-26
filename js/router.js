@@ -32,6 +32,13 @@ const style = css`
 elem-dialog{
   box-shadow: 0px 0px 4rem 1rem ${colors.background.onBase.a(0.3)};
 }
+
+#page{
+  z-index:0;
+}
+#dialogContainer{
+  z-index:1;
+}
 `;
 
 class Router extends BaseElement {
@@ -119,13 +126,13 @@ class Router extends BaseElement {
     if(!this.route) return;
     return html`
     <div class="fill">
-      <div class="fill">
+      <div id=page class="fill">
         ${guard([this.route.path, this.route.args], ()=>this.#renderPage())}
       </div>
       ${when(
         this.dialog,
         ()=>html`
-        <div class="fill backdrop">
+        <div id=dialogContainer class="fill backdrop">
           <elem-dialog id=dialog .title=${this.dialog.title} .content=${this.dialog.content} .buttons=${this.dialog.buttons} .onClose=${this.dialog.onClose}></elem-dialog>
         </div>
         `,
