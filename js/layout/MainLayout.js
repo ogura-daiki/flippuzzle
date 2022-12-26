@@ -81,6 +81,7 @@ const style = css`
     padding:.4rem .8rem;
     text-overflow:ellipsis;
     overflow:hidden;
+    white-space:nowrap;
   }
 `;
 
@@ -129,20 +130,16 @@ class MainLayout extends BaseElement {
           arrow_back
         </i>
         <span id=title class="${when(this.back, ()=>"back")}">${this.barTitle}</span>
-        ${when(true||this.menu, ()=>html`
+        ${when(this.menu, ()=>html`
           <div id=menu-container>
             <i id=menu-icon @click=${e=>{
               this.openMenu();
             }}>more_vert</i>
             ${when(this.menuOpen, ()=>html`
               <div id=menulist>
-                <div class="menuitem" @click=${e=>{
-                  //this.menuOpen = false;
-                }}>test</div>
-                <div class="menuitem">test</div>
-                <div class="menuitem">test</div>
-                <div class="menuitem">test</div>
-                <div class="menuitem">test</div>
+                ${this.menu.map(({label, action})=>html`
+                  <div class=menuitem @click=${e=>action()}>${label}</div>
+                `)}
               </div>
             `)}
           </div>
