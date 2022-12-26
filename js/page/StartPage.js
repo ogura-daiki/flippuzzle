@@ -70,7 +70,7 @@ const getCommitDate = PromiseCache(()=>{
     })
 });
 const getCurrentUpdate = PromiseCache(()=>{
-  return waitPromise(500, fetch("./updateDatetime.txt", {cache:"no-cache"}))
+  return waitPromise(500, fetch("./updateDatetime.txt"))
     .then(res=>res.text())
     .then(text=>{
       return dtFormatter.format(new Date(text));
