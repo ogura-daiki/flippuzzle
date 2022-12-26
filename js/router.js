@@ -1,4 +1,4 @@
-import { html, css, when, guard } from "./Lit.js";
+import { html, css, when, guard, until } from "./Lit.js";
 import BaseElement from "./BaseElement.js";
 import "./element/Dialog.js";
 import { colors } from "./baseTheme.js";
@@ -38,6 +38,15 @@ elem-dialog{
 }
 #dialogContainer{
   z-index:1;
+  pointer-events:none;
+  opacity:0;
+  transition:opacity .3s;
+}
+#dialogContainer.show{
+  pointer-events:auto;
+  opacity:1;
+}
+#dialogContainer.hide{
 }
 `;
 
@@ -106,7 +115,7 @@ class Router extends BaseElement {
     return page;
   }
   openDialog({title, content, buttons=[{label:"閉じる",action:()=>router.closeDialog()}], onClose=()=>{}}){
-    this.renderRoot.querySelector("#dialog")?.onClose();
+    this.dialog?.onClose();
     dialogState.set(dialogStateId, {title, content, buttons, onClose});
 
     this.#localHistory.replace(data=>{
@@ -129,14 +138,21 @@ class Router extends BaseElement {
       <div id=page class="fill">
         ${guard([this.route.path, this.route.args], ()=>this.#renderPage())}
       </div>
+      <div id=dialogContainer class="fill backdrop ${this.dialog?"show":"hide"}">
+      ${until(
+        this.dialog?
+        html`
+          <elem-dialog id=dialog .title=${this.dialog?.title} .content=${this.dialog?.content} .buttons=${this.dialog?.buttons||[]} .onClose=${this.dialog?.onClose}></elem-dialog>
+        `
+        :new Promise(r=>{setTimeout(()=>r(html``), 300)})
+      )}
       ${when(
         this.dialog,
         ()=>html`
-        <div id=dialogContainer class="fill backdrop">
-          <elem-dialog id=dialog .title=${this.dialog.title} .content=${this.dialog.content} .buttons=${this.dialog.buttons} .onClose=${this.dialog.onClose}></elem-dialog>
-        </div>
+        
         `,
       )}
+      </div>
     </div>`;
   }
   updated(){
