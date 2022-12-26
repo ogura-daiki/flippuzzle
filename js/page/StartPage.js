@@ -55,11 +55,6 @@ const style = css`
   padding: 0.5rem 1rem;
   font-size:1rem;
 }
-#update{
-  font-size:.8rem;
-  display:grid;
-  place-items:center;
-}
 `;
 
 const dtFormatter = new Intl.DateTimeFormat(undefined, {
@@ -68,10 +63,17 @@ const dtFormatter = new Intl.DateTimeFormat(undefined, {
 });
 
 const getCommitDate = PromiseCache(()=>{
-  return waitPromise(500, fetch("https://api.github.com/repos/ogura-daiki/flippuzzle/commits/main"))
+  return waitPromise(500, fetch("https://api.github.com/repos/ogura-daiki/flippuzzle/commits/main", {cache:"no-cache"}))
     .then(res=>res.json())
     .then(json=>{
       return dtFormatter.format(new Date(json.commit.committer.date));
+    })
+});
+const getCurrentUpdate = PromiseCache(()=>{
+  return waitPromise(500, fetch("./updateDatetime.txt", {cache:"no-cache"}))
+    .then(res=>res.text())
+    .then(text=>{
+      return dtFormatter.format(new Date(text));
     })
 });
 
@@ -102,9 +104,31 @@ class StartPage extends BaseElement {
     }
     return true;
   }
+  menus(){
+    return [
+      {label:"共有", action:()=>{
+        navigator.share({
+          title: "flippuzzle",
+          text: "パズルゲームで遊んでみませんか？",
+          url: location.href,
+        })
+      }},
+      {label:"バージョン情報", action:()=>{
+        router.openDialog({
+          title:"バージョン情報",
+          content:html`
+            <div class="centering col" style="height:100%;padding:1rem;box-sizing:border-box;">
+              <div>最新バージョン：${until(getCommitDate(), "取得中…")}</div>
+              <div>現在のバージョン：${until(getCurrentUpdate(), "取得中…")}</div>
+            </div>
+          `,
+        });
+      }},
+    ];
+  }
   render(){
     return html`
-    <layout-main bar-title="FlipPuzzle">
+    <layout-main bar-title="FlipPuzzle" .menu=${this.menus()}>
       <div id=container class="${when(this.vertical, ()=>"vertical")}">
         <div id=wrapper>
           <img id=icon src="./images/icons/icon256.png">
@@ -122,7 +146,6 @@ class StartPage extends BaseElement {
             router.open("/select-chapter");
           }}>問題を解く</button>
           <button class="button" @click=${e=>router.open("/free-play", {test:1})}>練習モード</button>
-          <div id="update">最終更新：${until(getCommitDate(), "取得中…")}</div>
         </div>
       </div>
     </layout-main>
