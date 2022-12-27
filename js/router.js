@@ -3,6 +3,7 @@ import BaseElement from "./BaseElement.js";
 import "./element/Dialog.js";
 import { colors } from "./baseTheme.js";
 import LocalHistory from "./libs/LocalHistory.js";
+import { delayHide } from "./libs/TemplateHelper.js";
 
 let dialogStateId = 0;
 const dialogState = new Map();
@@ -49,12 +50,6 @@ elem-dialog{
 #dialogContainer.hide{
 }
 `;
-
-const delayHide = (hide, delay, func) => until(
-  hide
-    ? new Promise(r=>setTimeout(r, delay))
-    : func()
-);
 
 class Router extends BaseElement {
   static get properties(){
@@ -146,7 +141,7 @@ class Router extends BaseElement {
       </div>
       <div id=dialogContainer class="fill backdrop ${this.dialog?"show":"hide"}">
       ${delayHide(
-        !this.dialog, 300,
+        !this.dialog, 100,
         ()=> html`
           <elem-dialog id=dialog
             .title=${this.dialog.title}
