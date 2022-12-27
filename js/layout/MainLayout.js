@@ -32,14 +32,15 @@ const style = css`
   }
   #title{
     display:block;
-    padding:8px 16px;
+    padding:0px 1rem;
+    align-self:center;
   }
   #title.back{
     padding-left:0px;
   }
 
   #back{
-    height:100%;
+    height:3.75rem;
     aspect-ratio:1;
     display:grid;
     place-items:center;
@@ -47,7 +48,7 @@ const style = css`
   }
 
   #menu-container{
-    height:100%;
+    height:3.75rem;
     aspect-ratio:1;
     margin-left:auto;
     position:relative;
