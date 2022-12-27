@@ -50,6 +50,12 @@ elem-dialog{
 }
 `;
 
+const delayHide = (hide, delay, func) => until(
+  hide
+    ? new Promise(r=>setTimeout(r, delay))
+    : func()
+);
+
 class Router extends BaseElement {
   static get properties(){
     return {
@@ -139,18 +145,16 @@ class Router extends BaseElement {
         ${guard([this.route.path, this.route.args], ()=>this.#renderPage())}
       </div>
       <div id=dialogContainer class="fill backdrop ${this.dialog?"show":"hide"}">
-      ${until(
-        this.dialog?
-        html`
-          <elem-dialog id=dialog .title=${this.dialog?.title} .content=${this.dialog?.content} .buttons=${this.dialog?.buttons||[]} .onClose=${this.dialog?.onClose}></elem-dialog>
+      ${delayHide(
+        !this.dialog, 300,
+        ()=> html`
+          <elem-dialog id=dialog
+            .title=${this.dialog.title}
+            .content=${this.dialog.content}
+            .buttons=${this.dialog.buttons}
+            .onClose=${this.dialog.onClose}
+          ></elem-dialog>
         `
-        :new Promise(r=>{setTimeout(()=>r(html``), 300)})
-      )}
-      ${when(
-        this.dialog,
-        ()=>html`
-        
-        `,
       )}
       </div>
     </div>`;
