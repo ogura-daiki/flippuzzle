@@ -2,7 +2,7 @@ import { html, css, when, guard, until } from "./Lit.js";
 import BaseElement from "./BaseElement.js";
 import "./element/Dialog.js";
 import { colors } from "./baseTheme.js";
-import LocalHistory from "./libs/LocalHistory.js";
+import LocalHistory from "https://ogura-daiki.github.io/LocalHistory/LocalHistory.js";
 import { delayHide } from "./libs/TemplateHelper.js";
 
 let dialogStateId = 0;
