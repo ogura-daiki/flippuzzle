@@ -34,7 +34,7 @@ elem-dialog{
   box-shadow: 0px 0px 4rem 1rem ${colors.background.onBase.a(0.3)};
 }
 
-#page{
+#pageContainer{
   z-index:0;
 }
 #dialogContainer{
@@ -136,7 +136,7 @@ class Router extends BaseElement {
     if(!this.route) return;
     return html`
     <div class="fill">
-      <div id=page class="fill">
+      <div id=pageContainer class="fill">
         ${guard([this.route.path, this.route.args], ()=>this.#renderPage())}
       </div>
       <div id=dialogContainer class="fill backdrop ${this.dialog?"show":"hide"}">
